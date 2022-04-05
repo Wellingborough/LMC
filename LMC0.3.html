@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="LMC, Little Man Computer, CPU, Simulator, Simulation, Emulator, Emulation, Central, Processor, Processing, Unit, ALU, MAR, MDR, CU">
+    <meta name="description" content="Little Man Computer (LMC) Simulator">
+    <meta name="author" content="Mark Gamble">
+    <title>Little Man Computer</title>
+
+    <!-- A simulator for the Little Man Computer assembler language       -->
+    <!-- Written in HTML, JavaScript and CSS.                             -->
+    <!-- I am indebted to Oli Folkerd for Tabulator:                      -->
+    <!--    http://tabulator.info                                         -->
+    <!-- I am also indebted to James Hall of parallax for jsPDF:          -->
+    <!--    https://parall.ax/products/jspdf                              -->
+
+    <link rel="stylesheet" href="LMCstyle0.3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.1.8/css/tabulator_midnight.min.css">
+    <script src="LMCmill0.3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.1.8/js/tabulator.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.0.5/jspdf.plugin.autotable.js"></script>
+  </head>
+
+    <!--    This was really helpful:                                      -->
+    <!--    https://www.w3docs.com/snippets/html/how-to-make-a-div-fill-  -->
+    <!--    the-height-of-the-remaining-space.html                        -->
+
+  <body onresize="resizeEvent()" onload="filltable()">
+    <!-- Should also create a symbol table -->
+
+    <div id="div-main" class="box">
+      <!-- Row 1 -->
+      <div class="row header" id="div-hdr" style="display:flex; flex-direction:row; margin-top:-4px; margin-bottom: -4px; margin-left:10px; margin-right:10px; flex-wrap: nowrap; justify-content: flex-start; align-items: center;">
+        <p>Little Man Computer Simulation</p>
+        <div style="margin-left: auto;">
+          <button id="about-modal-btn" class="button">About</button>
+          <button id="settings-modal-btn" class="button"><img src="images/cog.png" style="width:15px; height:15px;"/></button>
+        </div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="row content" id="div-content" style="display:flex; flex-direction:row; margin:0px; margin-right:10px; width:100%;">
+        <div class="resize-drag" id="codetableholder" style="min-width:400px; width:450px; max-width:800px; margin:0px;">
+          <div class="row content" id="code-table" style="flex: 1;" ></div>
+          <div class="footer" id="code-table-buttons" class="footer" style="position:absolute; bottom:0; display:flex; gap:20px; align-items: center; flex: 1;">
+            <button id="hide-load-btn" class="button" onclick="document.getElementById('load-btn').click()">Load</button>
+            <input id="load-btn" type="file" style="display:none;">
+            <input id="save-btn" type="button" class="button" value="Save" onclick="saveCode()">
+            <button id="print-btn" class="button" onclick="printCode()">Print</button>
+            <button id="assemble-button" class="button" onclick="assembleCode()">Assemble</button>
+            <button id="help-modal-btn" class="button" style="position:right">Help</button>
+          </div>
+        </div>
+
+        <div id="rpanrResize" class="resize-drag" >&nbsp;</div>
+
+        <div class="col" id="processor-memory-holder" style="display:flex; flex-direction:column; margin:0px; width:100%;">
+          <div class="row content" id="processor-memory-row" style="flex: 0 1 auto;">
+            <div class="col-6" id="processor-schematic" ><canvas id="processor-canvas" >Your browser does not support the HTML5 canvas</canvas></div>
+            <div class="col-6" id="memory-table"></div>
+          </div>
+
+          <div class="row" id="cpu-button-holder">
+            <div class="footer" style="display:flex; gap:20px; flex-wrap: nowrap; justify-content: flex-start; align-items: center;">
+              <button id="run-btn" class="button" onclick="runCode()">Run</button>
+              <button id="stop-btn" class="button" onclick="allStop()">Stop</button>
+              <button id="resume-btn" class="button" onclick="allAhead()">Resume</button>
+              <button id="next-btn" class="button" onclick="stepCode()">Next</button>
+              <p id="state-label" style="margin:0px;">Ready</p>
+            </div>
+          </div>
+
+
+          <div class="row footer" id="I-O-Console-holder" style="display:flex; flex-direction:row; flex: 0 1 auto; margin:0px; width:100%; height:100%;">
+            <div style="display:flex; flex-direction:column; margin:0px;">
+
+              <div id="input-div" style="background-color: #ee99ee;padding:8px; align-items: center;"><p style="margin:0px"><span style="background-color: #ee99ee; color: #000000; padding: 8px;">Input:</span><input type="number" id="input-text" min="0" max="999" ><button onclick="processInput()" id="input-button">Enter</button></div>
+              <div class="col-12" id="output-div" style="flex: 1; background-color: #ee99ee;padding:8px;"><p style="margin:0px;"><span style="background-color: #ee99ee; color: #000000; padding: 8px;">Output:</span><textarea id="output-text" rows="12" readonly="true"></textarea></div>
+
+            </div>
+
+            <div id="log-div" style="background-color: #ffbbff;padding:8px;display:flex; flex-direction:column; width:100%;">
+              <div style="margin:0px; height:100%; width:100%; box-sizing: border-box;">
+                <span style="background-color: #ffbbff; color: #000000; padding: 8px;">Console:</span>
+                <textarea id="log-text" rows="4" readonly="true" style="height:90%;"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- Settings modal      -->
+    <div class="modal" id="settings-modal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close-btn" id="settings-close-btn" onclick="cancelSettings()">&times;</button>
+            <h4 class="modal-title">LMC Simulation Settings</h4>
+          </div>
+          <div class="modal-body">
+            <input type="checkbox" name="showDataFlows" value="1" checked>
+            <label for="showDataFlows">Show data flows during execution</label><br>
+            <input type="checkbox" name="showVariableValuesInCode" value="1" checked>
+            <label for="showDataFlows">Show variable values in the code table</label><br>
+            <input type="checkbox" name="showMemoryAccess" value="1" checked>
+            <label for="showMemoryAccess">Show memory read/write locations during execution</label><br><br>
+            <input type="range" name="executionSpeed" id="setting-speed" min="0" max="4" step="1" value="2" onchange="changeSetting('speed')">
+            <label for="setting-speed">Execution Speed</label><br><br>
+            <p id="speed-display">Run at Medium speed - about 0.5 seconds per cycle</p>
+          </div>
+          <div class="modal-footer">
+            <button id="settings-cancel-btn" class="button" onclick="cancelSettings()">Cancel</button>
+            <button id="settings-save-btn" class="button" onclick="saveSettings()">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Examples modal      -->
+    <div class="modal" id="examples-modal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close-btn" id="examples-close-btn">&times;</button>
+            <h4 class="modal-title">LMC Example Programs</h4>
+          </div>
+          <div class="modal-body">
+            <p>Select an example to load:</p>
+            <div>
+              <input type="radio" id="example1" name="example_select" value=1 checked>
+              <label for="example1">Example 1 - Add two numbers together</label>
+            </div>
+            <div>
+              <input type="radio" id="example2" name="example_select" value=2>
+              <label for="example2">Example 2 - Output a pattern of 1s and 0s</label>
+            </div>
+            <div>
+              <input type="radio" id="example3" name="example_select" value=3>
+              <label for="example3">Example 3 - Calculate the square of a number</label>
+            </div>
+          </div>
+          <div class="modal-footer" style="margin-top:20px;">
+            <button id="examples-close-btn" class="button" onclick="closeExamples()">Cancel</button>
+            <button id="examples-load-btn" class="button" onclick="loadExample()">Load</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Help modal      -->
+    <div class="modal" id="help-modal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close-btn" id="help-close-btn">&times;</button>
+            <h4 class="modal-title">LMC Editor Help</h4>
+          </div>
+          <div class="modal-body">
+<p>
+The Code Editor is based on a grid system, with columns for you to enter
+labels, operators and operands.
+The left-most column is used to show which line of code is being executed when the program
+is running, and the 'Line' column shows non-editable line numbers.
+</p>
+<p>
+You can move between lines and columns by pressing the Tab key, or by using the cursor keys.
+</p>
+<p>
+[Ctrl-Z will undo the last edit - not currently implemented]
+</p>
+<p>
+Select a line by left-clicking anywhere on the line.  The line will be highlighted.
+</p>
+<p>
+You can delete the current line using the Del or Delete key - all of the subsequent lines will be moved up.
+</p>
+<p>
+Pressing the Ins or Insert key will create a new line above the current line, moving all subsequent lines down.
+</p>
+<p>
+When you are happy with your code, press the Assemble button, and the LMC Simulator will check and
+assemble your code into memory.  If there are any errors, a message will appear in the Console window
+indicating the line and problem.
+</p>
+<p>
+The Load button can be used to load pre-written programs from your computer.
+</p>
+<p>
+The Save button will save a text file on your computer containing the current program.
+</p>
+<p>
+The Print button will create and download a PDF version of the current program.
+</p>
+          </div>
+          <div class="modal-footer">
+            <button id="help-close-btn" class="button" onclick="closeHelp()">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- About modal      -->
+    <div class="modal" id="about-modal">
+      <div class="modal-content">
+        <div class="header">
+          <button type="button" class="close-btn" id="about-close-btn">&times;</button>
+          <p>About the Little Man Computer</p>
+        </div>
+        <div>
+          <h3>An Introduction to the LMC</h3>
+<p>
+The Little Man Computer (LMC) is a simplified model of a computer, based on the von Neumann architecture.
+</p>
+          <h3>The LMC Simulator</h3>
+<p>
+This web app provides a simulation of the LMC, so that you can write programs in the LMC assembler
+and then assemble and run the programs.  The simulator will show you the state of all of the main
+registers in the CPU, as well as the state of the 'memory' of the LMC.
+</p> 
+<p>
+The flow of data around the CPU is displayed, and you can pause and resume the execution of your
+program at any time.
+</p> 
+<p>
+The code editor has individual columns for labels, operators and operands.  To learn more about how the editor
+works, just press the 'Help' button below the code window.
+You can use Ctrl-Z to undo any editor actions.
+</p>
+<p>
+There are a number of example programs that you can try out - just press the 'Examples' button
+below for more information.
+</p>
+        </div>
+        <div class="modal-footer">
+          <button id="rabout-close-btn" class="button" onclick="closeAbout()">Close</button>
+          <button id="examples-modal-btn" class="button">Examples</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let settingsModalBtn = document.getElementById("settings-modal-btn")
+      let settingsModal = document.getElementById("settings-modal")
+      let settingsCloseBtn = document.getElementById("settings-close-btn")
+
+      settingsModalBtn.onclick = function(){
+        settingsModal.style.display = "block"
+      }
+
+      settingsCloseBtn.onclick = function(){
+        settingsModal.style.display = "none"
+      }
+
+      window.onclick = function(e){
+        if(e.target == settingsModal){
+          settingsModal.style.display = "none"
+        } else if(e.target == aboutModal){
+          aboutModal.style.display = "none"
+        }
+      }
+
+      let examplesModalBtn = document.getElementById("examples-modal-btn")
+      let examplesModal = document.getElementById("examples-modal")
+      let examplesCloseBtn = document.getElementById("examples-close-btn")
+
+      examplesModalBtn.onclick = function(){
+        aboutModal.style.display = "none"
+        examplesModal.style.display = "block"
+      }
+
+      examplesCloseBtn.onclick = function(){
+        examplesModal.style.display = "none"
+      }
+
+      window.onclick = function(e){
+        if(e.target == settingsModal){
+          settingsModal.style.display = "none"
+        } else if(e.target == aboutModal){
+          aboutModal.style.display = "none"
+        } else if(e.target == examplesModal){
+          examplesModal.style.display = "none"
+        }
+      }
+
+
+      let aboutModalBtn = document.getElementById("about-modal-btn")
+      let aboutModal = document.getElementById("about-modal")
+      let aboutCloseBtn = document.getElementById("about-close-btn")
+
+      aboutModalBtn.onclick = function(){
+        aboutModal.style.display = "block"
+      }
+
+      aboutCloseBtn.onclick = function(){
+        aboutModal.style.display = "none"
+      }
+
+
+      let helpModalBtn = document.getElementById("help-modal-btn")
+      let helpModal = document.getElementById("help-modal")
+      let helpCloseBtn = document.getElementById("help-close-btn")
+
+      helpModalBtn.onclick = function(){
+        helpModal.style.display = "block"
+      }
+
+      helpCloseBtn.onclick = function(){
+        helpModal.style.display = "none"
+      }
+
+      <!-- Handle return being pressed in the Input box      -->
+      document.getElementById('input-text').onkeypress=function(e){
+        if (e.keyCode==13){
+          document.getElementById('input-button').click();
+        }
+      }
+
+
+      <!-- also temp and doesn't seem to work! -->
+      let canvasElement = document.getElementById("processor-schematic")
+      canvasElement.addEventListener("resize", debouncedResize );
+      function debouncedResize() {
+        console.log("Event fired");
+      }    
+
+
+      <!-- Temp - alternative to split.js      -->
+      // Should probably handle touchstart === mousedown and
+      // touchmove === mousemove and 
+      // touchend === mouseup
+      //
+      let ismdwn = 0
+      rpanrResize.addEventListener('mousedown', mD)
+
+      function mD(event) {
+        ismdwn = 1
+        document.body.addEventListener('mousemove', mV)
+        document.body.addEventListener('mouseup', end)
+        document.body.style.cursor = "col-resize";
+        
+        // Prevent the code table from altering the cursor
+        // May want to do this for other elements, but the
+        // code table is very close to the drag control, so
+        // it is the most likely to be 'hit'
+        let codeTableElement = document.getElementById("code-table");
+        let codeTableHolderElement = document.getElementById("codetableholder");
+        codeTableElement.style.pointerEvents="none";
+        codeTableHolderElement.style.pointerEvents="none";
+        
+        // Prevent the mouse down and drag being interpreted on other elements
+        // This stops bits of text in the tables and buttons from being
+        // highlighted if we happen to drag over them.
+        event.preventDefault();
+      }
+
+      function mV(event) {
+        if (ismdwn === 1) {
+          codetableholder.style.flexBasis = event.clientX + "px"
+
+          // Prevent the mouse down and drag being interpreted on other elements
+          // Needs to be done here as well as in the mouse down event.
+          event.preventDefault();
+        } else {
+          end()
+        }
+      }
+
+      const end = (e) => {
+        ismdwn = 0
+        document.body.style.cursor = "default";
+        document.body.removeEventListener('mouseup', end)
+        rpanrResize.removeEventListener('mousemove', mV)
+
+        // Allow the code table to alter the cursor again
+        let codeTableElement = document.getElementById("code-table");
+        let codeTableHolderElement = document.getElementById("codetableholder");
+        codeTableElement.style.pointerEvents="auto";
+        codeTableHolderElement.style.pointerEvents="auto";
+        
+        // Resize the CPU schematic and memory table.
+        resizeEvent();
+      }
+      <!-- Temp - alternative to split.js      -->
+
+
+    </script>
+  </body>
+
+</html>

@@ -1,0 +1,278 @@
+.resize-drag {
+  width: 120px;
+  border-radius: 0px;
+  padding: 0px;
+  margin: 1rem;
+  background-color: #9933cc;
+  color: white;
+  font-size: 20px;
+  font-family: sans-serif;
+
+  touch-action: none;
+
+  /* This makes things *much* easier */
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+/* Resizing styles */
+
+html,body {
+  height: 100%;
+  margin: 0;
+}
+
+.box {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+/*
+.box .row {
+  border: 1px dotted #0313fc;
+}
+*/
+
+.box .row.header {
+  flex: 0 1 auto;
+}
+
+.box .row.content {
+  flex: 1 1 auto;
+}
+
+.box .row.footer {
+  flex: 0 1 40px;
+}
+
+
+/* Splitter styles */
+
+#codetableholder {
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: 25%; // initial status
+}
+
+#processor-memory-holder {
+  flex-grow: 0;
+  flex-shrink: 1;
+  overflow-x: auto;
+}
+
+#rpanrResize {
+  flex-grow: 0;
+  flex-shrink: 0;
+  background: #1b1b51;
+  width: 0.4rem;
+  cursor: col-resize;
+  margin: 0 0 0 auto;
+}
+
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+[class*="col-"] {
+  float: left;
+  padding: 0px;
+}
+
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {width: 50%;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  [class*="col-"] {
+    width: 100%;
+  }
+}
+
+html {
+  font-family: "Lucida Sans", sans-serif;
+}
+
+.header {
+  background-color: #9933cc;
+  color: #ffffff;
+  padding: 2px;
+}
+
+.footer {
+  background-color: #9933cc;
+  color: #ffffff;
+  padding: 8px;
+}
+
+body {
+  background-color: #9933cc;
+}
+
+.menu ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu li {
+  padding: 8px;
+  margin-bottom: 5px;
+  background-color: #fecef7;
+  color: #000000;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.menu li:hover {
+  background-color: #0099cc;
+}
+
+.button {
+  background-color: #fecef7; /* Light Purple */
+  border: none;
+  color: black;
+  padding: 4px 6px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 2px;
+  font-weight: bold;
+}
+
+.button:active {
+  background-color: #ffffff; /* White */
+}
+
+.button:disabled {
+  color: #999999; /* gray */
+  background-color: #cccccc; /* grayer */
+}
+
+textarea {
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px #999;
+  resize: none;
+}
+
+canvas {
+  background-color: #f0daf5;
+}
+
+.tabulator-row .tabulator-cell{
+#  padding:0px 0px;
+  padding:4px 4px;
+  max-height: 20px;
+}
+
+
+/*Theme the Code table*/
+#code-table{
+  background-color:#ccc;
+  border: 1px solid #333;
+}
+
+/*Theme the header*/
+#code-table .tabulator-header {
+  background-color:#333;
+  color:#fff;
+}
+
+
+/*Colour the table rows*/
+#code-table .tabulator-row.tabulator-row-odd{
+  color:#000;
+  background-color: #FFFFFF;
+}
+
+/*Colour even rows*/
+#code-table .tabulator-row.tabulator-row-even{
+  color:#000;
+  background-color: #DDDDDD;
+}
+
+
+#code-table .tabulator-selected {
+  background-color: #FFDDDD !important;
+}
+
+
+
+
+
+/* remove from here*/
+.modal {
+  display: none;
+  position: fixed; 
+  padding-top: 50px;
+  left: 0; 
+  top: 0;
+  width: 100%;
+  height: 100%; 
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modal-content {
+  position: relative; 
+/*  background-color: #fecef7; */
+  background-color: #ffffff;
+  padding: 20px; 
+  margin: auto; 
+  width: 50%;  
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+.modal-header {
+  position: relative; 
+  background-color: #9933cc;
+/*  background-color: #fecef7; */
+  color: #ffffff;
+  padding: 1px;
+}
+.modal-footer {
+  position: relative; 
+  background-color: #9933cc;
+/*  background-color: #fecef7; */
+  color: #ffffff;
+  padding: 8px;
+}
+.close-btn {
+  float: right; 
+  color: lightgray; 
+  font-size: 24px;  
+  font-weight: bold;
+}
+.close-btn:hover {
+  color: darkgray;
+}
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+/* remove to here*/
