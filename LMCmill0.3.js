@@ -35,104 +35,108 @@ let canvasInfo = {
 // helps the user to easily see the different storage locations for program and
 // data.)
 //
+// The 'active' column is used to show a traffic light - 1, 2, and 3 being
+// green, orange, and red.  A value such as '-' means 'do not show anything'.
+// The formatter is initialised in the table creation further below.
+//
 var codetabledata1 = [
-  {id:1,  active:"", line:"00", label:"start", operator:"INP", operand:""},
-  {id:2,  active:"", line:"01", label:"",      operator:"STA", operand:"A"},
-  {id:3,  active:"", line:"02", label:"",      operator:"INP", operand:""},
-  {id:4,  active:"", line:"03", label:"",      operator:"ADD", operand:"A"},
-  {id:5,  active:"", line:"04", label:"",      operator:"OUT", operand:""},
-  {id:6,  active:"", line:"05", label:"",      operator:"HLT", operand:""},
-  {id:7,  active:"", line:"06", label:"",      operator:"",    operand:""},
-  {id:8,  active:"", line:"07", label:"",      operator:"",    operand:""},
-  {id:9,  active:"", line:"08", label:"",      operator:"",    operand:""},
-  {id:10, active:"", line:"09", label:"",      operator:"",    operand:""},
-  {id:11, active:"", line:"10", label:"",      operator:"",    operand:""},
-  {id:12, active:"", line:"11", label:"",      operator:"",    operand:""},
-  {id:13, active:"", line:"12", label:"",      operator:"",    operand:""},
-  {id:14, active:"", line:"13", label:"",      operator:"",    operand:""},
-  {id:15, active:"", line:"14", label:"",      operator:"",    operand:""},
-  {id:16, active:"", line:"15", label:"",      operator:"",    operand:""},
-  {id:17, active:"", line:"16", label:"",      operator:"",    operand:""},
-  {id:18, active:"", line:"17", label:"",      operator:"",    operand:""},
-  {id:19, active:"", line:"18", label:"",      operator:"",    operand:""},
-  {id:20, active:"", line:"19", label:"",      operator:"",    operand:""},
-  {id:21, active:"", line:"20", label:"A",     operator:"DAT", operand:"0"},
+  {id:1,  active:"-", line:"00", label:"start", operator:"INP", operand:""},
+  {id:2,  active:"-", line:"01", label:"",      operator:"STA", operand:"A"},
+  {id:3,  active:"-", line:"02", label:"",      operator:"INP", operand:""},
+  {id:4,  active:"-", line:"03", label:"",      operator:"ADD", operand:"A"},
+  {id:5,  active:"-", line:"04", label:"",      operator:"OUT", operand:""},
+  {id:6,  active:"-", line:"05", label:"",      operator:"HLT", operand:""},
+  {id:7,  active:"-", line:"06", label:"",      operator:"",    operand:""},
+  {id:8,  active:"-", line:"07", label:"",      operator:"",    operand:""},
+  {id:9,  active:"-", line:"08", label:"",      operator:"",    operand:""},
+  {id:10, active:"-", line:"09", label:"",      operator:"",    operand:""},
+  {id:11, active:"-", line:"10", label:"",      operator:"",    operand:""},
+  {id:12, active:"-", line:"11", label:"",      operator:"",    operand:""},
+  {id:13, active:"-", line:"12", label:"",      operator:"",    operand:""},
+  {id:14, active:"-", line:"13", label:"",      operator:"",    operand:""},
+  {id:15, active:"-", line:"14", label:"",      operator:"",    operand:""},
+  {id:16, active:"-", line:"15", label:"",      operator:"",    operand:""},
+  {id:17, active:"-", line:"16", label:"",      operator:"",    operand:""},
+  {id:18, active:"-", line:"17", label:"",      operator:"",    operand:""},
+  {id:19, active:"-", line:"18", label:"",      operator:"",    operand:""},
+  {id:20, active:"-", line:"19", label:"",      operator:"",    operand:""},
+  {id:21, active:"-", line:"20", label:"A",     operator:"DAT", operand:"0"},
 ];
 
 //
 // Code example table 2 - output 10 four times
 //
 var codetabledata2 = [
-  {id:1,  active:"", line:"00", label:"start", operator:"LDA", operand:"one"},
-  {id:2,  active:"", line:"01", label:"",      operator:"OUT", operand:""},
-  {id:3,  active:"", line:"02", label:"",      operator:"LDA", operand:"zero"},
-  {id:4,  active:"", line:"03", label:"",      operator:"OUT", operand:""},
-  {id:5,  active:"", line:"04", label:"",      operator:"LDA", operand:"count"},
-  {id:6,  active:"", line:"05", label:"",      operator:"SUB", operand:"one"},
-  {id:7,  active:"", line:"06", label:"",      operator:"STA", operand:"count"},
-  {id:8,  active:"", line:"07", label:"",      operator:"BRP", operand:"start"},
-  {id:9,  active:"", line:"08", label:"",      operator:"HLT", operand:""},
-  {id:10, active:"", line:"09", label:"",      operator:"",    operand:""},
-  {id:11, active:"", line:"10", label:"",      operator:"",    operand:""},
-  {id:12, active:"", line:"11", label:"",      operator:"",    operand:""},
-  {id:13, active:"", line:"12", label:"",      operator:"",    operand:""},
-  {id:14, active:"", line:"13", label:"",      operator:"",    operand:""},
-  {id:15, active:"", line:"14", label:"",      operator:"",    operand:""},
-  {id:16, active:"", line:"15", label:"",      operator:"",    operand:""},
-  {id:17, active:"", line:"16", label:"",      operator:"",    operand:""},
-  {id:18, active:"", line:"17", label:"",      operator:"",    operand:""},
-  {id:19, active:"", line:"18", label:"",      operator:"",    operand:""},
-  {id:20, active:"", line:"19", label:"",      operator:"",    operand:""},
-  {id:21, active:"", line:"20", label:"one",   operator:"DAT", operand:"1"},
-  {id:22, active:"", line:"21", label:"zero",  operator:"DAT", operand:"0"},
-  {id:23, active:"", line:"22", label:"count", operator:"DAT", operand:"3"},
+  {id:1,  active:"-", line:"00", label:"start", operator:"LDA", operand:"one"},
+  {id:2,  active:"-", line:"01", label:"",      operator:"OUT", operand:""},
+  {id:3,  active:"-", line:"02", label:"",      operator:"LDA", operand:"zero"},
+  {id:4,  active:"-", line:"03", label:"",      operator:"OUT", operand:""},
+  {id:5,  active:"-", line:"04", label:"",      operator:"LDA", operand:"count"},
+  {id:6,  active:"-", line:"05", label:"",      operator:"SUB", operand:"one"},
+  {id:7,  active:"-", line:"06", label:"",      operator:"STA", operand:"count"},
+  {id:8,  active:"-", line:"07", label:"",      operator:"BRP", operand:"start"},
+  {id:9,  active:"-", line:"08", label:"",      operator:"HLT", operand:""},
+  {id:10, active:"-", line:"09", label:"",      operator:"",    operand:""},
+  {id:11, active:"-", line:"10", label:"",      operator:"",    operand:""},
+  {id:12, active:"-", line:"11", label:"",      operator:"",    operand:""},
+  {id:13, active:"-", line:"12", label:"",      operator:"",    operand:""},
+  {id:14, active:"-", line:"13", label:"",      operator:"",    operand:""},
+  {id:15, active:"-", line:"14", label:"",      operator:"",    operand:""},
+  {id:16, active:"-", line:"15", label:"",      operator:"",    operand:""},
+  {id:17, active:"-", line:"16", label:"",      operator:"",    operand:""},
+  {id:18, active:"-", line:"17", label:"",      operator:"",    operand:""},
+  {id:19, active:"-", line:"18", label:"",      operator:"",    operand:""},
+  {id:20, active:"-", line:"19", label:"",      operator:"",    operand:""},
+  {id:21, active:"-", line:"20", label:"one",   operator:"DAT", operand:"1"},
+  {id:22, active:"-", line:"21", label:"zero",  operator:"DAT", operand:"0"},
+  {id:23, active:"-", line:"22", label:"count", operator:"DAT", operand:"3"},
 ];
 
 //
 // Code example table 3 - Square a given number
 //
 var codetabledata3 = [
-  {id:1,  active:"", line:"00", label:"start", operator:"INP", operand:""},
-  {id:2,  active:"", line:"01", label:"",      operator:"STA", operand:"number"},
-  {id:3,  active:"", line:"02", label:"",      operator:"LDA", operand:"zero"},
-  {id:4,  active:"", line:"03", label:"",      operator:"STA", operand:"sum"},
-  {id:5,  active:"", line:"04", label:"",      operator:"STA", operand:"count"},
-  {id:6,  active:"", line:"05", label:"loop",  operator:"LDA", operand:"sum"},
-  {id:7,  active:"", line:"06", label:"",      operator:"ADD", operand:"number"},
-  {id:8,  active:"", line:"07", label:"",      operator:"STA", operand:"sum"},
-  {id:9,  active:"", line:"08", label:"",      operator:"LDA", operand:"count"},
-  {id:10, active:"", line:"09", label:"",      operator:"ADD", operand:"one"},
-  {id:11, active:"", line:"10", label:"",      operator:"STA", operand:"count"},
-  {id:12, active:"", line:"11", label:"",      operator:"SUB", operand:"number"},
-  {id:13, active:"", line:"12", label:"",      operator:"BRP", operand:"finish"},
-  {id:14, active:"", line:"13", label:"",      operator:"BRA", operand:"loop"},
-  {id:15, active:"", line:"14", label:"finish",operator:"LDA", operand:"sum"},
-  {id:16, active:"", line:"15", label:"",      operator:"OUT", operand:""},
-  {id:17, active:"", line:"16", label:"",      operator:"HLT", operand:""},
-  {id:18, active:"", line:"17", label:"",      operator:"",    operand:""},
-  {id:19, active:"", line:"18", label:"",      operator:"",    operand:""},
-  {id:20, active:"", line:"19", label:"",      operator:"",    operand:""},
-  {id:21, active:"", line:"20", label:"",      operator:"",    operand:""},
-  {id:22, active:"", line:"21", label:"",      operator:"",    operand:""},
-  {id:23, active:"", line:"22", label:"",      operator:"",    operand:""},
-  {id:24, active:"", line:"23", label:"",      operator:"",    operand:""},
-  {id:25, active:"", line:"24", label:"",      operator:"",    operand:""},
-  {id:26, active:"", line:"25", label:"",      operator:"",    operand:""},
-  {id:27, active:"", line:"26", label:"",      operator:"",    operand:""},
-  {id:28, active:"", line:"27", label:"",      operator:"",    operand:""},
-  {id:29, active:"", line:"28", label:"",      operator:"",    operand:""},
-  {id:30, active:"", line:"29", label:"",      operator:"",    operand:""},
-  {id:31, active:"", line:"30", label:"number",operator:"DAT", operand:""},
-  {id:32, active:"", line:"31", label:"sum",   operator:"DAT", operand:""},
-  {id:33, active:"", line:"32", label:"count", operator:"DAT", operand:""},
-  {id:34, active:"", line:"33", label:"zero",  operator:"DAT", operand:"0"},
-  {id:35, active:"", line:"34", label:"one",   operator:"DAT", operand:"1"},
+  {id:1,  active:"-", line:"00", label:"start", operator:"INP", operand:""},
+  {id:2,  active:"-", line:"01", label:"",      operator:"STA", operand:"number"},
+  {id:3,  active:"-", line:"02", label:"",      operator:"LDA", operand:"zero"},
+  {id:4,  active:"-", line:"03", label:"",      operator:"STA", operand:"sum"},
+  {id:5,  active:"-", line:"04", label:"",      operator:"STA", operand:"count"},
+  {id:6,  active:"-", line:"05", label:"loop",  operator:"LDA", operand:"sum"},
+  {id:7,  active:"-", line:"06", label:"",      operator:"ADD", operand:"number"},
+  {id:8,  active:"-", line:"07", label:"",      operator:"STA", operand:"sum"},
+  {id:9,  active:"-", line:"08", label:"",      operator:"LDA", operand:"count"},
+  {id:10, active:"-", line:"09", label:"",      operator:"ADD", operand:"one"},
+  {id:11, active:"-", line:"10", label:"",      operator:"STA", operand:"count"},
+  {id:12, active:"-", line:"11", label:"",      operator:"SUB", operand:"number"},
+  {id:13, active:"-", line:"12", label:"",      operator:"BRP", operand:"finish"},
+  {id:14, active:"-", line:"13", label:"",      operator:"BRA", operand:"loop"},
+  {id:15, active:"-", line:"14", label:"finish",operator:"LDA", operand:"sum"},
+  {id:16, active:"-", line:"15", label:"",      operator:"OUT", operand:""},
+  {id:17, active:"-", line:"16", label:"",      operator:"HLT", operand:""},
+  {id:18, active:"-", line:"17", label:"",      operator:"",    operand:""},
+  {id:19, active:"-", line:"18", label:"",      operator:"",    operand:""},
+  {id:20, active:"-", line:"19", label:"",      operator:"",    operand:""},
+  {id:21, active:"-", line:"20", label:"",      operator:"",    operand:""},
+  {id:22, active:"-", line:"21", label:"",      operator:"",    operand:""},
+  {id:23, active:"-", line:"22", label:"",      operator:"",    operand:""},
+  {id:24, active:"-", line:"23", label:"",      operator:"",    operand:""},
+  {id:25, active:"-", line:"24", label:"",      operator:"",    operand:""},
+  {id:26, active:"-", line:"25", label:"",      operator:"",    operand:""},
+  {id:27, active:"-", line:"26", label:"",      operator:"",    operand:""},
+  {id:28, active:"-", line:"27", label:"",      operator:"",    operand:""},
+  {id:29, active:"-", line:"28", label:"",      operator:"",    operand:""},
+  {id:30, active:"-", line:"29", label:"",      operator:"",    operand:""},
+  {id:31, active:"-", line:"30", label:"number",operator:"DAT", operand:""},
+  {id:32, active:"-", line:"31", label:"sum",   operator:"DAT", operand:""},
+  {id:33, active:"-", line:"32", label:"count", operator:"DAT", operand:""},
+  {id:34, active:"-", line:"33", label:"zero",  operator:"DAT", operand:"0"},
+  {id:35, active:"-", line:"34", label:"one",   operator:"DAT", operand:"1"},
 ];
 
 function filltable() {
 
   var codetabledata = [
-    {id:1,  active:"", line:"00", label:"", operator:"", operand:""},
+    {id:1,  active:"-", line:"00", label:"", operator:"", operand:""},
   ];
 
 
@@ -193,7 +197,7 @@ function filltable() {
       //
       // Add in a new row 99 to keep to 100 rows...
       //
-      currentData.splice(99, 0, {id:100, line:"99", label:"", operator:"", operand:""});
+      currentData.splice(99, 0, {id:100, active:"-", line:"99", label:"", operator:"", operand:""});
 
       this.table.replaceData(currentData);
       
@@ -239,7 +243,7 @@ function filltable() {
       //
       // Insert a new row
       //
-      currentData.splice(currentRow-1, 0, {id:currentRow, line:(currentRow-1).toString().padStart(2, "0"), label:"", operator:"", operand:""});
+      currentData.splice(currentRow-1, 0, {id:currentRow, active:"-", line:(currentRow-1).toString().padStart(2, "0"), label:"", operator:"", operand:""});
 
       //
       // Renumber the remaining items
@@ -265,20 +269,31 @@ function filltable() {
 
   while (codetabledata.length < 100) {
     let newrowno = codetabledata.length+1
-    codetabledata.push({id:newrowno, line:(newrowno-1).toString().padStart(2, "0"), label:"", operator:"", operand:""});
+    codetabledata.push({id:newrowno, active: "-", line:(newrowno-1).toString().padStart(2, "0"), label:"", operator:"", operand:""});
   }
 
+  //
+  // For future expansion, we have a traffic light formatter on the 'active'
+  // column.  Currently this is either blank (for a value of '-') or green
+  // (for a value of 1) to show the currently executing line.  I plan to add
+  // break points in red (value 3), and to use orange (value 2) to indicate
+  // that we are stopped at the current break point.
+  //
+  // Look at the column width settings again when I have time - the current
+  // approach to setting a narrow and fixed active column is a bit hacky.
+  //
   table1 = new Tabulator("#code-table", {
     maxHeight:"88vh", // set height of table (in CSS or here)
     data:codetabledata, //assign data to table
     tabEndNewRow:true,
+    history:true,
     layout:"fitColumns", //fit columns to width of table (optional)
-    columns:[ //Define Table Columns - reduce percentages to 99% avoid horizontal sb
-      {title:"", field:"active", width:"10%", hozAlign:"center", widthShrink:3, headerSort:false},
+    columns:[ 
+      {title:"", field:"active", formatter:"traffic", formatterParams:{min:1, max:3, color:["green", "orange", "red"]}, width:25, maxWidth:25, minWidth:25, hozAlign:"center", headerSort:false},
       {title:"Line", field:"line", width:"10%", widthShrink:3, headerSort:false},
       {title:"Label", field:"label", width:"20%", widthShrink:6, hozAlign:"left", editor:true, headerSort:false},
       {title:"Operator", field:"operator", width:"30%", widthShrink:4, editor:true, headerSort:false},
-      {title:"Operand", field:"operand", width:"30%", widthShrink:6, editor:true, headerSort:false},
+      {title:"Operand", field:"operand", width:"35%", widthShrink:6, editor:true, headerSort:false},
     ],
     selectable:1,
     keybindings:{
@@ -1110,7 +1125,7 @@ function runCode() {
   // clear the current line indicator
   //
   if (previousProgramCounter != 0) {
-    table1.updateData([{id:previousProgramCounter, active: ""}]);
+    table1.updateData([{id:previousProgramCounter, active: "-"}]);
   }
 
   //
@@ -1384,8 +1399,8 @@ function decodeInstruction() {
   // Temporary code to highlight the current line in the
   // code table and blank out the previous line
   //  
-  table1.updateData([{id:previousProgramCounter, active: ""}]);
-  table1.updateData([{id:programCounter, active: ">>>"}]);
+  table1.updateData([{id:previousProgramCounter, active: "-"}]);
+  table1.updateData([{id:programCounter, active: "1"}]);
   previousProgramCounter = programCounter;
 
   //
@@ -2317,18 +2332,36 @@ function scaleCanvas(){
   canvasInfo.x_increment = c.width*0.325;
   canvasInfo.y_increment1 = c.height*0.2;
   canvasInfo.y_increment2 = c.height*0.25;
+
+  //
+  // Pick an appropriate font size for the width of the canvas
+  // We could probably do something smarter...
+  //
   canvasInfo.font = "18px Arial";
-  if (c.width < 300) {
+
+  if (c.width > 800) {
+    canvasInfo.font = "20px Arial";
+  } else if (c.width > 700) {
+    canvasInfo.font = "18px Arial";
+  } else if (c.width > 600) {
+    canvasInfo.font = "16px Arial";
+  } else if (c.width > 500) {
+    canvasInfo.font = "14px Arial";
+  } else if (c.width > 400) {
+    canvasInfo.font = "10px Arial";
+  } else if (c.width > 300) {
     canvasInfo.font = "8px Arial";
-  }
-  else if (c.width < 600) {
-    canvasInfo.font = "12px Arial";
+  } else if (c.width > 200) {
+    canvasInfo.font = "6px Arial";
   }
 
   //
   // Fix the memory table height to the canvas height
   //
-  document.getElementById("memory-table").setAttribute("style", "max-height: "+cNewHeight.toString()+"px;");
+  let tableHeight = parseInt(cNewHeight, 10);
+
+  document.getElementById("memory-table").setAttribute("style", "height: "+tableHeight.toString()+"px;");
+
 }
 
 
@@ -2434,7 +2467,7 @@ function handleFile() {
           } else {
             logobj.value += "Cannot make sense of line...\n";
           }
-          newData.push({id:(i+1), line:lineVal, label:labelVal, operator:operatorVal, operand:operandVal});
+          newData.push({id:(i+1), active:"-", line:lineVal, label:labelVal, operator:operatorVal, operand:operandVal});
         } else {
           // Deal with no line numbers...
           if (operatorIndex==0) {
@@ -2468,14 +2501,14 @@ function handleFile() {
           } else {
             logobj.value += "Cannot make sense of line...\n";
           }
-          newData.push({id:(i+1), line:lineVal, label:labelVal, operator:operatorVal, operand:operandVal});
+          newData.push({id:(i+1), active:"-", line:lineVal, label:labelVal, operator:operatorVal, operand:operandVal});
         } 
       }
       changeState(states.UNASSEMBLED);
     }
 
-    while (newData.length < 22) {
-      newData.push({id:(newData.length+1), line:newData.length.toString().padStart(2, "0"), label:"", operator:"", operand:""});
+    while (newData.length < 100) {
+      newData.push({id:(newData.length+1), active:"-", line:newData.length.toString().padStart(2, "0"), label:"", operator:"", operand:""});
     }
 
     table1.setData(newData)
@@ -2589,7 +2622,7 @@ function loadExample() {
 
       while (codetabledata.length < 100) {
         let newrowno = codetabledata.length+1
-        codetabledata.push({id:newrowno, line:(newrowno-1).toString().padStart(2, "0"), label:"", operator:"", operand:""});
+        codetabledata.push({id:newrowno, active:"-", line:(newrowno-1).toString().padStart(2, "0"), label:"", operator:"", operand:""});
       }
 
       table1.setData(codetabledata)
