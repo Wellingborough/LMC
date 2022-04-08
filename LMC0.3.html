@@ -337,11 +337,14 @@ below for more information.
       //
       let ismdwn = 0
       rpanrResize.addEventListener('mousedown', mD)
+      rpanrResize.addEventListener('touchstart', mD)
 
       function mD(event) {
         ismdwn = 1
         document.body.addEventListener('mousemove', mV)
         document.body.addEventListener('mouseup', end)
+        document.body.addEventListener('touchmove', mV)
+        document.body.addEventListener('touchend', end)
         document.body.style.cursor = "col-resize";
         
         // Prevent the code table from altering the cursor
@@ -376,6 +379,8 @@ below for more information.
         document.body.style.cursor = "default";
         document.body.removeEventListener('mouseup', end)
         rpanrResize.removeEventListener('mousemove', mV)
+        document.body.removeEventListener('touchend', end)
+        rpanrResize.removeEventListener('touchmove', mV)
 
         // Allow the code table to alter the cursor again
         let codeTableElement = document.getElementById("code-table");
