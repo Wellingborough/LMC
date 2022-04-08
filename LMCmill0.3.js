@@ -2365,7 +2365,7 @@ function scaleCanvas(){
   document.getElementById("memory-table").setAttribute("style", "height: "+tableHeight.toString()+"px;");
 
   let logobj=document.getElementById("log-text");
-  logobj.value += "> " + canvasInfo.font + \n";
+  logobj.value += "> " + canvasInfo.font + "\n";
   logobj.scrollTop = logobj.scrollHeight;
 
 }
