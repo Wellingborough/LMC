@@ -2349,9 +2349,11 @@ function scaleCanvas(){
     canvasInfo.font = "14px Arial";
   } else if (c.width > 400) {
     canvasInfo.font = "10px Arial";
+  } else if (c.width > 350) {
+    canvasInfo.font = "9px Arial";
   } else if (c.width > 300) {
     canvasInfo.font = "8px Arial";
-  } else if (c.width > 200) {
+  } else {
     canvasInfo.font = "6px Arial";
   }
 
@@ -2361,6 +2363,10 @@ function scaleCanvas(){
   let tableHeight = parseInt(cNewHeight, 10);
 
   document.getElementById("memory-table").setAttribute("style", "height: "+tableHeight.toString()+"px;");
+
+  let logobj=document.getElementById("log-text");
+  logobj.value += "> " + canvasInfo.font + \n";
+  logobj.scrollTop = logobj.scrollHeight;
 
 }
 
