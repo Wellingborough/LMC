@@ -29,6 +29,11 @@ let canvasInfo = {
 };
 
 //
+// Flag to indicate whether the CPU 'tooltip' is visible or not...
+//
+let cpuTooltipVisible = false;
+
+//
 // Code example table 1 - Input and add two numbers
 // (In this and the following examples, I have intentionally moved the variables
 // to a blank line in the memory - actually a line below a blank line.  This
@@ -404,8 +409,11 @@ function handleNewRow(row) {
 // Draw the CPU, scaling to the size of the canvas
 //
 function drawCPU(context) {
+
+  context.save();
+
   //
-  // Move this first - draw the buses
+  // Draw the buses first
   //
   xstart = canvasInfo.x_offset + canvasInfo.regWidth/2;
   ystart = canvasInfo.y_offset + canvasInfo.regHeight/2;
@@ -469,7 +477,15 @@ function drawCPU(context) {
 
   //
   // Overlay the registers
+  // (Use a drop shadow)
   //
+
+  context.shadowColor = '#898';
+  context.shadowBlur = 20;
+  context.shadowOffsetX = 20;
+  context.shadowOffsetY = 20;
+  context.fill();
+
   xpos = canvasInfo.x_offset;
   ypos = canvasInfo.y_offset;
   drawRegister(context, "PC",      xpos, ypos, canvasInfo.regWidth, canvasInfo.regHeight, '#FB8738');
@@ -505,23 +521,19 @@ function drawCPU(context) {
   ypos = canvasInfo.y_offset + canvasInfo.y_increment1 + canvasInfo.y_increment2;
   drawALU(context,      "ALU",     xpos, ypos, canvasInfo.regWidth, canvasInfo.regHeight, '#79B94F');
 
+  context.restore();
+
 }
 
 
 //
 // Draw a single register - x, y are the coordinates for the top left corner
-// Use a drop shadow
 //
 function drawRegister(context, name, x, y, w, h, colour) {
   let cWidth = context.canvas.clientWidth;
 
   context.fillStyle = colour;
 
-  context.shadowColor = '#898';
-  context.shadowBlur = 20;
-  context.shadowOffsetX = 20;
-  context.shadowOffsetY = 20;
-  context.fill();
   context.fillRect(x, y, w, h);
   context.strokeRect(x, y, w, h);
 
@@ -535,14 +547,9 @@ function drawRegister(context, name, x, y, w, h, colour) {
 // Special function for the ALU shape
 //
 function drawALU(context, name, x, y, w, h, colour) {
+
   xoffset = w/4
   yoffset = w/6
-
-  context.shadowColor = '#898';
-  context.shadowBlur = 20;
-  context.shadowOffsetX = 20;
-  context.shadowOffsetY = 20;
-  context.fill();
 
   context.beginPath();
   context.moveTo(x-xoffset, y-yoffset);
@@ -561,10 +568,17 @@ function drawALU(context, name, x, y, w, h, colour) {
   context.fill();
   context.stroke();
 
+  //
+  // Clear the path for any future redrawing of the CPU
+  //
+  context.beginPath();
+  context.closePath();
+
   context.font = canvasInfo.font;
   context.fillStyle = "#000000";
   length = context.measureText(name).width;
   context.fillText(name, x+(w/2)-(length/2), y-5-yoffset);
+
 }
 
 
@@ -693,6 +707,8 @@ function drawBus(context, x1, y1, x2, y2) {
 // just draw some dots...
 //
 function animateBus(context, operation) {
+  context.save();
+
   if (canvasInfo.lastBusAnimation == -1) {
     animateBus2(context, operation, false)
   } else {
@@ -700,6 +716,7 @@ function animateBus(context, operation) {
     animateBus2(context, operation, false)
   }
   canvasInfo.lastBusAnimation = operation;
+  context.restore();
 }
 
 function animateBus2(context, operation, erase) {
@@ -2674,4 +2691,201 @@ function changeSetting(target) {
       break;
   }
   document.getElementById("speed-display").innerHTML = newText;
+}
+
+//
+// This might be better done as a set of regions that the drawCPU()
+// code populates (making sure we clear it out first!), and then
+// we check here.  At the moment, we have repeated code/knowledge
+// about where each register is located here and in drawCPU()
+//
+function canvasHitCheck(x, y) {
+
+  let hitRegister = false;
+  let description = "None";
+
+  //
+  // If we are currently running, do not allow the 'tooltip' to
+  // be shown
+  //
+  if ((state == states.RUNNING.ACTIVE) ||
+      (state == states.RUNNING.BLOCKEDONINPUT) ||
+      (state == states.RUNNING.PAUSED) ||
+      (state == states.RUNNING.STOPPING)) {
+    return;
+  }
+
+  //
+  // Check whether the user clicked on a register, and if so, which
+  //
+  x1 = canvasInfo.x_offset;
+  x2 = x1 + canvasInfo.x_increment;
+  x3 = x2 + canvasInfo.x_increment;
+
+  y1 = canvasInfo.y_offset;
+  y2 = y1 + canvasInfo.y_increment1;
+  y3 = y2 + canvasInfo.y_increment2;
+  y4 = y3 + canvasInfo.y_increment2;
+
+ 
+  if (x >= x1 && x <= x1+canvasInfo.regWidth) {
+
+    if (y >= y1 && y <= y1+canvasInfo.regHeight) {
+      description = "Program Counter\nThe Program Counter contains the address of the next instruction to be fetched from memory.\nIf you watch carefully, you will see that the Program Counter immediately increments by one as soon as an instruction is read from the memory.";
+      hitRegister = true;
+    } else if (y >= y2 && y <= y2+canvasInfo.regHeight) {
+      description = "Current Instruction Register\nThe Current Instruction Register contains the last instruction fetched from memory.  Before the instruction can be executed, it must be decoded into a set of signals which will determine how the other components of the CPU will work together.";
+      hitRegister = true;
+    } else if (y >= y3 && y <= y3+canvasInfo.regHeight) {
+      description = "DECODER";
+      hitRegister = true;
+    } else if (y >= y4 && y <= y4+canvasInfo.regHeight) {
+      description = "INPUT\nThe 'mailbox' used to move user input in to the Accumulator";
+      hitRegister = true;
+    }
+
+  //
+  // This needs to be split into ALU and ACC, as the ACC
+  // is wider and higher than any other register...
+  //
+  } else if (x >= x2 && x <= x2+canvasInfo.regWidth) {
+
+    if (y >= y3 && y <= y3+canvasInfo.regHeight) {
+      description = "ALU\nArithmetic and Logic Unit";
+      hitRegister = true;
+    } else if (y >= y4 && y <= y4+canvasInfo.regHeight) {
+      description = "ACC\nAccumulator";
+      hitRegister = true;
+    }
+
+  } else if (x >= x3 && x <= x3+canvasInfo.regWidth) {
+
+    if (y >= y1 && y <= y1+canvasInfo.regHeight) {
+      description = "MAR\nMemory Address Register";
+      hitRegister = true;
+    } else if (y >= y2 && y <= y2+canvasInfo.regHeight) {
+      description = "MDR\nMemory Data Register";
+      hitRegister = true;
+    } else if (y >= y3 && y <= y3+canvasInfo.regHeight) {
+      description = "SR\nStatus Register";
+      hitRegister = true;
+    } else if (y >= y4 && y <= y4+canvasInfo.regHeight) {
+      description = "OUTPUT\nThe 'mailbox' used to hold output from the Accumulator";
+      hitRegister = true;
+    }
+  }
+
+  if (cpuTooltipVisible == false){
+  
+    if (hitRegister) {
+      let c = document.getElementById('processor-canvas');
+      let ctx = c.getContext('2d');
+
+      ctx.save();
+      ctx.font = canvasInfo.font;
+      writeDescription(ctx, description, x, y, 400, 24);
+      ctx.restore();
+
+      cpuTooltipVisible = true;
+    }
+
+  } else {
+
+    let c = document.getElementById('processor-canvas');
+    let ctx = c.getContext('2d');
+
+    ctx.clearRect(0, 0, c.width, c.height);
+
+    cpuTooltipVisible = false;
+    
+    drawCPU(ctx);
+
+    if (hitRegister) {
+      let c = document.getElementById('processor-canvas');
+      let ctx = c.getContext('2d');
+
+      ctx.save();
+      ctx.font = canvasInfo.font;
+      writeDescription(ctx, description, x, y, 400, 24);
+      ctx.restore();
+
+      cpuTooltipVisible = true;
+    }
+
+  }
+}
+
+//
+// Improvements required:
+// 1. Draw an outline rectangle around all of the text (calculate coordinates
+//    using x, y, line_width and line_height * line count)
+// 2. We should calculate the line_height above, from the font in canvasInfo
+// 3. We should also calculate the 'safe' x, y values to pass through from
+//    the clicked position and the size of the canvas - make sure that the
+//    'popup' fits on the canvas
+// 4. DONE. We should also be smarter about the second click - we can disappear the
+//    'popup' if this does not hit a register, otherwise just redraw and then
+//    add the new 'popup'.
+// 5. We need to make sure that we clear out the 'popup' when we start or
+//    resume running.
+// 6. We should make sure that we redraw the register values when we call 
+//    drawCPU - perhaps we could just factor that into drawCPU?
+//
+function writeDescription(context, text, x, y, line_width, line_height)
+{
+  var line_count = 0;
+  var line = '';
+  var paragraphs = text.split('\n');
+  var orig_x = x;
+  var orig_y = y;
+  
+  for (var i = 0; i < paragraphs.length; i++) {
+    var words = paragraphs[i].split(' ');
+    for (var n = 0; n < words.length; n++) {
+      var testLine = line + words[n] + ' ';
+      var metrics = context.measureText(testLine);
+      var testWidth = metrics.width;
+      if (testWidth > line_width && n > 0) {
+        //  Draw a bounding box...
+        context.globalAlpha=0.9;
+        context.fillStyle = '#eeeeee';
+        yoffset = 20;
+        if (line_count ==0) {
+          yoffset = 30;
+        }
+        context.fillRect(x-10, y-yoffset, line_width+10, line_height);
+        context.fillStyle = '#000000';
+        context.globalAlpha=1.0;
+        context.fillText(line, x, y);
+        line = words[n] + ' ';
+        y += line_height;
+        line_count += 1;
+      } else {
+        line = testLine;
+      }
+    }
+
+    //  Draw a bounding box...
+    context.globalAlpha=0.9;
+    context.fillStyle = '#eeeeee';
+    yoffset = 20;
+    if (line_count == 0) {
+      yoffset = 30;
+    }
+    context.fillRect(x-10, y-yoffset, line_width+10, line_height+10);
+    context.globalAlpha=1.0;
+    context.fillStyle = '#000000';
+    // Write the new value
+    context.fillText(line, x, y);
+    y += line_height;
+    line_count += 1;
+    line = '';
+  }
+
+  //
+  // Draw a bounding rectangle to give the tooltip some definition
+  //
+  context.strokeStyle = '#999999';
+  context.strokeRect(orig_x-10, orig_y-30, line_width+10, (line_height*line_count)+20);
+
 }
