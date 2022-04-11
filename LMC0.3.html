@@ -29,6 +29,7 @@
     <!--    the-height-of-the-remaining-space.html                        -->
 
   <body onresize="resizeEvent()" onload="filltable()">
+
     <!-- Should also create a symbol table -->
 
     <div id="div-main" class="box">
@@ -59,7 +60,7 @@
 
         <div class="col" id="processor-memory-holder" style="display:flex; flex-direction:column; margin:0px; width:100%;">
           <div class="row content" id="processor-memory-row" style="flex: 0 1 auto;">
-            <div class="col-6" id="processor-schematic" ><canvas id="processor-canvas" >Your browser does not support the HTML5 canvas</canvas></div>
+            <div class="col-6" id="processor-schematic" ><canvas id="processor-canvas">Your browser does not support the HTML5 canvas</canvas></div>
             <div class="col-6" id="memory-table"></div>
           </div>
 
@@ -244,6 +245,8 @@ below for more information.
       </div>
     </div>
 
+
+
     <script>
       let settingsModalBtn = document.getElementById("settings-modal-btn")
       let settingsModal = document.getElementById("settings-modal")
@@ -286,6 +289,19 @@ below for more information.
         } else if(e.target == examplesModal){
           examplesModal.style.display = "none"
         }
+      }
+
+
+      //
+      // Foundation work for clickable processor schematic
+      // Hook the mouse event (should do touch too) and convert
+      // window coordinates to canvas coordinates
+      // Call canvasHitCheck() in the pile of JavaScript
+      // to figure out what they have clicked on
+      //
+      document.getElementById('processor-canvas').onclick=function(e){
+        let rect = document.getElementById('processor-canvas').getBoundingClientRect();
+        canvasHitCheck(e.clientX - rect.left, e.clientY - rect.top);
       }
 
 
@@ -337,14 +353,11 @@ below for more information.
       //
       let ismdwn = 0
       rpanrResize.addEventListener('mousedown', mD)
-      rpanrResize.addEventListener('touchstart', mD)
 
       function mD(event) {
         ismdwn = 1
         document.body.addEventListener('mousemove', mV)
         document.body.addEventListener('mouseup', end)
-        document.body.addEventListener('touchmove', mV)
-        document.body.addEventListener('touchend', end)
         document.body.style.cursor = "col-resize";
         
         // Prevent the code table from altering the cursor
@@ -379,8 +392,6 @@ below for more information.
         document.body.style.cursor = "default";
         document.body.removeEventListener('mouseup', end)
         rpanrResize.removeEventListener('mousemove', mV)
-        document.body.removeEventListener('touchend', end)
-        rpanrResize.removeEventListener('touchmove', mV)
 
         // Allow the code table to alter the cursor again
         let codeTableElement = document.getElementById("code-table");
