@@ -138,6 +138,37 @@ var codetabledata3 = [
   {id:35, active:"-", line:"34", label:"one",   operator:"DAT", operand:"1"},
 ];
 
+//
+// Code example table 4 - Integer division
+//
+var codetabledata4 = [
+  {id:1,  active:"-", line:"00", label:"start",   operator:"INP", operand:""},
+  {id:2,  active:"-", line:"01", label:"",        operator:"STA", operand:"dividend"},
+  {id:3,  active:"-", line:"02", label:"",        operator:"INP", operand:""},
+  {id:4,  active:"-", line:"03", label:"",        operator:"STA", operand:"divisor"},
+  {id:5,  active:"-", line:"04", label:"",        operator:"LDA", operand:"zero"},
+  {id:6,  active:"-", line:"05", label:"",        operator:"STA", operand:"answer"},
+  {id:7,  active:"-", line:"06", label:"",        operator:"LDA", operand:"dividend"},
+  {id:8,  active:"-", line:"07", label:"loop",    operator:"SUB", operand:"divisor"},
+  {id:9,  active:"-", line:"08", label:"",        operator:"STA", operand:"dividend"},
+  {id:10, active:"-", line:"09", label:"",        operator:"BRP", operand:"greater"},
+  {id:11, active:"-", line:"10", label:"",        operator:"LDA", operand:"answer"},
+  {id:12, active:"-", line:"11", label:"",        operator:"OUT", operand:""},
+  {id:13, active:"-", line:"12", label:"",        operator:"HLT", operand:""},
+  {id:14, active:"-", line:"13", label:"greater", operator:"LDA", operand:"answer"},
+  {id:15, active:"-", line:"14", label:"",        operator:"ADD", operand:"one"},
+  {id:16, active:"-", line:"15", label:"",        operator:"STA", operand:"answer"},
+  {id:17, active:"-", line:"16", label:"",        operator:"LDA", operand:"dividend"},
+  {id:18, active:"-", line:"17", label:"",        operator:"BRA", operand:"loop"},
+  {id:19, active:"-", line:"18", label:"",        operator:"",    operand:""},
+  {id:20, active:"-", line:"19", label:"",        operator:"",    operand:""},
+  {id:21, active:"-", line:"20", label:"zero",    operator:"DAT", operand:"0"},
+  {id:22, active:"-", line:"21", label:"one",     operator:"DAT", operand:"1"},
+  {id:23, active:"-", line:"22", label:"answer",  operator:"DAT", operand:""},
+  {id:24, active:"-", line:"23", label:"dividend",operator:"DAT", operand:""},
+  {id:25, active:"-", line:"24", label:"divisor", operator:"DAT", operand:""},
+];
+
 function filltable() {
 
   var codetabledata = [
@@ -348,15 +379,7 @@ function filltable() {
   ];
 
 
-  //
-  // Processor schematic canvas
-  //
-  var c = document.getElementById("processor-canvas");
-  var ctx = c.getContext("2d");
-  
-  scaleCanvas();
 
-  drawCPU(ctx);
 
   //
   // Memory Table
@@ -379,6 +402,18 @@ function filltable() {
       {title:"", field:"m9", width:"10%", widthShrink:1, hozAlign:"center", headerSort:false},
     ],	
   });
+
+
+  //
+  // Processor schematic canvas
+  //
+  var c = document.getElementById("processor-canvas");
+  var ctx = c.getContext("2d");
+  
+  scaleCanvas();
+
+  drawCPU(ctx);
+
 
   // Configure CPU buttons
   document.getElementById("run-btn").disabled = true;
@@ -409,6 +444,8 @@ function handleNewRow(row) {
 // Draw the CPU, scaling to the size of the canvas
 //
 function drawCPU(context) {
+
+  context.clearRect(0, 0, canvasInfo.width, canvasInfo.height);
 
   context.save();
 
@@ -523,6 +560,24 @@ function drawCPU(context) {
 
   context.restore();
 
+  //
+  // Update the register values
+  //
+  let formattedPC = programCounter.toString().padStart(2, "0");
+  let formattedMAR = memoryAddressRegister.toString().padStart(2, "0");
+
+  drawRegisterValue("MAR", formattedMAR, context);
+  drawRegisterValue("MDR", memoryDataRegister, context);
+  drawRegisterValue("CIR", currentInstructionRegister, context);
+  drawRegisterValue("PC", formattedPC, context);
+  drawRegisterValue("SR", statusRegister, context);
+  drawRegisterValue("ACC", accumulator, context);
+
+  drawRegisterValue("ALU", "", context);
+  drawRegisterValue("INP", "", context);
+  drawRegisterValue("OUT", "", context);
+  drawRegisterValue("DECODER", "", context);
+
 }
 
 
@@ -535,6 +590,8 @@ function drawRegister(context, name, x, y, w, h, colour) {
   context.fillStyle = colour;
 
   context.fillRect(x, y, w, h);
+  context.strokeStyle = '#000000';
+  context.lineWidth = 1;
   context.strokeRect(x, y, w, h);
 
   context.font = canvasInfo.font;
@@ -681,6 +738,8 @@ function drawBus(context, x1, y1, x2, y2) {
   w = canvasInfo.busWidth;
   h = canvasInfo.busWidth;
 
+  context.save();
+
   context.fillStyle = '#5b9bd5';
 
   if ( x1 == x2 ) {
@@ -697,6 +756,8 @@ function drawBus(context, x1, y1, x2, y2) {
   }
 
   context.fillRect(x, y, w, h);
+
+  context.restore();
 }
 
 //
@@ -1198,14 +1259,7 @@ function runCode() {
   var c = document.getElementById("processor-canvas");
   var ctx = c.getContext("2d");
 
-  drawRegisterValue("MAR", "", ctx);
-  drawRegisterValue("MDR", "", ctx);
-  drawRegisterValue("CIR", "", ctx);
-  drawRegisterValue("PC", "00", ctx);
-  drawRegisterValue("SR", "", ctx);
-  drawRegisterValue("ACC", "", ctx);
-  drawRegisterValue("INP", "", ctx);
-  drawRegisterValue("OUT", "", ctx);
+  drawCPU(ctx)
 
 }
 
@@ -1337,11 +1391,7 @@ function fetchInstruction() {
   var c = document.getElementById("processor-canvas");
   var ctx = c.getContext("2d");
 
-  var formattedPC = programCounter.toString();
-  formattedPC = programCounter.toString();
-  if (formattedPC.length < 2){
-    formattedPC = "0" + formattedPC;
-  }
+  let formattedPC = programCounter.toString().padStart(2, "0");
 
   if (numSubStages == 3) {
     if (settingSpeed != speeds.SUPERFAST) {
@@ -1387,10 +1437,7 @@ function fetchInstruction() {
     clearInterval(intervalHandle);
   }
   
-  formattedPC = programCounter.toString();
-  if (formattedPC.length < 2){
-    formattedPC = "0" + formattedPC;
-  }
+  formattedPC = programCounter.toString().padStart(2, "0");
 
   var c = document.getElementById("processor-canvas");
   var ctx = c.getContext("2d");
@@ -1698,11 +1745,7 @@ function executeInstruction() {
     allHalt();
   }
   
-  formattedPC = programCounter.toString();
-  if (formattedPC.length < 2){
-    formattedPC = "0" + formattedPC;
-  }
-  //document.getElementById("proc-pc").innerHTML="Program Counter: " + formattedPC;
+  formattedPC = programCounter.toString().padStart(2, "0");
 
   //
   // For the moment, just stop when the PC hits 99
@@ -2158,19 +2201,8 @@ function assembleCode() {
   //
   // Refresh the CPU diagram
   //  
-  formattedPC = programCounter.toString().padStart(2, "0");
 
-  drawRegisterValue("MAR", memoryAddressRegister, ctx);
-  drawRegisterValue("MDR", memoryDataRegister, ctx);
-  drawRegisterValue("CIR", currentInstructionRegister, ctx);
-  drawRegisterValue("PC", formattedPC, ctx);
-  drawRegisterValue("SR", statusRegister, ctx);
-  drawRegisterValue("ACC", accumulator, ctx);
-
-  drawRegisterValue("ALU", "", ctx);
-  drawRegisterValue("INP", "", ctx);
-  drawRegisterValue("OUT", "", ctx);
-  drawRegisterValue("DECODER", "", ctx);
+  drawCPU(ctx);
 
   return;
 }
@@ -2639,8 +2671,10 @@ function loadExample() {
         codetabledata = codetabledata1;
       } else if (exampleRadioButtons[i].value == 2) {
         codetabledata = codetabledata2;
-      } else {
+      } else if (exampleRadioButtons[i].value == 3) {
         codetabledata = codetabledata3;
+      } else {
+        codetabledata = codetabledata4;
       }
 
       while (codetabledata.length < 100) {
@@ -2704,6 +2738,10 @@ function canvasHitCheck(x, y) {
   let hitRegister = false;
   let description = "None";
 
+  let tooltipX = x;
+  let tooltipY = y;
+  let tooltipWidth = canvasInfo.width/1.5;
+
   //
   // If we are currently running, do not allow the 'tooltip' to
   // be shown
@@ -2711,9 +2749,15 @@ function canvasHitCheck(x, y) {
   if ((state == states.RUNNING.ACTIVE) ||
       (state == states.RUNNING.BLOCKEDONINPUT) ||
       (state == states.RUNNING.PAUSED) ||
-      (state == states.RUNNING.STOPPING)) {
+      (state == states.RUNNING.STOPPING) ||
+      (state == states.STOPPED)) {
     return;
   }
+
+  // Work out some adjustment values based on the canasInfo size
+  yoffset1 = canvasInfo.height/6;
+  yoffset2 = canvasInfo.height/4;
+  yoffset3 = canvasInfo.height/3;
 
   //
   // Check whether the user clicked on a register, and if so, which
@@ -2730,18 +2774,27 @@ function canvasHitCheck(x, y) {
  
   if (x >= x1 && x <= x1+canvasInfo.regWidth) {
 
+    //
+    // Left-hand column, move tooltip slightly to the right
+    // Adjust the Y position depending on which register was clicked
+    //
+    tooltipX += 20;
+
     if (y >= y1 && y <= y1+canvasInfo.regHeight) {
-      description = "Program Counter\nThe Program Counter contains the address of the next instruction to be fetched from memory.\nIf you watch carefully, you will see that the Program Counter immediately increments by one as soon as an instruction is read from the memory.";
+      description = "Program Counter\nThe Program Counter contains the address of the next instruction to be fetched from memory.\nIf you watch carefully as a program is running, you will see that the PC immediately increments by one as soon as an instruction is read from Memory.\nThe Branching instructions ('BRA', 'BRZ', and 'BRP') can change the value in the PC, causing program execution to 'jump' to the new address in Memory.";
       hitRegister = true;
     } else if (y >= y2 && y <= y2+canvasInfo.regHeight) {
-      description = "Current Instruction Register\nThe Current Instruction Register contains the last instruction fetched from memory.  Before the instruction can be executed, it must be decoded into a set of signals which will determine how the other components of the CPU will work together.";
+      description = "Current Instruction Register\nThe Current Instruction Register contains the last instruction fetched from Memory via the MDR.  Before the instruction can be executed, it must be decoded into a set of signals by the DECODER component.";
       hitRegister = true;
+      tooltipY -= yoffset1;
     } else if (y >= y3 && y <= y3+canvasInfo.regHeight) {
-      description = "DECODER";
+      description = "Decoder\nThe Decoder takes the instruction code from the CIR and turns it into a set of signals to control the execution of the instruction.";
       hitRegister = true;
+      tooltipY -= yoffset2;
     } else if (y >= y4 && y <= y4+canvasInfo.regHeight) {
-      description = "INPUT\nThe 'mailbox' used to move user input in to the Accumulator";
+      description = "Input\nThe 'mailbox' used to hold user input before it is moved to the Accumulator.  When an 'INP' instruction is executed, the user is prompted to enter a value which will be placed into this 'mailbox' and then moved into the Accumulator.";
       hitRegister = true;
+      tooltipY -= yoffset3;
     }
 
   //
@@ -2750,28 +2803,45 @@ function canvasHitCheck(x, y) {
   //
   } else if (x >= x2 && x <= x2+canvasInfo.regWidth) {
 
+    //
+    // Middle column, move tooltip to the left
+    // Adjust the Y position depending on which register was clicked
+    //
+    tooltipX -= tooltipWidth/2;
+
     if (y >= y3 && y <= y3+canvasInfo.regHeight) {
-      description = "ALU\nArithmetic and Logic Unit";
+      description = "Arithmetic and Logic Unit\nThe Arithmetic and Logic Unit is responsible for the 'ADD' and 'SUB' operations.  In a modern processor, the ALU would be much more complex of course, but the Little Man Computer instruction set only has these two arithmetic operations.";
       hitRegister = true;
+      tooltipY -= yoffset2;
     } else if (y >= y4 && y <= y4+canvasInfo.regHeight) {
-      description = "ACC\nAccumulator";
+      description = "Accumulator\nThe Accumulator normally holds the result of the latest opertion carried out by the ALU, but a value can also be directly loaded into the Accumulator from Memory, using the 'LDA' instruction.  We can also write the current value of the Accumulator into Memory using the 'STA' instruction.  Finally, the Accumulator can be loaded from user input (the 'INP' instruction) or used as output to the user (the 'OUT' instruction).";
       hitRegister = true;
+      tooltipY -= yoffset3;
     }
 
   } else if (x >= x3 && x <= x3+canvasInfo.regWidth) {
 
+    //
+    // Right-hand column, move tooltip significantly to the left
+    // Adjust the Y position depending on which register was clicked
+    //
+    tooltipX -= tooltipWidth + 20;
+
     if (y >= y1 && y <= y1+canvasInfo.regHeight) {
-      description = "MAR\nMemory Address Register";
+      description = "Memory Address Register\nThe Memory Address Register holds an address for a Memory location which is about to be read from, or written to.  In a read operation (which could be fetching an instruction or reading data), the value at the memory address will be retrieved and placed in the MDR.  In a write operation (as part of an 'STA' instruction), the value in the MDR will be written to Memory at this address.";
       hitRegister = true;
     } else if (y >= y2 && y <= y2+canvasInfo.regHeight) {
-      description = "MDR\nMemory Data Register";
+      description = "Memory Data Register\nThe Memory Data Register holds a value which has either been read from Memory, or which is about to be written to Memory.  It is important to note that this value can be either an instruction or data.  In the case of an instruction, this will always have been read from Memory as part of the Fetch-Execute-Decode cycle.  In the case of data, the value may have been read from memory (in an 'LDA', 'SUB' or 'ADD' instruction) or be written to Memory (in an 'STA' instruction).";
       hitRegister = true;
+      tooltipY -= yoffset1;
     } else if (y >= y3 && y <= y3+canvasInfo.regHeight) {
-      description = "SR\nStatus Register";
+      description = "Status Register\nThe Status Register is an important component in any modern processor.  When the ALU has completed an operation, the Status Register is updated with information about that operation.  In this simulator, only three bits are used: the Least Significant Bit (bit 0) is an overflow flag - if the result of an addition is greater than 999, or the result of a subtraction is less than -999, this flag will be set to 1.  Bit 1 is used to record whether the result of an operation is zero, and bit 2 is used to record whether the result of an operation is positive (zero or more).  Bits 1 and 2 are used in the 'BRZ' and 'BRP' operations.";
       hitRegister = true;
+      tooltipY -= yoffset2;
     } else if (y >= y4 && y <= y4+canvasInfo.regHeight) {
-      description = "OUTPUT\nThe 'mailbox' used to hold output from the Accumulator";
+      description = "Output\nThe 'mailbox' used to hold output from the Accumulator.  When an 'OUT' instruction is executed, the value currently held in the Accumulator is moved into this mailbox and then displayed to the user.";
       hitRegister = true;
+      tooltipY -= yoffset3;
     }
   }
 
@@ -2783,7 +2853,14 @@ function canvasHitCheck(x, y) {
 
       ctx.save();
       ctx.font = canvasInfo.font;
-      writeDescription(ctx, description, x, y, 400, 24);
+
+      //
+      // Approximation - use the width of a capital 'M' as a proxy for font height
+      //
+      let lineHeight = (ctx.measureText('MM').width);
+      console.log(lineHeight);
+
+      writeDescription(ctx, description, tooltipX, tooltipY, tooltipWidth, lineHeight);
       ctx.restore();
 
       cpuTooltipVisible = true;
@@ -2794,19 +2871,22 @@ function canvasHitCheck(x, y) {
     let c = document.getElementById('processor-canvas');
     let ctx = c.getContext('2d');
 
-    ctx.clearRect(0, 0, c.width, c.height);
-
     cpuTooltipVisible = false;
     
     drawCPU(ctx);
 
     if (hitRegister) {
-      let c = document.getElementById('processor-canvas');
-      let ctx = c.getContext('2d');
 
       ctx.save();
       ctx.font = canvasInfo.font;
-      writeDescription(ctx, description, x, y, 400, 24);
+
+      //
+      // Approximation - use the width of a capital 'M' as a proxy for font height
+      //
+      let lineHeight = (ctx.measureText('MM').width);
+      console.log(lineHeight);
+
+      writeDescription(ctx, description, tooltipX, tooltipY, tooltipWidth, lineHeight);
       ctx.restore();
 
       cpuTooltipVisible = true;
@@ -2817,19 +2897,10 @@ function canvasHitCheck(x, y) {
 
 //
 // Improvements required:
-// 1. Draw an outline rectangle around all of the text (calculate coordinates
-//    using x, y, line_width and line_height * line count)
-// 2. We should calculate the line_height above, from the font in canvasInfo
-// 3. We should also calculate the 'safe' x, y values to pass through from
-//    the clicked position and the size of the canvas - make sure that the
-//    'popup' fits on the canvas
-// 4. DONE. We should also be smarter about the second click - we can disappear the
-//    'popup' if this does not hit a register, otherwise just redraw and then
-//    add the new 'popup'.
-// 5. We need to make sure that we clear out the 'popup' when we start or
-//    resume running.
-// 6. We should make sure that we redraw the register values when we call 
-//    drawCPU - perhaps we could just factor that into drawCPU?
+// The background drawing fails at smaller canvas sizes, as it overlaps the line of
+// text above, making it unreadable.  I think I need to build up a list of text lines
+// to be printed, then figure out and draw the bounding rect, background rect, and
+// then render the text on top of that.
 //
 function writeDescription(context, text, x, y, line_width, line_height)
 {
