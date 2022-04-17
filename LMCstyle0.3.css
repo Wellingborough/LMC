@@ -144,6 +144,25 @@ body {
   background-color: #0099cc;
 }
 
+.icon-button {
+  background-color: #9933cc; /* Dark Purple */
+  border: none;
+  color: #fecef7; /* Light Purple */
+  padding: 12px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 2px;
+  font-weight: bold;
+  margin: 0px 0px;
+  height: 100%;
+}
+
+.icon-button:hover {
+  background-color: #7711aa;
+}
+
 .button {
   background-color: #fecef7; /* Light Purple */
   border: none;
@@ -217,6 +236,21 @@ canvas {
 }
 
 
+#instruction-set-table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#instruction-set-table td, th{
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+#instruction-set-table tr:nth-child(even){
+  background-color: #dddddd;
+}
 
 
 
@@ -236,7 +270,7 @@ canvas {
   position: relative; 
 /*  background-color: #fecef7; */
   background-color: #ffffff;
-  padding: 20px; 
+  padding: 10px; 
   margin: auto; 
   width: 50%;  
   -webkit-animation-name: animatetop;
@@ -276,3 +310,4 @@ canvas {
   to {top:0; opacity:1}
 }
 /* remove to here*/
+
