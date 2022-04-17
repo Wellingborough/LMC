@@ -38,11 +38,11 @@
       <div class="row header" id="div-hdr" style="display:flex; flex-direction:row; margin-top:-4px; margin-bottom: -4px; margin-left:10px; margin-right:10px; flex-wrap: nowrap; justify-content: flex-start; align-items: center;">
         <p>Little Man Computer Simulation</p>
         <div style="margin-left: auto;">
-          <button id="save-btn" class="button" onclick="saveCode()"><i class="fa-solid fa-file-arrow-up fa-2x"></i></button>
-          <button id="load-btn" class="button" onclick="printCode()"><i class="fa-solid fa-file-arrow-down fa-2x"></i></button>
-          <button id="print-btn" class="button" onclick="printCode()"><i class="fa-solid fa-print fa-2x"></i></button>
-          <button id="about-modal-btn" class="button"><i class="fa-solid fa-circle-info fa-2x"></i></button>
-          <button id="settings-modal-btn" class="button"><i class="fa-solid fa-gear fa-2x"></i></button>
+          <button id="save-btn" class="icon-button" title="Save program to file" onclick="saveCode()"><i class="fa-solid fa-file-arrow-down fa-lg"></i></button>
+          <button id="hide-load-btn" class="icon-button" title="Load program from file" onclick="document.getElementById('load-btn').click()"><i class="fa-solid fa-file-arrow-up fa-lg"></i></button>
+          <button id="print-btn" class="icon-button" title="Print program to PDF" onclick="printCode()"><i class="fa-solid fa-print fa-lg"></i></button>
+          <button id="about-modal-btn" class="icon-button" title="About"><i class="fa-solid fa-circle-info fa-lg"></i></button>
+          <button id="settings-modal-btn" class="icon-button" title="Settings"><i class="fa-solid fa-gear fa-lg"></i></button>
         </div>
       </div>
 
@@ -51,12 +51,9 @@
         <div class="resize-drag" id="codetableholder" style="min-width:300px; width:350px; max-width:700px; margin:0px;">
           <div class="row content" id="code-table" style="flex: 1;" ></div>
           <div class="footer" id="code-table-buttons" class="footer" style="position:absolute; bottom:0; display:flex; gap:20px; align-items: center; flex: 1;">
-            <button id="hide-load-btn" class="button" onclick="document.getElementById('load-btn').click()">Load</button>
             <input id="load-btn" type="file" style="display:none;">
-            <input id="save-btn" type="button" class="button" value="Save" onclick="saveCode()">
-            <button id="print-btn" class="button" onclick="printCode()">Print</button>
             <button id="assemble-button" class="button" onclick="assembleCode()">Assemble</button>
-            <button id="help-modal-btn" class="button" style="position:right">Help</button>
+            <button id="clear-button" onclick="clearCode()" class="button">Clear</button>
           </div>
         </div>
 
@@ -105,8 +102,9 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close-btn" id="settings-close-btn" onclick="cancelSettings()">&times;</button>
-            <h4 class="modal-title">LMC Simulation Settings</h4>
+            <i class="fa-solid fa-gear fa-2x" style="margin: 8px 8px;"></i>
+            <button class="icon-button" id="settings-close-btn" style="float: right;"onclick="cancelSettings()"><i class="fa-solid fa-circle-xmark fa-2x"></i></button>
+            <h4 class="modal-title" style="margin-left: 8px;">LMC Simulation Settings</h4>
           </div>
           <div class="modal-body">
             <input type="checkbox" name="showDataFlows" value="1" checked>
@@ -132,8 +130,9 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close-btn" id="examples-close-btn">&times;</button>
-            <h4 class="modal-title">LMC Example Programs</h4>
+            <i class="fa-solid fa-file-code fa-2x" style="margin: 8px 8px;"></i>
+            <button class="icon-button" id="examples-close-btn" style="float: right;"><i class="fa-solid fa-circle-xmark fa-2x"></i></button>
+            <h4 class="modal-title" style="margin-left: 8px;">LMC Example Programs</h4>
           </div>
           <div class="modal-body">
             <p>Select an example to load:</p>
@@ -167,8 +166,9 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close-btn" id="help-close-btn">&times;</button>
-            <h4 class="modal-title">LMC Editor Help</h4>
+            <i class="fa-solid fa-pen-to-square fa-2x" style="margin: 8px 8px;"></i>
+            <button class="icon-button" id="help-close-btn" style="float: right;"><i class="fa-solid fa-circle-xmark fa-2x"></i></button>
+            <h4 class="modal-title" style="margin-left: 8px;">LMC Editor Help</h4>
           </div>
           <div class="modal-body">
 <p>
@@ -218,8 +218,9 @@ The Print button will create and download a PDF version of the current program.
     <div class="modal" id="about-modal">
       <div class="modal-content">
         <div class="header">
-          <button type="button" class="close-btn" id="about-close-btn">&times;</button>
-          <p>About the Little Man Computer</p>
+          <i class="fa-solid fa-circle-info fa-2x" style="margin: 8px 8px;"></i>
+          <button class="icon-button" id="about-close-btn" style="float: right;"><i class="fa-solid fa-circle-xmark fa-2x"></i></button>
+          <h4 class="modal-title" style="margin-left: 8px;">About the Little Man Computer</h4>
         </div>
         <div>
           <h3>An Introduction to the LMC</h3>
@@ -248,11 +249,103 @@ below for more information.
         </div>
         <div class="modal-footer">
           <button id="rabout-close-btn" class="button" onclick="closeAbout()">Close</button>
+          <button id="instruction-set-modal-btn" class="button">Instruction Set</button>
           <button id="examples-modal-btn" class="button">Examples</button>
+          <button id="help-modal-btn" class="button">Editor Help</button>
         </div>
       </div>
     </div>
 
+
+    <!-- Instruction Set modal      -->
+    <div class="modal" id="instruction-set-modal">
+      <div class="modal-content">
+        <div class="header">
+          <i class="fa-solid fa-table-list fa-2x" style="margin: 8px 8px;"></i>
+          <button class="icon-button" id="instruction-set-close-btn" style="float: right;"><i class="fa-solid fa-circle-xmark fa-2x"></i></button>
+          <h4 class="modal-title" style="margin-left: 8px;">Little Man Computer Instruction Set</h4>
+        </div>
+        <div>
+          <table id="instruction-set-table">
+            <tr>
+              <th>Instruction</th> 
+              <th>Mnemonic</th> 
+              <th>Machine Code</th> 
+              <th>Explanation</th> 
+            </tr>
+            <tr>
+              <td>Load Accumulator</td> 
+              <td>LDA</td> 
+              <td>5xx</td> 
+              <td>Load the contents of the given memory address (xx) into the Accumulator</td> 
+            </tr>
+            <tr>
+              <td>Store Accumulator</td> 
+              <td>STA</td> 
+              <td>3xx</td> 
+              <td>Store the contents of the Accumulator at the given memory address (xx)</td> 
+            </tr>
+            <tr>
+              <td>Add</td> 
+              <td>ADD</td> 
+              <td>1xx</td> 
+              <td>Add the contents of the given memory address (xx) to the value in the Accumulator</td> 
+            </tr>
+            <tr>
+              <td>Subtract</td> 
+              <td>SUB</td> 
+              <td>2xx</td> 
+              <td>Subtract the contents of the given memory address (xx) from the value in the Accumulator</td> 
+            </tr>
+            <tr>
+              <td>Input</td> 
+              <td>INP</td> 
+              <td>901</td> 
+              <td>Copy the value from the Input 'mailbox' into the Accumulator</td> 
+            </tr>
+            <tr>
+              <td>Output</td> 
+              <td>OUT</td> 
+              <td>902</td> 
+              <td>Copy the value from the Accumulator into the Output 'mailbox'</td> 
+            </tr>
+            <tr>
+              <td>Branch</td> 
+              <td>BRA</td> 
+              <td>6xx</td> 
+              <td>Branch (jump) to the instruction at the given memory address (xx)</td> 
+            </tr>
+            <tr>
+              <td>Branch if positive</td> 
+              <td>BRP</td> 
+              <td>8xx</td> 
+              <td>If the value in the Accumulator is positive (including zero), then branch to the instruction at the given memory address (xx)</td> 
+            </tr>
+            <tr>
+              <td>Branch if zero</td> 
+              <td>BRZ</td> 
+              <td>7xx</td> 
+              <td>If the value in the Accumulator is zero, then branch to the instruction at the given memory address (xx)</td> 
+            </tr>
+            <tr>
+              <td>Halt</td> 
+              <td>HLT</td> 
+              <td>000</td> 
+              <td>Stop execution of the program</td> 
+            </tr>
+            <tr>
+              <td>Data</td> 
+              <td>DAT</td> 
+              <td>value of the data</td> 
+              <td>Indicates that the current memory address holds a data value</td> 
+            </tr>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button id="instruction-set-close-btn" class="button" onclick="closeInstructionSet()">Close</button>
+        </div>
+      </div>
+    </div>
 
 
     <script>
@@ -299,6 +392,18 @@ below for more information.
         }
       }
 
+      let instructionSetModalBtn = document.getElementById("instruction-set-modal-btn")
+      let instructionSetModal = document.getElementById("instruction-set-modal")
+      let instructionSetCloseBtn = document.getElementById("instruction-set-close-btn")
+
+      instructionSetModalBtn.onclick = function(){
+        aboutModal.style.display = "none"
+        instructionSetModal.style.display = "block"
+      }
+
+      instructionSetCloseBtn.onclick = function(){
+        instructionSetModal.style.display = "none"
+      }
 
       //
       // Foundation work for clickable processor schematic
@@ -331,6 +436,7 @@ below for more information.
       let helpCloseBtn = document.getElementById("help-close-btn")
 
       helpModalBtn.onclick = function(){
+        aboutModal.style.display = "none"
         helpModal.style.display = "block"
       }
 
