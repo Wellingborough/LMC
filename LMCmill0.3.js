@@ -329,7 +329,7 @@ function filltable() {
   // from data for example.
   //
   table1 = new Tabulator("#code-table", {
-    maxHeight:"88vh", // set height of table (in CSS or here)
+    maxHeight:"90vh", // set height of table (in CSS or here)
     data:codetabledata, //assign data to table
     tabEndNewRow:true,
     history:true,
@@ -2509,7 +2509,7 @@ function handleFile() {
         let labelVal = "";
         let operatorVal = "";
         let operandVal = "";
-
+        
         if (lineNumbers){
           if (operatorIndex==1) {
             if (elements.length==2) {
@@ -2578,6 +2578,13 @@ function handleFile() {
           }
           newData.push({id:(i+1), active:"-", line:lineVal, label:labelVal, operator:operatorVal, operand:operandVal});
         } 
+      }
+      else {
+        //
+        // Blank line found - just push it...
+        //
+        lineVal = i.toString().padStart(2, "0");
+        newData.push({id:(i+1), active:"-", line:lineVal, label:"", operator:"", operand:""});
       }
       changeState(states.UNASSEMBLED);
     }
@@ -2979,4 +2986,17 @@ function writeDescription(context, text, x, y, line_width, line_height)
   context.strokeStyle = '#999999';
   context.strokeRect(orig_x-10, orig_y-30, line_width+10, (line_height*line_count)+20);
 
+}
+
+function clearCode(){
+  var codetabledata = [
+    {id:1,  active:"-", line:"00", label:"", operator:"", operand:""},
+  ];
+
+  while (codetabledata.length < 100) {
+    let newrowno = codetabledata.length+1
+    codetabledata.push({id:newrowno, active:"-", line:(newrowno-1).toString().padStart(2, "0"), label:"", operator:"", operand:""});
+  }
+
+  table1.setData(codetabledata);
 }
