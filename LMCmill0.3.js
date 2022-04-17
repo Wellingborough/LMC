@@ -318,14 +318,26 @@ function filltable() {
   // Look at the column width settings again when I have time - the current
   // approach to setting a narrow and fixed active column is a bit hacky.
   //
+  // dowload is set to false on the active column to exclude it from the
+  // PDF produced for printing.
+  //
+  // We should also look at downloadDataFormatter in Tabulator as a way of
+  // removing the blank lines from the download data before passing it to
+  // jsPDF.  I think we could start at line 99 and remove the current line
+  // if label/operator/operand are all blank.  Stopping when we find anything
+  // that is not blank - this should protect any blank lines separating code
+  // from data for example.
+  //
   table1 = new Tabulator("#code-table", {
     maxHeight:"88vh", // set height of table (in CSS or here)
     data:codetabledata, //assign data to table
     tabEndNewRow:true,
     history:true,
     layout:"fitColumns", //fit columns to width of table (optional)
+//    printAsHtml: true,
+//    printHeader: "<h1>LMC Program</h1>",
     columns:[ 
-      {title:"", field:"active", formatter:"traffic", formatterParams:{min:1, max:3, color:["green", "orange", "red"]}, width:25, maxWidth:25, minWidth:25, hozAlign:"center", headerSort:false},
+      {title:"", field:"active", formatter:"traffic", formatterParams:{min:1, max:3, color:["green", "orange", "red"]}, width:25, maxWidth:25, minWidth:25, hozAlign:"center", headerSort:false, download:false},
       {title:"Line", field:"line", width:"10%", widthShrink:3, headerSort:false},
       {title:"Label", field:"label", width:"20%", widthShrink:6, hozAlign:"left", editor:true, headerSort:false},
       {title:"Operator", field:"operator", width:"30%", widthShrink:4, editor:true, headerSort:false},
@@ -1148,6 +1160,14 @@ function printCode(){
         title:"LMC Program", //add title to report
   });
 }
+
+//
+// HTML version - need to uncomment two lines in the table1 constructor call
+//
+//function printCode(){
+//  table1.print(false, true);
+//}
+
 
 //
 // LMC Instruction Set
