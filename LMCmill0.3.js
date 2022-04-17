@@ -2923,19 +2923,16 @@ function canvasHitCheck(x, y) {
 }
 
 //
-// Improvements required:
-// The background drawing fails at smaller canvas sizes, as it overlaps the line of
-// text above, making it unreadable.  I think I need to build up a list of text lines
-// to be printed, then figure out and draw the bounding rect, background rect, and
-// then render the text on top of that.
+// Split the text into lines which are a maximum of line_width in
+// length, then render them as a sort of tooltip.
 //
 function writeDescription(context, text, x, y, line_width, line_height)
 {
   var line_count = 0;
   var line = '';
   var paragraphs = text.split('\n');
-  var orig_x = x;
-  var orig_y = y;
+
+  var text_lines = [];
   
   for (var i = 0; i < paragraphs.length; i++) {
     var words = paragraphs[i].split(' ');
@@ -2944,38 +2941,14 @@ function writeDescription(context, text, x, y, line_width, line_height)
       var metrics = context.measureText(testLine);
       var testWidth = metrics.width;
       if (testWidth > line_width && n > 0) {
-        //  Draw a bounding box...
-        context.globalAlpha=0.9;
-        context.fillStyle = '#eeeeee';
-        yoffset = 20;
-        if (line_count ==0) {
-          yoffset = 30;
-        }
-        context.fillRect(x-10, y-yoffset, line_width+10, line_height);
-        context.fillStyle = '#000000';
-        context.globalAlpha=1.0;
-        context.fillText(line, x, y);
+        text_lines.push(line);
         line = words[n] + ' ';
-        y += line_height;
         line_count += 1;
       } else {
         line = testLine;
       }
     }
-
-    //  Draw a bounding box...
-    context.globalAlpha=0.9;
-    context.fillStyle = '#eeeeee';
-    yoffset = 20;
-    if (line_count == 0) {
-      yoffset = 30;
-    }
-    context.fillRect(x-10, y-yoffset, line_width+10, line_height+10);
-    context.globalAlpha=1.0;
-    context.fillStyle = '#000000';
-    // Write the new value
-    context.fillText(line, x, y);
-    y += line_height;
+    text_lines.push(line);
     line_count += 1;
     line = '';
   }
@@ -2983,10 +2956,26 @@ function writeDescription(context, text, x, y, line_width, line_height)
   //
   // Draw a bounding rectangle to give the tooltip some definition
   //
-  context.strokeStyle = '#999999';
-  context.strokeRect(orig_x-10, orig_y-30, line_width+10, (line_height*line_count)+20);
 
+  // Offset to give a little blank space at the top of the tooltip
+  yoffset = canvasInfo.height/18;
+
+  context.strokeStyle = '#999999';
+  context.strokeRect(x-10, y-yoffset, line_width+10, (line_height*line_count)+20);
+
+  context.globalAlpha=0.9;
+  context.fillStyle = '#eeeeee';
+  context.fillRect(x-10, y-yoffset, line_width+10, (line_height*line_count)+20);
+  context.fillStyle = '#000000';
+  context.globalAlpha=1.0;
+
+  for (var i = 0; i < text_lines.length; i++) {
+    context.fillText(text_lines[i], x, y);
+    line = words[n] + ' ';
+    y += line_height;
+  }
 }
+
 
 function clearCode(){
   var codetabledata = [
