@@ -1,3 +1,8 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="LMC, Little Man Computer, CPU, Simulator, Simulation, Emulator, Emulation, Central, Processor, Processing, Unit, ALU, MAR, MDR, CU">
+    <meta name="description" content="Little Man Computer (LMC) Simulator">
+</head>
 # LMC
 ## Wellingborough School - Little Man Computer Simulator
 This site contains a prototype implementation of the [Little Man Computer](https://en.wikipedia.org/wiki/Little_man_computer)
