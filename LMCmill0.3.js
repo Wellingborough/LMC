@@ -1984,8 +1984,9 @@ function readMemory(addressString){
     previousHighlightRow = highlightrow;
     previousHighlightCellName = colref;
   }
-
-  return(memorycontentdata);
+  // Force memory content to string.  Testing the Quine exposed a problem with values
+  // stored as numbers...
+  return(memorycontentdata.toString());
 }
 
 
