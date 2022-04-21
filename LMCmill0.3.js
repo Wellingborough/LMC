@@ -334,8 +334,6 @@ function filltable() {
     tabEndNewRow:true,
     history:true,
     layout:"fitColumns", //fit columns to width of table (optional)
-//    printAsHtml: true,
-//    printHeader: "<h1>LMC Program</h1>",
     columns:[ 
       {title:"", field:"active", formatter:"traffic", formatterParams:{min:1, max:3, color:["green", "orange", "red"]}, width:25, maxWidth:25, minWidth:25, hozAlign:"center", headerSort:false, download:false},
       {title:"Line", field:"line", width:"10%", widthShrink:3, headerSort:false},
@@ -795,10 +793,11 @@ function animateBus(context, operation) {
 function animateBus2(context, operation, erase) {
 
   let os = 6;
-
   let points = [];
   let points2 = [];
 
+  context.save();
+  
   context.lineWidth = 6;
   context.lineCap = "round";
   context.lineJoin = "round";
@@ -1037,6 +1036,7 @@ function animateBus2(context, operation, erase) {
     }
     context.stroke();
   }
+  context.restore();
 }
 
 
@@ -1097,6 +1097,16 @@ function processInput(){
       return;
     }
 
+    var trial = parseInt(userInput)
+    
+    if (trial > 999 or trial < -999) {
+      let logobj=document.getElementById("log-text");
+      logobj.value += "> ERROR:  Invalid input value.  Must be between -999 and +999\n";
+      logobj.scrollTop = logobj.scrollHeight;
+      return;
+    }
+
+    
     let logobj=document.getElementById("log-text");
     logobj.value += "> EXECUTE:  Transferring input to accumulator: " + userInput + "\n";
     logobj.scrollTop = logobj.scrollHeight;
