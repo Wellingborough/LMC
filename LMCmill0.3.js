@@ -1099,7 +1099,7 @@ function processInput(){
 
     var trial = parseInt(userInput)
     
-    if (trial > 999 or trial < -999) {
+    if ((trial > 999) || (trial < -999)) {
       let logobj=document.getElementById("log-text");
       logobj.value += "> ERROR:  Invalid input value.  Must be between -999 and +999\n";
       logobj.scrollTop = logobj.scrollHeight;
