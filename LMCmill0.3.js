@@ -658,6 +658,8 @@ function drawRegisterValue(register, value, context) {
   let x = 10;
   let y = 10;
   let mainColour = "#CCCCCC";
+  
+  context.save();
 
   if (register == "MAR"){
     x = canvasInfo.x_offset + 2*canvasInfo.x_increment;
@@ -740,6 +742,7 @@ function drawRegisterValue(register, value, context) {
 
   context.fillText(value, x+x_offset, y+y_offset);
 
+  context.restore();
 }
 
 function drawBus(context, x1, y1, x2, y2) {
