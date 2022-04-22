@@ -1959,8 +1959,6 @@ function assembleCode() {
   // First pass - construct symbol table and check OpCodes
   //
   for (let i=0; i < code.length; i++) {
-    code[i]['active'] = '-';
-
     currentLine = code[i];
     // console.log(currentLine);
 
