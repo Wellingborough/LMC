@@ -1168,10 +1168,13 @@ function printCode(){
   var data = table1.getData();
   var lastLine = 99;
 
+  // Deselect all rows
+  table1.deselectRow();
+  
   for (i=99; i>0; i--) {
     var row = data[i];
     if ((row['label'] != "") || (row['operator'] != "") || (row['operand'] != "")) {
-      lastLine = i;
+      lastLine = i + 1;
       break;
     }
   }
