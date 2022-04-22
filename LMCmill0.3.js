@@ -1020,6 +1020,13 @@ function animateBus2(context, operation, erase) {
     }
     context.stroke();
   }
+  
+  //
+  // Clear path for future drawing
+  //
+  context.beginPath();
+  context.closePath();
+
   context.restore();
 }
 
