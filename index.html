@@ -9,6 +9,21 @@
     <meta name="author" content="Mark Gamble">
     <title>Little Man Computer</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+    </style>
   </head> 
   <body style="font-family: Lato">
     <div>
@@ -21,13 +36,72 @@
       <p>My intention was to create a simple-to-use web application which would help students to program in the LMC language.<br />
       <p>The app features a clickable CPU diagram which is animated when an LMC program executes, showing the values in the main registers, data flows within the CPU, and memory read and write activity.</p>
       <p><img src="images/CPUSchematic.png" alt="Picture of the CPU schematic, showing the ALU, Program Counter, Current Instruction Register and other components, along with the information flows between them" width="600" style="border: 2px solid #555;"></p>
+      <p>Clicking on a register when the program is not running will display a brief description.  The registers shown are:<p>
+      <table>
+        <tr>
+          <th>Register</th>
+          <th>Name</th>
+          <th>Purpose</th>
+        </tr>
+        <tr>
+          <td>PC</td>
+          <td>Program Counter</td>
+          <td>The Program Counter contains the address of the next instruction to be fetched from memory.  If you watch carefully as a program is running, you will see that the PC immediately increments by one as soon as an instruction is read from Memory.  The Branching instructions ('BRA', 'BRZ', and 'BRP') can change the value in the PC, causing program execution to 'jump' to the new address in Memory.</td>
+        </tr>
+        <tr>
+          <td>CIR</td>
+          <td>Current Instruction Register</td>
+          <td>The Current Instruction Register contains the last instruction fetched from Memory via the MDR.  Before the instruction can be executed, it must be decoded into a set of signals by the DECODER component</td>
+        </tr>
+        <tr>
+          <td>Decoder</td>
+          <td>Decoder</td>
+          <td>The Decoder takes the instruction code from the CIR and turns it into a set of signals to control the execution of the instruction.</td>
+        </tr>
+        <tr>
+          <td>Input</td>
+          <td>Input Mailbox</td>
+          <td>The 'mailbox' used to hold user input before it is moved to the Accumulator.  When an 'INP' instruction is executed, the user is prompted to enter a value which will be placed into this 'mailbox' and then moved into the Accumulator.</td>
+        </tr>
+        <tr>
+          <td>ALU</td>
+          <td>Arithmetic and Logic Unit</td>
+          <td>The Arithmetic and Logic Unit is responsible for the 'ADD' and 'SUB' operations.  In a modern processor, the ALU would be much more complex of course, but the Little Man Computer instruction set only has these two arithmetic operations.</td>
+        </tr>
+        <tr>
+          <td>ACC</td>
+          <td>Accumulator</td>
+          <td>The Accumulator normally holds the result of the latest opertion carried out by the ALU, but a value can also be directly loaded into the Accumulator from Memory, using the 'LDA' instruction.  We can also write the current value of the Accumulator into Memory using the 'STA' instruction.  Finally, the Accumulator can be loaded from user input (the 'INP' instruction) or used as output to the user (the 'OUT' instruction)</td>
+        </tr>
+        <tr>
+          <td>MAR</td>
+          <td>Memory Address Register</td>
+          <td>The Memory Address Register holds an address for a Memory location which is about to be read from, or written to.  In a read operation (which could be fetching an instruction or reading data), the value at the memory address will be retrieved and placed in the MDR.  In a write operation (as part of an 'STA' instruction), the value in the MDR will be written to Memory at this address.</td>
+        </tr>
+        <tr>
+          <td>MDR</td>
+          <td>Memory Data Register</td>
+          <td>The Memory Data Register holds a value which has either been read from Memory, or which is about to be written to Memory.  It is important to note that this value can be either an instruction or data.  In the case of an instruction, this will always have been read from Memory as part of the Fetch-Execute-Decode cycle.  In the case of data, the value may have been read from memory (in an 'LDA', 'SUB' or 'ADD' instruction) or be written to Memory (in an 'STA' instruction).</td>
+        </tr>
+        <tr>
+          <td>SR</td>
+          <td>Status Register</td>
+          <td>The Status Register is an important component in any modern processor.  When the ALU has completed an operation, the Status Register is updated with information about that operation.  In this simulator, only three bits are used: the Least Significant Bit (bit 0) is an overflow flag - if the result of an addition is greater than 999, or the result of a subtraction is less than -999, this flag will be set to 1.  Bit 1 is used to record whether the result of an operation is zero, and bit 2 is used to record whether the result of an operation is positive (zero or more).  Bits 1 and 2 are used in the 'BRZ' and 'BRP' operations.</td>
+        </tr>
+        <tr>
+          <td>Output</td>
+          <td>Output Mailbox</td>
+          <td>The 'mailbox' used to hold output from the Accumulator.  When an 'OUT' instruction is executed, the value currently held in the Accumulator is moved into this mailbox and then displayed to the user.</td>
+        </tr>
+      </table>
       <p>The code editor is based on a table design, making it easy to separate labels, operators, and operands</p>
+      <p>When a program is running, the current line of code is shown with a green dot, and the value of variables is updated in the Code Editor as well as in memory<p>
       <p><img src="images/CodeEditor.png" alt="Picture of the LMC Code Editor, with a sample program loaded" style="border: 2px solid #555;"><p>
       <p>Programs can be saved to local disk storage, uploaded from local storage, and converted to PDF for printing (or including in project reports).</p>
       <p>When an LMC program is running, the console provides a summary of each operation.</p>
       <p><img src="images/Console.png" alt="Picture of the LMC Console, showing some status information for a running program" style="border: 2px solid #555;"></p>
       <p>The Little Man Computer simulator app can be found <a href="https://wellingborough.github.io/LMC/LMC0.3.html">here</a></p>
-      <p><img src="images/WholeUI.png" alt="Picture of the LMC full User Interface" width="600" style="border: 2px solid #555;"></p>
+      <p><img src="images/WholeUI.png" alt="Picture of the LMC full User Interface" width="800" style="border: 2px solid #555;"></p>
       <p>If you have any questions or comments on this LMC simulator, please <a href="mailto:mga@wellingboroughschool.org?subject=LMC%20Simulator">contact me</a></p>
       <p>The source code for this LMC simulator is available under the GNU General Public License v3.0.</p>
     </div>
