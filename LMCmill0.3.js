@@ -360,6 +360,7 @@ function filltable() {
         "arrowNavPrev": "37",
     },
     history:true,
+    downloadRowRange:"selected", //print only currently selected rows
   });
 
   table1.on("cellEdited", function(data){ // fired if the user edits the table, but not programmatic changes...
@@ -1161,12 +1162,32 @@ function processInput(){
 
 //
 // Use the jspdf plugin (referenced in the HTML header)
+// Select the rows that we want to print (so that blank lines of code are omitted)
 //
 function printCode(){
+  var data = table1.getData();
+  var lastLine = 99;
+
+  for (i=99; i>0; i--) {
+    var row = data[i];
+    if ((row['label'] != "") || (row['operator'] != "") || (row['operand'] != "")) {
+      lastLine = i;
+      break;
+    }
+  }
+
+  for (i=0; i<=lastLine; i++) {
+    table1.selectRow(i)
+  }
+
   table1.download("pdf", "lmcprogram.pdf", {
         orientation:"portrait", //set page orientation to portrait
         title:"LMC Program", //add title to report
   });
+  
+  for (i=0; i<=lastLine; i++) {
+    table1.deselectRow(i)
+  }
 }
 
 //
