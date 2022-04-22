@@ -1,14 +1,16 @@
 
 //
 // Function to initialise the two tables (code and memory), called on page load
-//  Should change this to an initialisation function as it now includes the canvas
+// Should change this to an initialisation function as it now includes the 
+// canvas
 //
 var table1;
 var table2;
 
 //
-// The following data are used to achieve some automatic scaling of the CPU diagram
-// regWidth and Height are used to scale the registers; busWidth to scale the buses
+// The following data are used to achieve some automatic scaling of the CPU
+// diagram regWidth and Height are used to scale the registers; busWidth to
+// scale the buses
 // The x/y variables are used to position and space the registers on the canvas
 // The lastBusAnimation variable is used to track which animation occurred most
 // recently so that we can remove it after a given period/on next animation
@@ -169,31 +171,39 @@ var codetabledata4 = [
   {id:25, active:"-", line:"24", label:"divisor", operator:"DAT", operand:""},
 ];
 
+//
+// Memory table - styled using CSS so that the 'address' rows
+// are distinguished from the 'data' rows by lighter/darker background colours?
+//
+var blankmemorytabledata = [
+  {id:1,  m0:"00",  m1:"01",  m2:"02",  m3:"03",  m4:"04",  m5:"05",  m6:"06",  m7:"07",  m8:"08",  m9:"09"},
+  {id:2,  m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
+  {id:3,  m0:"10",  m1:"11",  m2:"12",  m3:"13",  m4:"14",  m5:"15",  m6:"16",  m7:"17",  m8:"18",  m9:"19"},
+  {id:4,  m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
+  {id:5,  m0:"20",  m1:"21",  m2:"22",  m3:"23",  m4:"24",  m5:"25",  m6:"26",  m7:"27",  m8:"28",  m9:"29"},
+  {id:6,  m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
+  {id:7,  m0:"30",  m1:"31",  m2:"32",  m3:"33",  m4:"34",  m5:"35",  m6:"36",  m7:"37",  m8:"38",  m9:"39"},
+  {id:8,  m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
+  {id:9,  m0:"40",  m1:"41",  m2:"42",  m3:"43",  m4:"44",  m5:"45",  m6:"46",  m7:"47",  m8:"48",  m9:"49"},
+  {id:10, m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
+  {id:11, m0:"50",  m1:"51",  m2:"52",  m3:"53",  m4:"54",  m5:"55",  m6:"56",  m7:"57",  m8:"58",  m9:"59"},
+  {id:12, m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
+  {id:13, m0:"60",  m1:"61",  m2:"62",  m3:"63",  m4:"64",  m5:"65",  m6:"66",  m7:"67",  m8:"68",  m9:"69"},
+  {id:14, m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
+  {id:15, m0:"70",  m1:"71",  m2:"72",  m3:"73",  m4:"74",  m5:"75",  m6:"76",  m7:"77",  m8:"78",  m9:"79"},
+  {id:16, m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
+  {id:17, m0:"80",  m1:"81",  m2:"82",  m3:"83",  m4:"84",  m5:"85",  m6:"86",  m7:"87",  m8:"88",  m9:"89"},
+  {id:18, m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
+  {id:19, m0:"90",  m1:"91",  m2:"92",  m3:"93",  m4:"94",  m5:"95",  m6:"96",  m7:"97",  m8:"98",  m9:"99"},
+  {id:20, m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
+];
+
 function filltable() {
 
   var codetabledata = [
     {id:1,  active:"-", line:"00", label:"", operator:"", operand:""},
   ];
 
-
-
-//  Tabulator.extendModule("keybindings", "actions", {
-//    "deleteSelectedRows":function(){ //delete selected rows
-//      var rows = this.table.getSelectedRows();
-//
-//      //
-//      // To make this multi-select safe, we should build an array
-//      // of ids for the selected rows, then get the data array
-//      // and use slice to remove the rows, then work through
-//      // and set the ids and linenumbers properly, and finally
-//      // call replaceData() on the table.
-//      //
-//      rows.forEach(function(row){
-//        row.update({'label':"", 'operator':"", 'operand':""});
-//        row.deselect();
-//      });
-//    },
-//  });  
 
   Tabulator.extendModule("keybindings", "actions", {
     "deleteSelectedRows":function(){ //delete selected rows
@@ -361,42 +371,13 @@ function filltable() {
     handleNewRow(row);
   });
 
-  //
-  // Memory table - styled using CSS so that the 'address' rows
-  // are distinguished from the 'data' rows by lighter/darker background colours?
-  //
-  var memorytabledata = [
-    {id:1,  m0:"00",  m1:"01",  m2:"02",  m3:"03",  m4:"04",  m5:"05",  m6:"06",  m7:"07",  m8:"08",  m9:"09"},
-    {id:2,  m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
-    {id:3,  m0:"10",  m1:"11",  m2:"12",  m3:"13",  m4:"14",  m5:"15",  m6:"16",  m7:"17",  m8:"18",  m9:"19"},
-    {id:4,  m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
-    {id:5,  m0:"20",  m1:"21",  m2:"22",  m3:"23",  m4:"24",  m5:"25",  m6:"26",  m7:"27",  m8:"28",  m9:"29"},
-    {id:6,  m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
-    {id:7,  m0:"30",  m1:"31",  m2:"32",  m3:"33",  m4:"34",  m5:"35",  m6:"36",  m7:"37",  m8:"38",  m9:"39"},
-    {id:8,  m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
-    {id:9,  m0:"40",  m1:"41",  m2:"42",  m3:"43",  m4:"44",  m5:"45",  m6:"46",  m7:"47",  m8:"48",  m9:"49"},
-    {id:10, m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
-    {id:11, m0:"50",  m1:"51",  m2:"52",  m3:"53",  m4:"54",  m5:"55",  m6:"56",  m7:"57",  m8:"58",  m9:"59"},
-    {id:12, m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
-    {id:13, m0:"60",  m1:"61",  m2:"62",  m3:"63",  m4:"64",  m5:"65",  m6:"66",  m7:"67",  m8:"68",  m9:"69"},
-    {id:14, m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
-    {id:15, m0:"70",  m1:"71",  m2:"72",  m3:"73",  m4:"74",  m5:"75",  m6:"76",  m7:"77",  m8:"78",  m9:"79"},
-    {id:16, m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
-    {id:17, m0:"80",  m1:"81",  m2:"82",  m3:"83",  m4:"84",  m5:"85",  m6:"86",  m7:"87",  m8:"88",  m9:"89"},
-    {id:18, m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
-    {id:19, m0:"90",  m1:"91",  m2:"92",  m3:"93",  m4:"94",  m5:"95",  m6:"96",  m7:"97",  m8:"98",  m9:"99"},
-    {id:20, m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
-  ];
-
-
-
 
   //
   // Memory Table
   //  
   table2 = new Tabulator("#memory-table", {
     maxHeight:"600px", // set height of table (in CSS or here)
-    data:memorytabledata, //assign data to table
+    data:blankmemorytabledata, //assign data to table
     clipboard:false,
     layout:"fitColumns", //fit columns to width of table (optional)
     columns:[ //Define Table Columns
@@ -715,11 +696,11 @@ function drawRegisterValue(register, value, context) {
   if (register == "ALU") {
     w = canvasInfo.regWidth*0.5;
     h = canvasInfo.regHeight*0.8;
-    context.fillRect(x+1, y+1, w, h);
+    context.fillRect(x+1, y+1, w-1, h-1);
   } else {
     w = canvasInfo.regWidth*0.85;
     h = canvasInfo.regHeight*0.8;
-    context.fillRect(x+1, y+1, w, h);
+    context.fillRect(x+2, y+2, w-2, h-2);
   }
 
   // Write the new value
@@ -1063,9 +1044,8 @@ let settingSpeed = speeds.MEDIUM;
 
 
 //
-// STOPPING is a new state which is yet to be coded - needed in order to
-// cleanly complete the current instruction (through to the end of execution)
-// to support pause/resume/step.
+// STOPPING is needed in order to cleanly complete the current instruction
+// (through to the end of execution) to support pause/resume/step.
 //
 const states = {
   UNASSEMBLED: "Unassembled",
@@ -1078,6 +1058,34 @@ const states = {
   },
   STOPPED: "Stopped",
   HALTED: "Halted",
+}
+
+//
+// Return the delay in milliseconds corresponding to the current speed
+//
+function getDelay(){
+  var newDelay = 500;
+  switch(settingSpeed) {
+    case speeds.SUPERSLOW:
+      newDelay = 2000;
+      break;
+    case speeds.SLOW:
+      newDelay = 1000;
+      break;
+    case speeds.MEDIUM:
+      newDelay = 500;
+      break;
+    case speeds.FAST:
+      newDelay = 250;
+      break;
+    case speeds.SUPERFAST:
+      newDelay = 1;
+      break;
+    default:
+      newDelay = 500;
+      break;
+  }
+  return(newDelay);
 }
 
 let state = states.UNASSEMBLED;
@@ -1128,28 +1136,8 @@ function processInput(){
     //
     // This is repeated code (from run) - should be broken out
     //
-    switch(settingSpeed) {
-      case speeds.SUPERSLOW:
-        intervalHandle = setInterval(nextInstruction, 2000);
-        break;
-      case speeds.SLOW:
-        intervalHandle = setInterval(nextInstruction, 1000);
-        break;
-      case speeds.MEDIUM:
-        intervalHandle = setInterval(nextInstruction, 500);
-        break;
-      case speeds.FAST:
-        intervalHandle = setInterval(nextInstruction, 250);
-        break;
-      case speeds.SUPERFAST:
-        intervalHandle = setInterval(nextInstruction, 1);
-        break;
-      default:
-        intervalHandle = setInterval(nextInstruction, 500);
-        break;
-    }
+    intervalHandle = setInterval(nextInstruction, getDelay());
 
-    // changeState(states.RUNNING.ACTIVE);
     changeState(stateBeforeInput);
 
   }
@@ -1253,27 +1241,8 @@ function runCode() {
 
   changeState(states.RUNNING.ACTIVE);
 
-  switch(settingSpeed) {
-    case speeds.SUPERSLOW:
-      intervalHandle = setInterval(nextInstruction, 2000);
-      break;
-    case speeds.SLOW:
-      intervalHandle = setInterval(nextInstruction, 1000);
-      break;
-    case speeds.MEDIUM:
-      intervalHandle = setInterval(nextInstruction, 500);
-      break;
-    case speeds.FAST:
-      intervalHandle = setInterval(nextInstruction, 250);
-      break;
-    case speeds.SUPERFAST:
-      intervalHandle = setInterval(nextInstruction, 100);
-      break;
-    default:
-      intervalHandle = setInterval(nextInstruction, 500);
-      break;
-  }
-
+  intervalHandle = setInterval(nextInstruction, getDelay());
+  
   let logobj=document.getElementById("log-text");
   logobj.value += "> Starting execution...\n";
   logobj.scrollTop = logobj.scrollHeight;
@@ -1303,52 +1272,14 @@ function runCode() {
 function allAhead() {
   changeState(states.RUNNING.ACTIVE);
 
-  switch(settingSpeed) {
-    case speeds.SUPERSLOW:
-      intervalHandle = setInterval(nextInstruction, 2000);
-      break;
-    case speeds.SLOW:
-      intervalHandle = setInterval(nextInstruction, 1000);
-      break;
-    case speeds.MEDIUM:
-      intervalHandle = setInterval(nextInstruction, 500);
-      break;
-    case speeds.FAST:
-      intervalHandle = setInterval(nextInstruction, 250);
-      break;
-    case speeds.SUPERFAST:
-      intervalHandle = setInterval(nextInstruction, 100);
-      break;
-    default:
-      intervalHandle = setInterval(nextInstruction, 500);
-      break;
-  }
+  intervalHandle = setInterval(nextInstruction, getDelay());
 }
 
 
 function stepCode() {
   changeState(states.RUNNING.STOPPING);
 
-  switch(settingSpeed) {
-    case speeds.SUPERSLOW:
-      intervalHandle = setInterval(nextInstruction, 2000);
-      break;
-    case speeds.SLOW:
-      intervalHandle = setInterval(nextInstruction, 1000);
-      break;
-    case speeds.MEDIUM:
-      intervalHandle = setInterval(nextInstruction, 500);
-      break;
-    case speeds.FAST:
-      intervalHandle = setInterval(nextInstruction, 250);
-      break;
-    case speeds.SUPERFAST:
-      intervalHandle = setInterval(nextInstruction, 100);
-      break;
-    default:
-      intervalHandle = setInterval(nextInstruction, 500);
-      break;
-  }
+  intervalHandle = setInterval(nextInstruction, getDelay());
 }
 
 
@@ -1464,7 +1395,7 @@ function fetchInstruction() {
 
 
   //
-  // For the moment, just stop when the PC hits 11
+  // For the moment, just stop when the PC hits 99
   //
   if (programCounter == 99){
     clearInterval(intervalHandle);
@@ -2009,33 +1940,7 @@ function readMemory(addressString){
 function assembleCode() {
   let code = table1.getData();
 
-  //
-  // Memory table - this is a copy from the fillTable() function - should move it out...
-  //
-  let memorytabledata = [
-    {id:1,  m0:"00",  m1:"01",  m2:"02",  m3:"03",  m4:"04",  m5:"05",  m6:"06",  m7:"07",  m8:"08",  m9:"09"},
-    {id:2,  m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
-    {id:3,  m0:"10",  m1:"11",  m2:"12",  m3:"13",  m4:"14",  m5:"15",  m6:"16",  m7:"17",  m8:"18",  m9:"19"},
-    {id:4,  m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
-    {id:5,  m0:"20",  m1:"21",  m2:"22",  m3:"23",  m4:"24",  m5:"25",  m6:"26",  m7:"27",  m8:"28",  m9:"29"},
-    {id:6,  m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
-    {id:7,  m0:"30",  m1:"31",  m2:"32",  m3:"33",  m4:"34",  m5:"35",  m6:"36",  m7:"37",  m8:"38",  m9:"39"},
-    {id:8,  m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
-    {id:9,  m0:"40",  m1:"41",  m2:"42",  m3:"43",  m4:"44",  m5:"45",  m6:"46",  m7:"47",  m8:"48",  m9:"49"},
-    {id:10, m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
-    {id:11, m0:"50",  m1:"51",  m2:"52",  m3:"53",  m4:"54",  m5:"55",  m6:"56",  m7:"57",  m8:"58",  m9:"59"},
-    {id:12, m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
-    {id:13, m0:"60",  m1:"61",  m2:"62",  m3:"63",  m4:"64",  m5:"65",  m6:"66",  m7:"67",  m8:"68",  m9:"69"},
-    {id:14, m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
-    {id:15, m0:"70",  m1:"71",  m2:"72",  m3:"73",  m4:"74",  m5:"75",  m6:"76",  m7:"77",  m8:"78",  m9:"79"},
-    {id:16, m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
-    {id:17, m0:"80",  m1:"81",  m2:"82",  m3:"83",  m4:"84",  m5:"85",  m6:"86",  m7:"87",  m8:"88",  m9:"89"},
-    {id:18, m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
-    {id:19, m0:"90",  m1:"91",  m2:"92",  m3:"93",  m4:"94",  m5:"95",  m6:"96",  m7:"97",  m8:"98",  m9:"99"},
-    {id:20, m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
-  ];
-
-  table2.setData(memorytabledata);
+  table2.setData(blankmemorytabledata);
 
   //
   // Clear log (by setting logobj value to a new string) and log start time
@@ -2054,6 +1959,8 @@ function assembleCode() {
   // First pass - construct symbol table and check OpCodes
   //
   for (let i=0; i < code.length; i++) {
+    code[i]['active'] = '-';
+
     currentLine = code[i];
     // console.log(currentLine);
 
@@ -2121,6 +2028,12 @@ function assembleCode() {
             //
             if (opcodesLMC[j]['mnemonic'] == "DAT") {
               var datum = currentLine['operand'];
+              var datumValue = parseInt(datum);
+              if ((datumValue < -999) || (datumValue > 999)) {
+                let errString = "> Error, line " + i + ": value out of range: " + currentLine['operand'] + "\n";
+                reportAssemblyError(i+1, errString);
+                return;
+              }
               datum = datum.toString().padStart(3, "0");
 
               mc = datum;
@@ -2138,9 +2051,19 @@ function assembleCode() {
               }
 
               if (!found) {
-                let errString = "> Error, line " + i + ": symbol not found: " + currentLine['operand'] + "\n";
-                reportAssemblyError(i+1, errString);
-                return;
+                // 
+                // If the operand looks like a numeric memory address (0 to 99),
+                // and we haven't got a matching entry in the symbol table, then 
+                // just use the value.
+                //
+                var operandValue = parseInt(currentLine['operand']);
+                if ((operandValue >= 0) && (operandValue <= 99)) {
+                  target = operandValue;
+                } else {
+                  let errString = "> Error, line " + i + ": symbol not found: " + currentLine['operand'] + "\n";
+                  reportAssemblyError(i+1, errString);
+                  return;
+                }
               }
 
               target = target.toString();
@@ -2208,7 +2131,7 @@ function assembleCode() {
   // Clear the current line indicator (if a program has previously run)
   //
   if (previousProgramCounter != 0) {
-    table1.updateData([{id:previousProgramCounter, active: ""}]);
+    table1.updateData([{id:previousProgramCounter, active: "-"}]);
   }
 
   // 
@@ -3003,3 +2926,4 @@ function clearCode(){
 
   table1.setData(codetabledata);
 }
+
