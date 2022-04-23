@@ -2645,6 +2645,11 @@ function stashOldSettings() {
   stashedSettingShowDataFlows = settingShowDataFlows;
   stashedSettingShowVariables = settingShowVariables;
   stashedSettingShowMemoryAccess = settingShowMemoryAccess;
+
+  document.getElementById("setting-speed").value = settingSpeed;
+  document.getElementById("setting-show-data-flows").value = settingShowDataFlows;
+  document.getElementById("setting-show-variable-values").value = settingShowVariables;
+  document.getElementById("setting-show-memory-access").value = settingShowMemoryAccess;
 }
 
 function changeSetting(target) {
