@@ -2641,9 +2641,9 @@ function saveSettings() {
   document.getElementById("settings-modal").style.display = "none";
 
   // Speed is handled by changeSetting() below...
-  settingShowDataFlows = document.getElementById("setting-show-data-flows").value;
-  settingShowVariables = document.getElementById("setting-show-variable-values").value;
-  settingShowMemoryAccess = document.getElementById("setting-show-memory-access").value;
+  settingShowDataFlows = document.getElementById("setting-show-data-flows").checked;
+  settingShowVariables = document.getElementById("setting-show-variable-values").checked;
+  settingShowMemoryAccess = document.getElementById("setting-show-memory-access").checked;
 
   console.log("Save");
   console.log(settingShowDataFlows);
@@ -2664,10 +2664,39 @@ function stashOldSettings() {
   stashedSettingShowVariables = settingShowVariables;
   stashedSettingShowMemoryAccess = settingShowMemoryAccess;
 
-  document.getElementById("setting-speed").value = settingSpeed;
-  document.getElementById("setting-show-data-flows").value = settingShowDataFlows;
-  document.getElementById("setting-show-variable-values").value = settingShowVariables;
-  document.getElementById("setting-show-memory-access").value = settingShowMemoryAccess;
+  let speedValue = 0;
+  let newText = "some new text";
+  
+  switch(settingSpeed) {
+    case speeds.SUPERSLOW:
+      speedValue = 0;
+      newText = "Explain Everything - around 2 seconds per cycle";
+      break;
+    case speeds.SLOW:
+      speedValue = 1;
+      newText = "Run Slow - about 1 second per cycle";
+      break;
+    case speeds.MEDIUM:
+      speedValue = 2;
+      newText = "Run at Medium speed - about 0.5 seconds per cycle";
+      break;
+    case speeds.FAST:
+      speedValue = 3;
+      newText = "Run at Fast speed - about 0.25 seconds per cycle";
+      break;
+    case speeds.SUPERFAST:
+      speedValue = 4;
+      newText = "Just Run!  About 0.1 seconds per cycle";
+      break;
+    default:
+      break;
+  }
+  
+  document.getElementById("setting-speed").value = speedValue;
+  document.getElementById("speed-display").innerHTML = newText;
+  document.getElementById("setting-show-data-flows").checked = settingShowDataFlows;
+  document.getElementById("setting-show-variable-values").checked = settingShowVariables;
+  document.getElementById("setting-show-memory-access").checked = settingShowMemoryAccess;
 }
 
 function changeSetting(target) {
