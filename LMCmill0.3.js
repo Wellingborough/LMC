@@ -2628,6 +2628,12 @@ function cancelSettings() {
   settingShowDataFlows = stashedSettingShowDataFlows;
   settingShowVariables = stashedSettingShowVariables;
   settingShowMemoryAccess = stashedSettingShowMemoryAccess;
+
+  console.log("Cancel");
+  console.log(settingShowDataFlows);
+  console.log(settingShowVariables);
+  console.log(settingShowMemoryAccess);
+  console.log(settingSpeed);
 }
 
 function saveSettings() {
@@ -2638,9 +2644,21 @@ function saveSettings() {
   settingShowDataFlows = document.getElementById("setting-show-data-flows").value;
   settingShowVariables = document.getElementById("setting-show-variable-values").value;
   settingShowMemoryAccess = document.getElementById("setting-show-memory-access").value;
+
+  console.log("Save");
+  console.log(settingShowDataFlows);
+  console.log(settingShowVariables);
+  console.log(settingShowMemoryAccess);
+  console.log(settingSpeed);
 }
 
 function stashOldSettings() {
+  console.log("Render");
+  console.log(settingShowDataFlows);
+  console.log(settingShowVariables);
+  console.log(settingShowMemoryAccess);
+  console.log(settingSpeed);
+
   stashedSettingSpeed = settingSpeed;
   stashedSettingShowDataFlows = settingShowDataFlows;
   stashedSettingShowVariables = settingShowVariables;
