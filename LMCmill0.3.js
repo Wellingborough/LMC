@@ -2652,23 +2652,23 @@ function stashOldSettings() {
   switch(settingSpeed) {
     case speeds.SUPERSLOW:
       speedValue = 0;
-      newText = speeds[speeds.SUPERSLOW];
+      newText = speeds.SUPERSLOW;
       break;
     case speeds.SLOW:
       speedValue = 1;
-      newText = speeds[speeds.SLOW];
+      newText = speeds.SLOW;
       break;
     case speeds.MEDIUM:
       speedValue = 2;
-      newText = speeds[speeds.MEDIUM];
+      newText = speeds.MEDIUM;
       break;
     case speeds.FAST:
       speedValue = 3;
-      newText = speeds[speeds.FAST];
+      newText = speeds.FAST;
       break;
     case speeds.SUPERFAST:
       speedValue = 4;
-      newText = speeds[speeds.SUPERFAST];
+      newText = speeds.SUPERFAST;
       break;
     default:
       break;
@@ -2688,27 +2688,27 @@ function changeSetting(target) {
 
   switch(speedSelected) {
     case "0":
-      newText = speeds[speeds.SUPERSLOW];
+      newText = speeds.SUPERSLOW;
       settingSpeed = speeds.SUPERSLOW;
       break;
     case "1":
-      newText = speeds[speeds.SLOW];
+      newText = speeds.SLOW;
       settingSpeed = speeds.SLOW;
       break;
     case "2":
-      newText = speeds[speeds.MEDIUM];
+      newText = speeds.MEDIUM;
       settingSpeed = speeds.MEDIUM;
       break;
     case "3":
-      newText = speeds[speeds.FAST];
+      newText = speeds.FAST;
       settingSpeed = speeds.FAST;
       break;
     case "4":
-      newText = speeds[speeds.SUPERFAST];
+      newText = speeds.SUPERFAST;
       settingSpeed = speeds.SUPERFAST;
       break;
     default:
-      newText = "Unknown";
+      newText = speeds.SUPERSLOW;
       settingSpeed = speeds.SUPERSLOW;
       break;
   }
