@@ -199,6 +199,43 @@ var blankmemorytabledata = [
 ];
 
 // Settings
+
+//
+// Execution speeds - we also have the Next button which steps.
+//
+const speeds = {
+  SUPERSLOW: "Explain Everything",
+  SLOW: "Slow",
+  MEDIUM: "Medium",
+  FAST: "Fast",
+  SUPERFAST: "Just Run",
+}
+
+//
+// Default to MEDIUM
+// If this is changed, then the HTML for the Settings modal
+// needs to have a matching change
+//
+let settingSpeed = speeds.MEDIUM;
+
+
+//
+// STOPPING is needed in order to cleanly complete the current instruction
+// (through to the end of execution) to support pause/resume/step.
+//
+const states = {
+  UNASSEMBLED: "Unassembled",
+  ASSEMBLED: "Assembled",
+  RUNNING: {
+    "ACTIVE": "Active",
+    "BLOCKEDONINPUT": "Waiting for input",
+    "PAUSED": "Paused",
+    "STOPPING": "Stopping...",
+  },
+  STOPPED: "Stopped",
+  HALTED: "Halted",
+}
+
 var stashedSettingSpeed = speeds.MEDIUM;
 var stashedSettingShowDataFlows = true;
 var stashedSettingShowVariables = true;
@@ -1042,41 +1079,6 @@ function animateBus2(context, operation, erase) {
 }
 
 
-//
-// Execution speeds - we also have the Next button which steps.
-//
-const speeds = {
-  SUPERSLOW: "Explain Everything",
-  SLOW: "Slow",
-  MEDIUM: "Medium",
-  FAST: "Fast",
-  SUPERFAST: "Just Run",
-}
-
-//
-// Default to MEDIUM
-// If this is changed, then the HTML for the Settings modal
-// needs to have a matching change
-//
-let settingSpeed = speeds.MEDIUM;
-
-
-//
-// STOPPING is needed in order to cleanly complete the current instruction
-// (through to the end of execution) to support pause/resume/step.
-//
-const states = {
-  UNASSEMBLED: "Unassembled",
-  ASSEMBLED: "Assembled",
-  RUNNING: {
-    "ACTIVE": "Active",
-    "BLOCKEDONINPUT": "Waiting for input",
-    "PAUSED": "Paused",
-    "STOPPING": "Stopping...",
-  },
-  STOPPED: "Stopped",
-  HALTED: "Halted",
-}
 
 //
 // Return the delay in milliseconds corresponding to the current speed
