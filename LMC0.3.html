@@ -107,15 +107,15 @@
             <h4 class="modal-title" style="margin-left: 8px;">LMC Simulation Settings</h4>
           </div>
           <div class="modal-body">
-            <input type="checkbox" name="showDataFlows" value="1" checked>
-            <label for="showDataFlows">Show data flows during execution</label><br>
-            <input type="checkbox" name="showVariableValuesInCode" value="1" checked>
-            <label for="showDataFlows">Show variable values in the code table</label><br>
-            <input type="checkbox" name="showMemoryAccess" value="1" checked>
-            <label for="showMemoryAccess">Show memory read/write locations during execution</label><br><br>
+            <input type="checkbox" name="showDataFlows" value="1" checked style="margin:8px;">
+            <label for="showDataFlows">Show data flows around the CPU during program execution</label><br>
+            <input type="checkbox" name="showVariableValuesInCode" value="1" checked style="margin:8px;">
+            <label for="showDataFlows">Show variable values in the code table during program execution</label><br>
+            <input type="checkbox" name="showMemoryAccess" value="1" checked style="margin:8px;">
+            <label for="showMemoryAccess">Show memory read/write locations during program execution</label><br><br>
             <input type="range" name="executionSpeed" id="setting-speed" min="0" max="4" step="1" value="2" onchange="changeSetting('speed')">
             <label for="setting-speed">Execution Speed</label><br><br>
-            <p id="speed-display">Run at Medium speed - about 0.5 seconds per cycle</p>
+            <p id="speed-display"><i class="fa-regular fa-hand"></i>Run at Medium speed - about 0.5 seconds per cycle</p>
           </div>
           <div class="modal-footer">
             <button id="settings-cancel-btn" class="button" onclick="cancelSettings()">Cancel</button>
@@ -349,65 +349,66 @@ below for more information.
 
 
     <script>
-      let settingsModalBtn = document.getElementById("settings-modal-btn")
-      let settingsModal = document.getElementById("settings-modal")
-      let settingsCloseBtn = document.getElementById("settings-close-btn")
+      let settingsModalBtn = document.getElementById("settings-modal-btn");
+      let settingsModal = document.getElementById("settings-modal");
+      let settingsCloseBtn = document.getElementById("settings-close-btn");
 
       settingsModalBtn.onclick = function(){
-        settingsModal.style.display = "block"
+        settingsModal.style.display = "block";
+        stashOldSettings();
       }
 
       settingsCloseBtn.onclick = function(){
-        settingsModal.style.display = "none"
+        settingsModal.style.display = "none";
       }
 
       window.onclick = function(e){
         if(e.target == settingsModal){
-          settingsModal.style.display = "none"
+          settingsModal.style.display = "none";
         } else if(e.target == aboutModal){
-          aboutModal.style.display = "none"
+          aboutModal.style.display = "none";
         }
       }
 
-      let examplesModalBtn = document.getElementById("examples-modal-btn")
-      let examplesModal = document.getElementById("examples-modal")
-      let examplesCloseBtn = document.getElementById("examples-close-btn")
+      let examplesModalBtn = document.getElementById("examples-modal-btn");
+      let examplesModal = document.getElementById("examples-modal");
+      let examplesCloseBtn = document.getElementById("examples-close-btn");
 
       examplesModalBtn.onclick = function(){
-        aboutModal.style.display = "none"
-        examplesModal.style.display = "block"
+        aboutModal.style.display = "none";
+        examplesModal.style.display = "block";
       }
 
       examplesCloseBtn.onclick = function(){
-        examplesModal.style.display = "none"
+        examplesModal.style.display = "none";
       }
 
       window.onclick = function(e){
         if(e.target == settingsModal){
-          settingsModal.style.display = "none"
+          settingsModal.style.display = "none";
         } else if(e.target == aboutModal){
-          aboutModal.style.display = "none"
+          aboutModal.style.display = "none";
         } else if(e.target == examplesModal){
-          examplesModal.style.display = "none"
+          examplesModal.style.display = "none";
         }
       }
 
-      let instructionSetModalBtn = document.getElementById("instruction-set-modal-btn")
-      let instructionSetModal = document.getElementById("instruction-set-modal")
-      let instructionSetCloseBtn = document.getElementById("instruction-set-close-btn")
-      let instructionSetRCloseBtn = document.getElementById("rinstruction-set-close-btn")
+      let instructionSetModalBtn = document.getElementById("instruction-set-modal-btn");
+      let instructionSetModal = document.getElementById("instruction-set-modal");
+      let instructionSetCloseBtn = document.getElementById("instruction-set-close-btn");
+      let instructionSetRCloseBtn = document.getElementById("rinstruction-set-close-btn");
 
       instructionSetModalBtn.onclick = function(){
-        aboutModal.style.display = "none"
-        instructionSetModal.style.display = "block"
+        aboutModal.style.display = "none";
+        instructionSetModal.style.display = "block";
       }
 
       instructionSetCloseBtn.onclick = function(){
-        instructionSetModal.style.display = "none"
+        instructionSetModal.style.display = "none";
       }
 
       instructionSetRCloseBtn.onclick = function(){
-        instructionSetModal.style.display = "none"
+        instructionSetModal.style.display = "none";
       }
 
       //
@@ -423,30 +424,30 @@ below for more information.
       }
 
 
-      let aboutModalBtn = document.getElementById("about-modal-btn")
-      let aboutModal = document.getElementById("about-modal")
-      let aboutCloseBtn = document.getElementById("about-close-btn")
+      let aboutModalBtn = document.getElementById("about-modal-btn");
+      let aboutModal = document.getElementById("about-modal");
+      let aboutCloseBtn = document.getElementById("about-close-btn");
 
       aboutModalBtn.onclick = function(){
-        aboutModal.style.display = "block"
+        aboutModal.style.display = "block";
       }
 
       aboutCloseBtn.onclick = function(){
-        aboutModal.style.display = "none"
+        aboutModal.style.display = "none";
       }
 
 
-      let helpModalBtn = document.getElementById("help-modal-btn")
-      let helpModal = document.getElementById("help-modal")
-      let helpCloseBtn = document.getElementById("help-close-btn")
+      let helpModalBtn = document.getElementById("help-modal-btn");
+      let helpModal = document.getElementById("help-modal");
+      let helpCloseBtn = document.getElementById("help-close-btn");
 
       helpModalBtn.onclick = function(){
-        aboutModal.style.display = "none"
-        helpModal.style.display = "block"
+        aboutModal.style.display = "none";
+        helpModal.style.display = "block";
       }
 
       helpCloseBtn.onclick = function(){
-        helpModal.style.display = "none"
+        helpModal.style.display = "none";
       }
 
       <!-- Handle return being pressed in the Input box      -->
@@ -471,12 +472,12 @@ below for more information.
       // touchend === mouseup
       //
       let ismdwn = 0
-      rpanrResize.addEventListener('mousedown', mD)
+      rpanrResize.addEventListener('mousedown', mD);
 
       function mD(event) {
         ismdwn = 1
-        document.body.addEventListener('mousemove', mV)
-        document.body.addEventListener('mouseup', end)
+        document.body.addEventListener('mousemove', mV);
+        document.body.addEventListener('mouseup', end);
         document.body.style.cursor = "col-resize";
         
         // Prevent the code table from altering the cursor
@@ -496,21 +497,21 @@ below for more information.
 
       function mV(event) {
         if (ismdwn === 1) {
-          codetableholder.style.flexBasis = event.clientX + "px"
+          codetableholder.style.flexBasis = event.clientX + "px";
 
           // Prevent the mouse down and drag being interpreted on other elements
           // Needs to be done here as well as in the mouse down event.
           event.preventDefault();
         } else {
-          end()
+          end();
         }
       }
 
       const end = (e) => {
-        ismdwn = 0
+        ismdwn = 0;
         document.body.style.cursor = "default";
-        document.body.removeEventListener('mouseup', end)
-        rpanrResize.removeEventListener('mousemove', mV)
+        document.body.removeEventListener('mouseup', end);
+        rpanrResize.removeEventListener('mousemove', mV);
 
         // Allow the code table to alter the cursor again
         let codeTableElement = document.getElementById("code-table");
