@@ -810,6 +810,11 @@ function drawBus(context, x1, y1, x2, y2) {
 // just draw some dots...
 //
 function animateBus(context, operation) {
+
+  if (settingShowDataFlows  == false) {
+    return;
+  }
+  
   context.save();
 
   if (canvasInfo.lastBusAnimation == -1) {
@@ -1872,11 +1877,9 @@ function writeMemory(addressString, data){
   table2.updateData([{id:rownum, [colref]: data}]);
 
   //
-  // Temporary test code to see if we can highlight an individual cell in tabulator
-  // So, we can do this as below, but we may need a better approach of writing a custom
-  // cell formatter - need to think about this further.
+  // Highlight an individual cell in tabulator
   //
-  if (settingSpeed != speeds.SUPERFAST) {
+  if ( (settingSpeed != speeds.SUPERFAST) && (settingShowMemoryAccess == true)) {
     var highlightrow = table2.getRow(rownum-1);
     var highlightcell = highlightrow.getCell(colref);
     highlightcell.getElement().style.backgroundColor="#EE00EE";
@@ -1893,20 +1896,23 @@ function writeMemory(addressString, data){
   // actually make it more obvious that running for a second time means that we need to
   // initialise the variables properly - could be quite healthy...
   //
-  for (let i=0; i < symbolTable.length; ++i) {
-    if (symbolTable[i]['value'] == address) {
+  if (settingShowVariables == true) { 
+    for (let i=0; i < symbolTable.length; ++i) {
+      if (symbolTable[i]['value'] == address) {
 
-      // Find the label...
-      let code = table1.getData();
-      for ( let j=0; j < code.length; ++j) {
-        row = code[j];
-        if (row['label'] == symbolTable[i]['symbol']) {
-          table1.updateData([{id:(j+1), operand:data.toString()}])
+        // Find the label...
+        let code = table1.getData();
+        for ( let j=0; j < code.length; ++j) {
+          row = code[j];
+          if (row['label'] == symbolTable[i]['symbol']) {
+            table1.updateData([{id:(j+1), operand:data.toString()}])
+          }
         }
+        break;
       }
-      break;
     }
   }
+  
 }
 
 //
@@ -1959,11 +1965,9 @@ function readMemory(addressString){
   }
 
   //
-  // Temporary test code to see if we can highlight an individual cell in tabulator
-  // So, we can do this as below, but we may need a better approach of writing a custom
-  // cell formatter - need to think about this further.
+  // Highlight an individual cell in tabulator
   //
-  if (settingSpeed != speeds.SUPERFAST) {
+  if ((settingSpeed != speeds.SUPERFAST) && (settingShowMemoryAccess == true)) {
     var highlightrow = table2.getRow(rownum);
     var highlightcell = highlightrow.getCell(colref);
     highlightcell.getElement().style.backgroundColor="#339933";
