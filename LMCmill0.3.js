@@ -204,11 +204,11 @@ var blankmemorytabledata = [
 // Execution speeds - we also have the Next button which steps.
 //
 const speeds = {
-  SUPERSLOW: "Explain Everything",
-  SLOW: "Slow",
-  MEDIUM: "Medium",
-  FAST: "Fast",
-  SUPERFAST: "Just Run",
+  SUPERSLOW: "<i class="fa-regular fa-hand"></i>  Explain Everything - around 2 seconds per cycle",
+  SLOW: "<i class="fa-solid fa-person-walking"></i>  Run Slow - about 1 second per cycle",
+  MEDIUM: "<i class="fa-solid fa-person-running"></i>  Run at Medium speed - about 0.5 seconds per cycle",
+  FAST: "<i class="fa-solid fa-bicycle"></i>  Run at Fast speed - about 0.25 seconds per cycle",
+  SUPERFAST: "<i class="fa-solid fa-rocket"></i>  Just Run!  About 0.1 seconds per cycle",
 }
 
 //
@@ -2628,12 +2628,6 @@ function cancelSettings() {
   settingShowDataFlows = stashedSettingShowDataFlows;
   settingShowVariables = stashedSettingShowVariables;
   settingShowMemoryAccess = stashedSettingShowMemoryAccess;
-
-  console.log("Cancel");
-  console.log(settingShowDataFlows);
-  console.log(settingShowVariables);
-  console.log(settingShowMemoryAccess);
-  console.log(settingSpeed);
 }
 
 function saveSettings() {
@@ -2644,21 +2638,9 @@ function saveSettings() {
   settingShowDataFlows = document.getElementById("setting-show-data-flows").checked;
   settingShowVariables = document.getElementById("setting-show-variable-values").checked;
   settingShowMemoryAccess = document.getElementById("setting-show-memory-access").checked;
-
-  console.log("Save");
-  console.log(settingShowDataFlows);
-  console.log(settingShowVariables);
-  console.log(settingShowMemoryAccess);
-  console.log(settingSpeed);
 }
 
 function stashOldSettings() {
-  console.log("Render");
-  console.log(settingShowDataFlows);
-  console.log(settingShowVariables);
-  console.log(settingShowMemoryAccess);
-  console.log(settingSpeed);
-
   stashedSettingSpeed = settingSpeed;
   stashedSettingShowDataFlows = settingShowDataFlows;
   stashedSettingShowVariables = settingShowVariables;
@@ -2670,23 +2652,23 @@ function stashOldSettings() {
   switch(settingSpeed) {
     case speeds.SUPERSLOW:
       speedValue = 0;
-      newText = "Explain Everything - around 2 seconds per cycle";
+      newText = speeds[speeds.SUPERSLOW];
       break;
     case speeds.SLOW:
       speedValue = 1;
-      newText = "Run Slow - about 1 second per cycle";
+      newText = speeds[speeds.SLOW];
       break;
     case speeds.MEDIUM:
       speedValue = 2;
-      newText = "Run at Medium speed - about 0.5 seconds per cycle";
+      newText = speeds[speeds.MEDIUM];
       break;
     case speeds.FAST:
       speedValue = 3;
-      newText = "Run at Fast speed - about 0.25 seconds per cycle";
+      newText = speeds[speeds.FAST];
       break;
     case speeds.SUPERFAST:
       speedValue = 4;
-      newText = "Just Run!  About 0.1 seconds per cycle";
+      newText = speeds[speeds.SUPERFAST];
       break;
     default:
       break;
@@ -2706,23 +2688,23 @@ function changeSetting(target) {
 
   switch(speedSelected) {
     case "0":
-      newText = "Explain Everything - around 2 seconds per cycle";
+      newText = speeds[speeds.SUPERSLOW];
       settingSpeed = speeds.SUPERSLOW;
       break;
     case "1":
-      newText = "Run Slow - about 1 second per cycle";
+      newText = speeds[speeds.SLOW];
       settingSpeed = speeds.SLOW;
       break;
     case "2":
-      newText = "Run at Medium speed - about 0.5 seconds per cycle";
+      newText = speeds[speeds.MEDIUM];
       settingSpeed = speeds.MEDIUM;
       break;
     case "3":
-      newText = "Run at Fast speed - about 0.25 seconds per cycle";
+      newText = speeds[speeds.FAST];
       settingSpeed = speeds.FAST;
       break;
     case "4":
-      newText = "Just Run!  About 0.1 seconds per cycle";
+      newText = speeds[speeds.SUPERFAST];
       settingSpeed = speeds.SUPERFAST;
       break;
     default:
