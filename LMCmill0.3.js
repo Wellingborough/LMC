@@ -198,6 +198,16 @@ var blankmemorytabledata = [
   {id:20, m0:"", m1:"", m2:"", m3:"", m4:"", m5:"", m6:"", m7:"", m8:"", m9:""},
 ];
 
+// Settings
+var stashedSettingSpeed = speeds.MEDIUM;
+var stashedSettingShowDataFlows = true;
+var stashedSettingShowVariables = true;
+var stashedSettingShowMemoryAccess = true;
+var settingShowDataFlows = stashedSettingShowDataFlows;
+var settingShowVariables = stashedSettingShowVariables;
+var settingShowMemoryAccess = stashedSettingShowMemoryAccess;
+
+// Main function
 function filltable() {
 
   var codetabledata = [
@@ -2611,12 +2621,62 @@ function saveCode() {
 //
 function cancelSettings() {
   document.getElementById("settings-modal").style.display = "none";
+
+  settingSpeed = stashedSettingSpeed;
+  settingShowDataFlows = stashedSettingShowDataFlows;
+  settingShowVariables = stashedSettingShowVariables;
+  settingShowMemoryAccess = stashedSettingShowMemoryAccess;
 }
 
 function saveSettings() {
   // Update the relevant globals here...
   document.getElementById("settings-modal").style.display = "none";
-  
+
+  // Speed is handled by changeSetting() below...
+  settingShowDataFlows = document.getElementById("setting-show-data-flows").value;
+  settingShowVariables = document.getElementById("setting-show-variable-values").value;
+  settingShowMemoryAccess = document.getElementById("setting-show-memory-access").value;
+}
+
+function stashOldSettings() {
+  stashedSettingSpeed = settingSpeed;
+  stashedSettingShowDataFlows = settingShowDataFlows;
+  stashedSettingShowVariables = settingShowVariables;
+  stashedSettingShowMemoryAccess = settingShowMemoryAccess;
+}
+
+function changeSetting(target) {
+
+  speedSelected = document.getElementById("setting-speed").value;
+  let newText = "Some new text";
+
+  switch(speedSelected) {
+    case "0":
+      newText = "Explain Everything - around 2 seconds per cycle";
+      settingSpeed = speeds.SUPERSLOW;
+      break;
+    case "1":
+      newText = "Run Slow - about 1 second per cycle";
+      settingSpeed = speeds.SLOW;
+      break;
+    case "2":
+      newText = "Run at Medium speed - about 0.5 seconds per cycle";
+      settingSpeed = speeds.MEDIUM;
+      break;
+    case "3":
+      newText = "Run at Fast speed - about 0.25 seconds per cycle";
+      settingSpeed = speeds.FAST;
+      break;
+    case "4":
+      newText = "Just Run!  About 0.1 seconds per cycle";
+      settingSpeed = speeds.SUPERFAST;
+      break;
+    default:
+      newText = "Unknown";
+      settingSpeed = speeds.SUPERSLOW;
+      break;
+  }
+  document.getElementById("speed-display").innerHTML = newText;
 }
 
 //
@@ -2684,40 +2744,6 @@ function loadExample() {
       });
     }
   }
-}
-
-function changeSetting(target) {
-
-  speedSelected = document.getElementById("setting-speed").value;
-  let newText = "Some new text";
-
-  switch(speedSelected) {
-    case "0":
-      newText = "Explain Everything - around 2 seconds per cycle";
-      settingSpeed = speeds.SUPERSLOW;
-      break;
-    case "1":
-      newText = "Run Slow - about 1 second per cycle";
-      settingSpeed = speeds.SLOW;
-      break;
-    case "2":
-      newText = "Run at Medium speed - about 0.5 seconds per cycle";
-      settingSpeed = speeds.MEDIUM;
-      break;
-    case "3":
-      newText = "Run at Fast speed - about 0.25 seconds per cycle";
-      settingSpeed = speeds.FAST;
-      break;
-    case "4":
-      newText = "Just Run!  About 0.1 seconds per cycle";
-      settingSpeed = speeds.SUPERFAST;
-      break;
-    default:
-      newText = "Unknown";
-      settingSpeed = speeds.SUPERSLOW;
-      break;
-  }
-  document.getElementById("speed-display").innerHTML = newText;
 }
 
 //
