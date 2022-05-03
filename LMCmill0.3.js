@@ -386,7 +386,7 @@ function filltable() {
   // from data for example.
   //
   table1 = new Tabulator("#code-table", {
-//    maxHeight:"90vh", // set height of table (in CSS or here)
+    maxHeight:"85vh", // set height of table (in CSS or here)
     data:codetabledata, //assign data to table
     tabEndNewRow:true,
     history:true,
