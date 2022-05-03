@@ -51,7 +51,7 @@
       <div class="row content" id="div-content" style="display:flex; flex-direction:row; margin:0px; margin-right:10px; width:100%;">
         <div class="resize-drag" id="codetableholder" style="min-width:300px; width:350px; max-width:700px; margin:0px;">
           <div class="row content" id="code-table" style="flex: 1;" ></div>
-          <div class="footer" id="code-table-buttons" class="footer" style="position:absolute; bottom:0; display:flex; gap:20px; align-items: center; flex: 0 1 auto;">
+          <div class="footer" id="code-table-buttons" class="footer" style="position:absolute; bottom:0; display:flex; gap:20px; align-items: center; flex: 1 1 auto;">
             <input id="load-btn" type="file" style="display:none;">
             <button id="assemble-button" class="button" onclick="assembleCode()">Assemble</button>
             <button id="clear-button" onclick="clearCode()" class="button">Clear</button>
@@ -163,7 +163,7 @@
     </div>
 
     <!-- Help modal      -->
-    <div class="modal" id="help-modal" role="dialog" style="width: 750px;">
+    <div class="modal" id="help-modal" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
