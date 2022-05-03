@@ -1157,12 +1157,19 @@ function processInput(){
 
     // Update the Input Mailbox
     drawRegisterValue("INP", accumulator, ctx);
+    // Update the Accumulator
+    drawRegisterValue("ACC", accumulator, ctx);
 
     //
-    // This is repeated code (from run) - should be broken out
+    // If we are stepping through code, then stop (as we have completed execution of the
+    // INP instruction, otherwise just pick up from where we suspended to process the INP
     //
-    changeState(stateBeforeInput);
-    intervalHandle = setInterval(nextInstruction, getDelay());
+    if (stateBeforeInput == states.RUNNING.STOPPING){
+      changeState(states.STOPPED);
+    } else {
+      changeState(stateBeforeInput);
+      intervalHandle = setInterval(nextInstruction, getDelay());
+    }
 
   }
   else {
