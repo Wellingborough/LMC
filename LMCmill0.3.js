@@ -1160,12 +1160,9 @@ function processInput(){
 
     //
     // This is repeated code (from run) - should be broken out
-    //  Issue #29 - do not start the timer again if we are stepping
     //
-    if (stateBeforeInput != states.RUNNING.STOPPING) {
-      intervalHandle = setInterval(nextInstruction, getDelay());
-    }
     changeState(stateBeforeInput);
+    intervalHandle = setInterval(nextInstruction, getDelay());
 
   }
   else {
