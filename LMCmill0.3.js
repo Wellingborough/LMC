@@ -1750,7 +1750,11 @@ function executeInstruction() {
       outobj.value += parseInt(accumulator) + "\n";
       outobj.scrollTop = outobj.scrollHeight;
 
-      // Update the Input Mailbox
+      let logobj=document.getElementById("log-text");
+      logobj.value += "> EXECUTE:  OUT: Transferring value in Accumulator to Output\n";
+      logobj.scrollTop = logobj.scrollHeight;
+
+      // Update the Output Mailbox
       var c = document.getElementById("processor-canvas");
       var ctx = c.getContext("2d");
       drawRegisterValue("OUT", accumulator, ctx);
