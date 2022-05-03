@@ -2873,7 +2873,7 @@ function canvasHitCheck(x, y) {
       hitRegister = true;
       tooltipY -= yoffset2;
     } else if (y >= y4 && y <= y4+canvasInfo.regHeight) {
-      description = "Accumulator\nThe Accumulator normally holds the result of the latest opertion carried out by the ALU, but a value can also be directly loaded into the Accumulator from Memory, using the 'LDA' instruction.  We can also write the current value of the Accumulator into Memory using the 'STA' instruction.  Finally, the Accumulator can be loaded from user input (the 'INP' instruction) or used as output to the user (the 'OUT' instruction).";
+      description = "Accumulator\nThe Accumulator normally holds the result of the latest operation carried out by the ALU, but a value can also be directly loaded into the Accumulator from Memory, using the 'LDA' instruction.  We can also write the current value of the Accumulator into Memory using the 'STA' instruction.  Finally, the Accumulator can be loaded from user input (the 'INP' instruction) or used as output to the user (the 'OUT' instruction).";
       hitRegister = true;
       tooltipY -= yoffset3;
     }
