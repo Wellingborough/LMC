@@ -385,8 +385,14 @@ function filltable() {
   // that is not blank - this should protect any blank lines separating code
   // from data for example.
   //
+  
+  //
+  //Safari has a slightly different interpretation of the height of the 
+  // viewport, so 95vh on desktop browsers is different to 95 vh on iPad
+  // So, we need to allow for this with some hacky JavaScript
+  //
   const height = window.innerHeight;
-  const percent = 0.95;
+  let percent = 0.95;
   
   var is_chrome = navigator.userAgent.indexOf('Chrome') > -1;
   var is_safari = navigator.userAgent.indexOf("Safari") > -1;
