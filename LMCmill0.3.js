@@ -386,9 +386,17 @@ function filltable() {
   // from data for example.
   //
   const height = window.innerHeight;
+  const percent = 0.95;
+  
+  let is_ios = /iP(ad|od|hone)/i.test(window.navigator.userAgent);
+  let is_safari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
+  
+  if (is_ios && is_safari){
+    percent = 0.80;
+  }  
   
   table1 = new Tabulator("#code-table", {
-    maxHeight:'${height*0.95}px', // set height of table (in CSS or here)
+    maxHeight:'${height*percent}px', // set height of table (in CSS or here)
     data:codetabledata, //assign data to table
     tabEndNewRow:true,
     history:true,
