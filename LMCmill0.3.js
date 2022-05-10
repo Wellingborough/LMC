@@ -389,7 +389,9 @@ function filltable() {
   //
   //Safari has a slightly different interpretation of the height of the 
   // viewport, so 95vh on desktop browsers is different to 95 vh on iPad
-  // So, we need to allow for this with some hacky JavaScript
+  // So, we need to allow for this with some hacky JavaScript ... which
+  // is still not working.  I have reverted to setting the darn thing
+  // in html.
   //
   let percent = 95;
   
@@ -400,13 +402,12 @@ function filltable() {
   
   if (is_safari){
     percent = 80;
-    alert("Safari");
   }
   
-  document.getElementById("codetableholder").style.maxHeight = '${percent}vh';
+//  document.getElementById("codetableholder").style.maxHeight = '${percent}vh';
   
   table1 = new Tabulator("#code-table", {
-//    maxHeight:'${percent}vh', // set height of table (in CSS or here)
+    maxHeight:'${percent}vh', // set height of table (in CSS or here)
     data:codetabledata, //assign data to table
     tabEndNewRow:true,
     history:true,
