@@ -385,9 +385,10 @@ function filltable() {
   // that is not blank - this should protect any blank lines separating code
   // from data for example.
   //
-    
+  const height = window.innerHeight;
+  
   table1 = new Tabulator("#code-table", {
-    maxHeight:"95vh", // set height of table (in CSS or here)
+    maxHeight:'${height*0.95}px', // set height of table (in CSS or here)
     data:codetabledata, //assign data to table
     tabEndNewRow:true,
     history:true,
