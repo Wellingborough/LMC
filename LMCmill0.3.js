@@ -391,8 +391,7 @@ function filltable() {
   // viewport, so 95vh on desktop browsers is different to 95 vh on iPad
   // So, we need to allow for this with some hacky JavaScript
   //
-  const height = window.innerHeight;
-  let percent = 0.95;
+  let percent = 95;
   
   var is_chrome = navigator.userAgent.indexOf('Chrome') > -1;
   var is_safari = navigator.userAgent.indexOf("Safari") > -1;
@@ -400,12 +399,12 @@ function filltable() {
   if ((is_chrome)&&(is_safari)) { is_safari = false; }
   
   if (is_safari){
-    percent = 0.50;
+    percent = 80;
     alert("Safari");
   }
   
   table1 = new Tabulator("#code-table", {
-    maxHeight:'${height*percent}px', // set height of table (in CSS or here)
+    maxHeight:'${percent}vh', // set height of table (in CSS or here)
     data:codetabledata, //assign data to table
     tabEndNewRow:true,
     history:true,
