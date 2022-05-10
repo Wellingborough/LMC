@@ -403,8 +403,10 @@ function filltable() {
     alert("Safari");
   }
   
+  document.getElementById("codetablehaolder).style.maxHeight = '${percent}vh';
+  
   table1 = new Tabulator("#code-table", {
-    maxHeight:'${percent}vh', // set height of table (in CSS or here)
+//    maxHeight:'${percent}vh', // set height of table (in CSS or here)
     data:codetabledata, //assign data to table
     tabEndNewRow:true,
     history:true,
