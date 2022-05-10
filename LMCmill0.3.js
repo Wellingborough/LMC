@@ -400,7 +400,8 @@ function filltable() {
   if ((is_chrome)&&(is_safari)) { is_safari = false; }
   
   if (is_safari){
-    percent = 0.80;
+    percent = 0.50;
+    alert("Safari");
   }
   
   table1 = new Tabulator("#code-table", {
