@@ -350,13 +350,18 @@ below for more information.
 
 
     <script>
-      let userAgentString = navigator.userAgentData;
-
-      let safari = userAgentString.brands.find(o => o.brand === "Safari");
-
-      if (typeof safari !== 'undefined'){
-        document.getElementById("codetableholder").style.height = "75vh";
+      if (navigator.userAgent.indexOf("Safari") != -1){
+        document.getElementById("codetableholder").style.height = "75vh";        
       }
+      
+      // userAgentData not supported by Safair (or Firefox)
+      //let userAgentString = navigator.userAgentData;
+
+      //let safari = userAgentString.brands.find(o => o.brand === "Safari");
+
+      //if (typeof safari !== 'undefined'){
+        //document.getElementById("codetableholder").style.height = "75vh";
+      //}
 
       let settingsModalBtn = document.getElementById("settings-modal-btn");
       let settingsModal = document.getElementById("settings-modal");
