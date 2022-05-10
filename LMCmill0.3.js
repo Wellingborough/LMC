@@ -401,10 +401,11 @@ function filltable() {
   if ((is_chrome)&&(is_safari)) { is_safari = false; }
   
   if (is_safari){
-    percent = 80;
-  }
+    percent = 50;
+    document.getElementById("codetableholder").style.maxHeight = '${percent}vh';
+}
   
-//  document.getElementById("codetableholder").style.maxHeight = '${percent}vh';
+//  document.getElementById("codetableholder").style.'max-height' = '${percent}vh';
   
   table1 = new Tabulator("#code-table", {
     maxHeight:'${percent}vh', // set height of table (in CSS or here)
