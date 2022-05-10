@@ -393,7 +393,7 @@ function filltable() {
   // is still not working.  I have reverted to setting the darn thing
   // in html.
   //
-  let percent = 95;
+  let percent = 90;
   
   var is_chrome = navigator.userAgent.indexOf('Chrome') > -1;
   var is_safari = navigator.userAgent.indexOf("Safari") > -1;
