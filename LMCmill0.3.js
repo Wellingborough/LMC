@@ -393,7 +393,10 @@ function filltable() {
   
   if (is_ios && is_safari){
     percent = 0.80;
-  }  
+    alert("Crapple");
+  }  else {
+    alert("Allegedly not Crapple");
+  }
   
   table1 = new Tabulator("#code-table", {
     maxHeight:'${height*percent}px', // set height of table (in CSS or here)
