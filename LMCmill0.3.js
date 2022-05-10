@@ -391,10 +391,11 @@ function filltable() {
   let is_ios = /iP(ad|od|hone)/i.test(window.navigator.userAgent);
   let is_safari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
   
-  if (is_ios && is_safari){
+  if (is_safari){
     percent = 0.80;
     alert("Crapple");
-  }  else {
+  }
+  else {
     alert("Allegedly not Crapple");
   }
   
