@@ -388,8 +388,10 @@ function filltable() {
   const height = window.innerHeight;
   const percent = 0.95;
   
-  let is_ios = /iP(ad|od|hone)/i.test(window.navigator.userAgent);
-  let is_safari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
+  var is_chrome = navigator.userAgent.indexOf('Chrome') > -1;
+  var is_safari = navigator.userAgent.indexOf("Safari") > -1;
+
+  if ((is_chrome)&&(is_safari)) { is_safari = false; }
   
   if (is_safari){
     percent = 0.80;
