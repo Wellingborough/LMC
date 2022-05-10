@@ -385,15 +385,9 @@ function filltable() {
   // that is not blank - this should protect any blank lines separating code
   // from data for example.
   //
-  
-  // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
-  let vh = window.innerHeight * 0.01;
-  // Then we set the value in the --vh custom property to the root of the document
-  document.documentElement.style.setProperty('--vh', `${vh}px`);
-  
+    
   table1 = new Tabulator("#code-table", {
     maxHeight:"95vh", // set height of table (in CSS or here)
-    maxHeight:calc(var(--vh, 1vh) * 100), // set height of table (in CSS or here)
     data:codetabledata, //assign data to table
     tabEndNewRow:true,
     history:true,
