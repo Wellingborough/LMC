@@ -2086,6 +2086,7 @@ function assembleCode() {
     }
   }
   logobj.value += "> ASSEMBLY:  Symbol table built\n";
+  logobj.value += symbolTable;
   logobj.scrollTop = logobj.scrollHeight;
 
   //
@@ -2167,7 +2168,8 @@ function assembleCode() {
                 if ((operandValue >= 0) && (operandValue <= 99)) {
                   target = operandValue;
                 } else {
-                  let errString = "> Error, line " + i + ": symbol not found: " + currentLine['operand'] + "\n";
+                  //let errString = "> Error, line " + i + ": symbol not found: " + currentLine['operand'] + "\n";
+                  let errString = "> Error, line " + i + ": symbol not found: " + currentLine['operand'] + " " + operand + "\n";
                   reportAssemblyError(i+1, errString);
                   return;
                 }
