@@ -2040,8 +2040,8 @@ function assembleCode() {
   for (let i=0; i < code.length; i++) {
     currentLine = code[i];
 
-    # Sanitise the label, operator and operand by converting to
-    # uppercase and stripping any whitespace
+    // Sanitise the label, operator and operand by converting to
+    // uppercase and stripping any whitespace
     
     let operator = currentLine['operator']
     operator = operator.trim()
@@ -2096,8 +2096,8 @@ function assembleCode() {
   for (let i=0; i < code.length; i++) {
     currentLine = code[i];
 
-    # Sanitise the label, operator and operand by converting to
-    # uppercase and stripping any whitespace
+    // Sanitise the label, operator and operand by converting to
+    // uppercase and stripping any whitespace
     
     let operator = currentLine['operator']
     operator = operator.trim()
