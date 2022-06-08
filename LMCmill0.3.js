@@ -2058,7 +2058,7 @@ function assembleCode() {
     var foundOpcode = false;
 
     let operator = currentLine['operator']
-    operator.trim()
+    operator = operator.trim()
     operator = operator.toUpperCase()
 
     for (let j=0; j < opcodesLMC.length; j++) {
