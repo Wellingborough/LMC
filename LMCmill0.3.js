@@ -2084,6 +2084,10 @@ function assembleCode() {
   for (let i=0; i < code.length; i++) {
     currentLine = code[i];
     var operand = currentLine['operand'];
+
+    let operator = currentLine['operator']
+    operator = operator.trim()
+    operator = operator.toUpperCase()
     
     //
     // Look up the opcode (skip if no operator present)
