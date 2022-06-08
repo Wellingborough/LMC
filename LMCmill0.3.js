@@ -2086,7 +2086,6 @@ function assembleCode() {
     }
   }
   logobj.value += "> ASSEMBLY:  Symbol table built\n";
-  logobj.value += symbolTable;
   logobj.scrollTop = logobj.scrollHeight;
 
   //
