@@ -2057,8 +2057,12 @@ function assembleCode() {
 
     var foundOpcode = false;
 
+    let operator = currentLine['operator']
+    operator.trim()
+    operator = operator.toUpperCase()
+
     for (let j=0; j < opcodesLMC.length; j++) {
-      if (opcodesLMC[j]['mnemonic'] == currentLine['operator']) {
+      if (opcodesLMC[j]['mnemonic'] == operator) {
         foundOpcode = true;
       }
     }
@@ -2084,14 +2088,14 @@ function assembleCode() {
     //
     // Look up the opcode (skip if no operator present)
     //
-    if (currentLine['operator'] == "") {
+    if (operator == "") {
       continue;
     }
 
     var mc = "";
 
     for (let j=0; j < opcodesLMC.length; j++) {
-      if (opcodesLMC[j]['mnemonic'] == currentLine['operator']) {
+      if (opcodesLMC[j]['mnemonic'] == operator) {
         //
         // Check whether we have an operand, and if this matches the machine
         // code definition
