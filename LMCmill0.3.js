@@ -2039,27 +2039,39 @@ function assembleCode() {
   //
   for (let i=0; i < code.length; i++) {
     currentLine = code[i];
+
+    # Sanitise the label, operator and operand by converting to
+    # uppercase and stripping any whitespace
+    
+    let operator = currentLine['operator']
+    operator = operator.trim()
+    operator = operator.toUpperCase()
+
+    let operand = currentLine['operand']
+    operand = operand.trim()
+    operand = operand.toUpperCase()
+
+    let label = currentLine['label']
+    label = label.trim()
+    label = label.toUpperCase()
+
     // console.log(currentLine);
 
-    if (currentLine['label'] != '') {
+    if (label != '') {
       //
       // We have a symbol - check that it is new, and add it
       //
       for (let s=0; s < symbolTable.length; s++) {
-        if (symbolTable[s]['symbol'] == currentLine['label']) {
+        if (symbolTable[s]['symbol'] == label) {
           let errString = "> Error, line " + i + ": duplicate symbol: " + symbolTable[s]['symbol'] + "\n";
           reportAssemblyError(i+1, errString);
           return;
         }
       }
-      symbolTable.push({"symbol": currentLine['label'], "value": i });
+      symbolTable.push({"symbol": label, "value": i });
     }
 
     var foundOpcode = false;
-
-    let operator = currentLine['operator']
-    operator = operator.trim()
-    operator = operator.toUpperCase()
 
     for (let j=0; j < opcodesLMC.length; j++) {
       if (opcodesLMC[j]['mnemonic'] == operator) {
@@ -2067,7 +2079,7 @@ function assembleCode() {
       }
     }
 
-    if (!foundOpcode && currentLine['operator'] != "") {
+    if (!foundOpcode && operator != "") {
       let errString = "> Error, line " + i + ": unrecognised opcode: " + currentLine['operator'] + "\n";
       reportAssemblyError(i+1, errString);
       return;
@@ -2083,11 +2095,21 @@ function assembleCode() {
 
   for (let i=0; i < code.length; i++) {
     currentLine = code[i];
-    var operand = currentLine['operand'];
 
+    # Sanitise the label, operator and operand by converting to
+    # uppercase and stripping any whitespace
+    
     let operator = currentLine['operator']
     operator = operator.trim()
     operator = operator.toUpperCase()
+
+    let operand = currentLine['operand']
+    operand = operand.trim()
+    operand = operand.toUpperCase()
+
+    let label = currentLine['label']
+    label = label.trim()
+    label = label.toUpperCase()
     
     //
     // Look up the opcode (skip if no operator present)
@@ -2112,7 +2134,7 @@ function assembleCode() {
             // Symbol Table
             //
             if (opcodesLMC[j]['mnemonic'] == "DAT") {
-              var datum = currentLine['operand'];
+              var datum = operand;
               var datumValue = parseInt(datum);
               if ((datumValue < -999) || (datumValue > 999)) {
                 let errString = "> Error, line " + i + ": value out of range: " + currentLine['operand'] + "\n";
@@ -2129,7 +2151,7 @@ function assembleCode() {
               let target = "yy";
               let found = false;
               for (let s=0; s < symbolTable.length; s++) {
-                if ( symbolTable[s]['symbol'] == currentLine['operand']) {
+                if ( symbolTable[s]['symbol'] == operand) {
                   target = symbolTable[s]['value'];
                   found = true;
                 }
