@@ -1,0 +1,43 @@
+* {
+  box-sizing: border-box;
+}
+
+.header {
+  border: 1px solid red;
+  padding: 15px;
+}
+
+.codeEditor {
+  width: 33%;
+  float: left;
+  padding: 15px;
+  border: 1px solid red;
+}
+
+.cpuSchematic {
+  width: 33%;
+  float: left;
+  padding: 15px;
+  border: 1px solid red;
+}
+
+.memory {
+  width: 34%;
+  float: left;
+  padding: 15px;
+  border: 1px solid red;
+}
+
+.controls {
+  width: 67%;
+  float: left;
+  padding: 15px;
+  border: 1px solid red;
+}
+
+.ioConsole {
+  width: 67%;
+  float: left;
+  padding: 15px;
+  border: 1px solid red;
+}
