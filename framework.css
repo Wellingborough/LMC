@@ -1,41 +1,46 @@
 * {
   box-sizing: border-box;
-  border: 1px solid red;
   padding: 0px;
   margin: 0px;
 }
 
 .header {
+  border: 1px solid red;
   width: 100%;
   height: 8vh;
 }
 
 .codeEditor {
+  border: 1px solid red;
   width: 33%;
   height: 92vh;
   float: left;
 }
 
 .cpuSchematic {
+  border: 1px solid red;
   width: 33%;
   height: 50vh;
   float: left;
 }
 
 .memory {
+  border: 1px solid red;
   width: 33%;
   height: 50vh;
   float: right;
 }
 
 .controls {
-  width: 66%;
+  border: 1px solid red;
+  width: 67%;
   height: 8vh;
   float: right;
 }
 
 .ioConsole {
-  width: 66%;
+  border: 1px solid red;
+  width: 67%;
   height: 34vh;
   float: right;
 }
@@ -43,23 +48,79 @@
 @media only screen and (max-width: 768px) {
   /* For mobile phones: */
   .codeEditor {
-    width: 100%;
     border: 1px solid green;
+    width: 100%;
   }
   .cpuSchematic {
-    width: 100%;
     border: 1px solid green;
+    width: 100%;
   }
   .memory {
-    width: 100%;
     border: 1px solid green;
+    width: 100%;
   }
   .controls {
-    width: 100%;
     border: 1px solid green;
+    width: 100%;
   }
   .ioConsole {
-    width: 100%;
     border: 1px solid green;
+    width: 100%;
+  }
+}
+
+/* iPad in Portrait - necessary because Apple's idea of viewport is ... different */
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (orientation: portrait) 
+  and (-webkit-min-device-pixel-ratio: 1) {
+  .codeEditor {
+    border: 1px solid orange;
+    height: 84vh;
+    width: 100%;
+  }
+
+  .cpuSchematic {
+    border: 1px solid orange;
+    height: 42vh;
+    width: 100%;
+  }
+
+  .memory {
+    border: 1px solid orange;
+    height: 42vh;
+    width: 100%;
+  }
+
+  .controls {
+    border: 1px solid orange;
+    width: 100%;
+  }
+
+  .ioConsole {
+    border: 1px solid orange;
+    width: 100%;
+  }
+}
+
+/* iPad in Landscape - necessary because Apple's idea of viewport is ... different */
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (orientation: landscape) 
+  and (-webkit-min-device-pixel-ratio: 1) {
+    .codeEditor {
+      border: 1px solid blue;
+      height: 84vh;
+    }
+  .cpuSchematic {
+    border: 1px solid blue;
+    height: 42vh;
+  }
+
+  .memory {
+    border: 1px solid red;
+    height: 42vh;
   }
 }
