@@ -25,7 +25,7 @@
       </div>
     </div>
 
-    <div class="codeEditor">
+    <div class="codeEditor" id="code-table">
       <div class="row content" id="code-table" style="flex: 0 1 auto;" ></div>
       <div class="footer" id="code-table-buttons" class="footer" style="bottom:0; display:flex; gap:20px; align-items: center; flex: 1;">
         <input id="load-btn" type="file" style="display:none;">
@@ -34,20 +34,33 @@
       </div>
     </div>
 
-    <div class="cpuSchematic">
-      <p>CPU Schematic</p>
+    <div class="cpuSchematic" id="processor-schematic">
+      <canvas id="processor-canvas">Your browser does not support the HTML5 canvas</canvas>
     </div>
 
-    <div class="memory">
+    <div class="memory" id="memory-table">
       <p>Memory</p>
     </div>
 
     <div class="controls">
-      <p>Simulator Controls</p>
+      <button id="run-btn" class="button" onclick="runCode()">Run</button>
+      <button id="stop-btn" class="button" onclick="allStop()">Stop</button>
+      <button id="resume-btn" class="button" onclick="allAhead()">Resume</button>
+      <button id="next-btn" class="button" onclick="stepCode()">Next</button>
+      <p id="state-label" style="margin:0px;">Ready</p>
     </div>
 
     <div class="ioConsole">
-      <p>Contains divs for Input, Output and Console</p>
+      <div style="display:flex; flex-direction:column; margin:0px;">
+        <div id="input-div" style="background-color: #ee99ee;padding:8px; align-items: center;"><p style="margin:0px"><span style="background-color: #ee99ee; color: #000000; padding: 8px;">Input:</span><input type="number" id="input-text" min="0" max="999" ><button onclick="processInput()" id="input-button">Enter</button></div>
+        <div class="col-12" id="output-div" style="flex: 1; background-color: #ee99ee;padding:8px;"><p style="margin:0px;"><span style="background-color: #ee99ee; color: #000000; padding: 8px;">Output:</span><textarea id="output-text" rows="12" readonly="true"></textarea></div>
+      </div>
+      <div id="log-div" style="background-color: #ffbbff;padding:8px;display:flex; flex-direction:column; width:100%;">
+        <div style="margin:0px; height:100%; width:100%; box-sizing: border-box;">
+          <span style="background-color: #ffbbff; color: #000000; padding: 8px;">Console:</span>
+          <textarea id="log-text" rows="4" readonly="true" style="height:90%;"></textarea>
+        </div>
+      </div>
     </div>
 
   </body>
