@@ -6,8 +6,9 @@
 .header {
   border: 1px solid red;
   padding: 8px;
+  margin: 1px;
   width: 100%;
-  height: 10vh;
+  height: 8vh;
 }
 
 .codeEditor {
