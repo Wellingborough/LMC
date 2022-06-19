@@ -2384,16 +2384,16 @@ function resizeEvent(){
 //
 function scaleCanvas(){
   var holdingDiv = document.getElementById("processor-schematic");
-
   //
   // Establish a maximum height for the CPU schematic row - 2/3 of content
   //
-  var maxHeight = holdingDiv.style.height;
+  var maxHeight = holdingDiv.clientHeight;
 
   //
   // Establish a maximum width for the CPU schematic row - 1/2 of holding row
   //
-  var maxWidth = holdingDiv.style.width;
+  var maxWidth = holdingDiv.clientWidth;
+
   console.log("Width, height");
   console.log(maxWidth, maxHeight);
 
