@@ -2394,6 +2394,8 @@ function scaleCanvas(){
   // Establish a maximum width for the CPU schematic row - 1/2 of holding row
   //
   var maxWidth = holdingDiv.style.width;
+  console.log("Width, height");
+  console.log(maxWidth, maxHeight);
 
 
   // 
