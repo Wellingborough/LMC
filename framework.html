@@ -25,7 +25,7 @@
       </div>
     </div>
 
-    <div class="codeEditor" id="code-table">
+    <div class="codeEditor" id="code-table" id="code-table-holder">
       <div class="row content" id="code-table" style="flex: 0 1 auto;" ></div>
       <div class="footer" id="code-table-buttons" class="footer" style="bottom:0; display:flex; gap:20px; align-items: center; flex: 1;">
         <input id="load-btn" type="file" style="display:none;">
@@ -437,65 +437,6 @@ below for more information.
       function debouncedResize() {
         console.log("Event fired");
       }    
-      <!-- Temp - alternative to split.js      -->
-      // Should probably handle touchstart === mousedown and
-      // touchmove === mousemove and 
-      // touchend === mouseup
-      //
-      let ismdwn = 0
-      rpanrResize.addEventListener('mousedown', mD);
-
-      function mD(event) {
-        ismdwn = 1
-        document.body.addEventListener('mousemove', mV);
-        document.body.addEventListener('mouseup', end);
-        document.body.style.cursor = "col-resize";
-        
-        // Prevent the code table from altering the cursor
-        // May want to do this for other elements, but the
-        // code table is very close to the drag control, so
-        // it is the most likely to be 'hit'
-        let codeTableElement = document.getElementById("code-table");
-        let codeTableHolderElement = document.getElementById("codetableholder");
-        codeTableElement.style.pointerEvents="none";
-        codeTableHolderElement.style.pointerEvents="none";
-        
-        // Prevent the mouse down and drag being interpreted on other elements
-        // This stops bits of text in the tables and buttons from being
-        // highlighted if we happen to drag over them.
-        event.preventDefault();
-      }
-
-      function mV(event) {
-        if (ismdwn === 1) {
-          codetableholder.style.flexBasis = event.clientX + "px";
-
-          // Prevent the mouse down and drag being interpreted on other elements
-          // Needs to be done here as well as in the mouse down event.
-          event.preventDefault();
-        } else {
-          end();
-        }
-      }
-
-      const end = (e) => {
-        ismdwn = 0;
-        document.body.style.cursor = "default";
-        document.body.removeEventListener('mouseup', end);
-        rpanrResize.removeEventListener('mousemove', mV);
-
-        // Allow the code table to alter the cursor again
-        let codeTableElement = document.getElementById("code-table");
-        let codeTableHolderElement = document.getElementById("codetableholder");
-        codeTableElement.style.pointerEvents="auto";
-        codeTableHolderElement.style.pointerEvents="auto";
-        
-        // Resize the CPU schematic and memory table.
-        resizeEvent();
-      }
-      <!-- Temp - alternative to split.js      -->
-
-
     </script>
     
     
