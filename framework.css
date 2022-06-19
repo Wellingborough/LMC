@@ -44,7 +44,9 @@
   border: 1px solid red;
   padding: 8px;
   width: 67%;
-  float: right;
+  position: absolute;
+  right: 0;
+  bottom: 0;
 /*  flex: auto;*/
 }
 
