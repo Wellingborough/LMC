@@ -30,6 +30,14 @@ body {
   align-items: center;
 }
 
+.footer {
+  display: flex;
+  gap: 20px;
+  flex-wrap: nowrap;
+  justify-content: flex-start; 
+  align-items: center;
+}
+
 .codeEditor {
   border: 1px solid red;
   width: 33%;
