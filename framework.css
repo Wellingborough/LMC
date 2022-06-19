@@ -170,6 +170,25 @@ body {
   background-color: #cccccc; /* grayer */
 }
 
+.icon-button {
+  background-color: #9933cc; /* Dark Purple */
+  border: none;
+  color: #fecef7; /* Light Purple */
+  padding: 12px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 2px;
+  font-weight: bold;
+  margin: 0px 0px;
+  height: 100%;
+}
+
+.icon-button:hover {
+  background-color: #7711aa;
+}
+
 textarea {
   padding: 10px;
   width: 100%;
