@@ -19,6 +19,15 @@ body {
   border: 1px solid red;
   width: 100%;
   height: 8vh;
+  display: flex;
+  flex-direction: row;
+  margin-top: -4px;
+  margin-bottom: -4px;
+  margin-left: 10px;
+  margin-right: 10px;
+  flex-wrap: nowrap;
+  justify-content: flex-start; 
+  align-items: center;
 }
 
 .codeEditor {
