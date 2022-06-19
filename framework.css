@@ -4,7 +4,7 @@
 
 .header {
   border: 1px solid red;
-  padding: 15px;
+  padding: 0px;
   width: 100%;
   height: 10vh;
 }
@@ -13,35 +13,37 @@
   width: 33%;
   height: 90vh;
   float: left;
-  padding: 15px;
+  padding: 0px;
   border: 1px solid red;
 }
 
 .cpuSchematic {
   width: 33%;
   float: left;
-  padding: 15px;
+  padding: 0px;
   border: 1px solid red;
 }
 
 .memory {
   width: 34%;
   float: left;
-  padding: 15px;
+  padding: 0px;
   border: 1px solid red;
 }
 
 .controls {
   width: 67%;
   float: right;
-  padding: 15px;
+  padding: 0px;
   border: 1px solid red;
 }
 
 .ioConsole {
   width: 67%;
   float: right;
-  padding: 15px;
+  padding: 0px;
+  position: absolute;
+  bottom: 0;
   border: 1px solid red;
 }
 
