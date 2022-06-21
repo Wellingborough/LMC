@@ -16,7 +16,6 @@ body {
   background-color: #9933cc;
   color: #ffffff;
   padding: 4px;
-  border: 1px solid red;
   width: 100%;
   height: 6vh;
   display: flex;
@@ -38,28 +37,24 @@ body {
 }
 
 .codeEditor {
-  border: 1px solid red;
   width: 33%;
   height: 94vh;
   float: left;
 }
 
 .cpuSchematic {
-  border: 1px solid red;
   width: 33%;
   height: 50vh;
   float: left;
 }
 
 .memory {
-  border: 1px solid red;
   width: 34%;
   height: 50vh;
   float: right;
 }
 
 .controls {
-  border: 1px solid red;
   width: 67%;
   float: right;
   display: flex;
@@ -72,7 +67,6 @@ body {
 }
 
 .ioConsole {
-  border: 1px solid red;
   width: 67%;
   height: 34vh;
   float: right;
@@ -91,6 +85,11 @@ body {
 #log-div {
   flex: 1 1 auto;
   height: 100%
+}
+
+#output-holder {
+  height: 100%; 
+  margin:0px;
 }
 
 /* New settings */
@@ -156,7 +155,6 @@ canvas {
 }
 
 .tabulator-row .tabulator-cell{
-#  padding:0px 0px;
   padding:4px 4px;
   max-height: 20px;
 }
@@ -213,23 +211,18 @@ canvas {
 @media only screen and (max-width: 768px) {
   /* For mobile phones: */
   .codeEditor {
-    border: 1px solid green;
     width: 100%;
   }
   .cpuSchematic {
-    border: 1px solid green;
     width: 100%;
   }
   .memory {
-    border: 1px solid green;
     width: 100%;
   }
   .controls {
-    border: 1px solid green;
     width: 100%;
   }
   .ioConsole {
-    border: 1px solid green;
     width: 100%;
   }
   .icon-button {
@@ -244,30 +237,25 @@ canvas {
   and (orientation: portrait) 
   and (-webkit-min-device-pixel-ratio: 1) {
   .codeEditor {
-    border: 1px solid orange;
     height: 84vh;
     width: 100%;
   }
 
   .cpuSchematic {
-    border: 1px solid orange;
     height: 42vh;
     width: 100%;
   }
 
   .memory {
-    border: 1px solid orange;
     height: 42vh;
     width: 100%;
   }
 
   .controls {
-    border: 1px solid orange;
     width: 100%;
   }
 
   .ioConsole {
-    border: 1px solid orange;
     width: 100%;
   }
 }
@@ -279,16 +267,13 @@ canvas {
   and (orientation: landscape) 
   and (-webkit-min-device-pixel-ratio: 1) {
     .codeEditor {
-      border: 1px solid blue;
       height: 84vh;
     }
   .cpuSchematic {
-    border: 1px solid blue;
     height: 42vh;
   }
 
   .memory {
-    border: 1px solid red;
     height: 42vh;
   }
 }
