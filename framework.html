@@ -52,11 +52,19 @@
 
     <div class="ioConsole">
       <div style="display:flex; flex-direction:column; margin:0px;">
-        <div id="input-div" style="background-color: #ee99ee;padding:8px; align-items: center;"><p style="margin:0px"><span style="background-color: #ee99ee; color: #000000; padding: 8px;">Input:</span><input type="number" id="input-text" min="0" max="999" ><button onclick="processInput()" id="input-button">Enter</button></div>
-        <div class="col-12" id="output-div" style="flex: 1; background-color: #ee99ee;padding:8px;"><p style="margin:0px;"><span style="background-color: #ee99ee; color: #000000; padding: 8px;">Output:</span><textarea id="output-text" rows="12" readonly="true"></textarea></div>
+        <div id="input-div" style="background-color: #ee99ee;padding:8px; align-items: center;">
+          <p style="margin:0px">
+            <span style="background-color: #ee99ee; color: #000000; padding: 8px;">Input:</span>
+            <input type="number" id="input-text" min="0" max="999" >
+            <button onclick="processInput()" id="input-button">Enter</button>
+        </div>
+        <div class="col-12" id="output-div" style="flex: 1; background-color: #ee99ee;padding:8px;"><p style="margin:0px;">
+          <span style="background-color: #ee99ee; color: #000000; padding: 8px;">Output:</span>
+          <textarea id="output-text" rows="12" readonly="true"></textarea>
+        </div>
       </div>
-      <div id="log-div" style="background-color: #ffbbff;padding:8px;display:flex; flex-direction:column; width:100%;">
-        <div style="margin:0px; height:100%; width:100%; box-sizing: border-box;">
+      <div id="log-div" style="background-color: #ffbbff;padding:8px;display:flex; flex-direction:column;">
+        <div style="margin:0px; height:100%; box-sizing: border-box;">
           <span style="background-color: #ffbbff; color: #000000; padding: 8px;">Console:</span>
           <textarea id="log-text" rows="4" readonly="true" style="height:90%;"></textarea>
         </div>
