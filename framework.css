@@ -21,10 +21,10 @@ body {
   height: 8vh;
   display: flex;
   flex-direction: row;
-  margin-top: -4px;
-  margin-bottom: -4px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
   flex-wrap: nowrap;
   justify-content: flex-start; 
   align-items: center;
@@ -61,15 +61,15 @@ body {
 
 .controls {
   border: 1px solid red;
-  width: 57%;
+  width: 67%;
   height: 8vh;
   float: right;
   display: flex;
   flex-direction: row;
-  margin-top: -4px;
-  margin-bottom: -4px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
   flex-wrap: nowrap;
   justify-content: flex-start; 
   align-items: center;
@@ -77,15 +77,15 @@ body {
 
 .ioConsole {
   border: 1px solid red;
-  width: 57%;
+  width: 67%;
   height: 34vh;
   float: right;
   display: flex;
   flex-direction: row;
-  margin-top: -4px;
-  margin-bottom: -4px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
   flex-wrap: nowrap;
   justify-content: flex-start; 
   align-items: center;
