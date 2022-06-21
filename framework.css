@@ -37,25 +37,25 @@ body {
 }
 
 .codeEditor {
-  width: 33%;
+  width: 25%;
   height: 94vh;
   float: left;
 }
 
 .cpuSchematic {
-  width: 33%;
+  width: 38%;
   height: 50vh;
   float: left;
 }
 
 .memory {
-  width: 34%;
+  width: 37%;
   height: 50vh;
   float: right;
 }
 
 .controls {
-  width: 67%;
+  width: 75%;
   float: right;
   display: flex;
   flex-direction: row;
@@ -67,7 +67,7 @@ body {
 }
 
 .ioConsole {
-  width: 67%;
+  width: 75%;
   height: 34vh;
   float: right;
   display: flex;
