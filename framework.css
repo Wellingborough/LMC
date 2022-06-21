@@ -64,6 +64,15 @@ body {
   width: 67%;
   height: 8vh;
   float: right;
+  display: flex;
+  flex-direction: row;
+  margin-top: -4px;
+  margin-bottom: -4px;
+  margin-left: 10px;
+  margin-right: 10px;
+  flex-wrap: nowrap;
+  justify-content: flex-start; 
+  align-items: center;
 }
 
 .ioConsole {
@@ -71,6 +80,16 @@ body {
   width: 67%;
   height: 34vh;
   float: right;
+  display: flex;
+  flex-direction: row;
+  margin-top: -4px;
+  margin-bottom: -4px;
+  margin-left: 10px;
+  margin-right: 10px;
+  flex-wrap: nowrap;
+  justify-content: flex-start; 
+  align-items: center;
+
 }
 
 @media only screen and (max-width: 768px) {
