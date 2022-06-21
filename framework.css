@@ -84,6 +84,10 @@ body {
 
 }
 
+#input-div {
+  flex: 1 1 auto;
+}
+
 /* New settings */
 
 .button {
