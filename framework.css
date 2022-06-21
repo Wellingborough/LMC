@@ -84,8 +84,13 @@ body {
 
 }
 
+#io-div {
+  height: 100%;
+}
+
 #log-div {
   flex: 1 1 auto;
+  height: 100%
 }
 
 /* New settings */
