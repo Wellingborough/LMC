@@ -15,16 +15,12 @@ body {
 .header {
   background-color: #9933cc;
   color: #ffffff;
-  padding: 2px;
+  padding: 4px;
   border: 1px solid red;
   width: 100%;
-  height: 8vh;
+  height: 4vh;
   display: flex;
   flex-direction: row;
-  margin-top: -4px;
-  margin-bottom: -4px;
-  margin-left: 0px;
-  margin-right: 0px;
   flex-wrap: nowrap;
   justify-content: flex-start; 
   align-items: center;
@@ -32,16 +28,18 @@ body {
 
 .footer {
   display: flex;
-  gap: 20px;
+  gap: 12px;
   flex-wrap: nowrap;
   justify-content: flex-start; 
   align-items: center;
+  bottom:0; 
+  flex: 1;
 }
 
 .codeEditor {
   border: 1px solid red;
   width: 33%;
-  height: 92vh;
+  height: 96vh;
   float: left;
 }
 
@@ -62,14 +60,10 @@ body {
 .controls {
   border: 1px solid red;
   width: 67%;
-  height: 8vh;
   float: right;
   display: flex;
   flex-direction: row;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-left: 0px;
-  margin-right: 0px;
+  gap: 12px;
   flex-wrap: nowrap;
   justify-content: flex-start; 
   align-items: center;
@@ -82,10 +76,6 @@ body {
   float: right;
   display: flex;
   flex-direction: row;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-left: 0px;
-  margin-right: 0px;
   flex-wrap: nowrap;
   justify-content: flex-start; 
   align-items: center;
@@ -99,7 +89,7 @@ body {
   border: none;
   color: black;
   padding: 4px 6px;
-  gap: 20px;
+  margin-left: 4px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -108,7 +98,7 @@ body {
   font-weight: bold;
 }
 
-.state-label {
+#state-label {
   color: white;
 }
 
