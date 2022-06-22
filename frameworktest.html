@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMC Simulator v1.0</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.1.8/css/tabulator_midnight.min.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <script defer src="framework.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.1.8/js/tabulator.min.js"></script>
+    <script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.20/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://kit.fontawesome.com/0b212d21ae.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="framework.css">
+  </head>
+  <body onresize="resizeEvent()" onload="filltable()">
+
+    <div class="header">
+      <p>LMC Simulator</p>
+      <div style="margin-left: auto;">
+        <button id="save-btn" class="icon-button" title="Save program to file" onclick="saveCode()"><i class="fa-solid fa-file-arrow-down fa-lg"></i></button>
+        <button id="hide-load-btn" class="icon-button" title="Load program from file" onclick="document.getElementById('load-btn').click()"><i class="fa-solid fa-file-arrow-up fa-lg"></i></button>
+        <button id="print-btn" class="icon-button" title="Print program to PDF" onclick="printCode()"><i class="fa-solid fa-print fa-lg"></i></button>
+        <button id="about-modal-btn" class="icon-button" title="About"><i class="fa-solid fa-circle-info fa-lg"></i></button>
+        <button id="settings-modal-btn" class="icon-button" title="Settings"><i class="fa-solid fa-gear fa-lg"></i></button>
+      </div>
+    </div>
+
+    <div class="codeEditor" id="codetableholder" style="display:flex; flex-direction:column; margin:0px; max-height:85vh;">
+      <div class="row content" id="code-table" style="flex: 0 1 auto;" ></div>
+      <div class="footer" id="code-table-buttons" class="footer">
+        <input id="load-btn" type="file" style="display:none;">
+        <button id="assemble-button" class="button" onclick="assembleCode()">Assemble</button>
+        <button id="clear-button" onclick="clearCode()" class="button">Clear</button>
+      </div>
+    </div>
+    
+    <div class="cpuSchematic" id="processor-schematic">
+      <canvas id="processor-canvas">Your browser does not support the HTML5 canvas</canvas>
+    </div>
+
+    <div class="memory" id="memory-table">
+      <p>Memory</p>
+    </div>
+
+    <div class="controls">
+      <button id="run-btn" class="button" onclick="runCode()">Run</button>
+      <button id="stop-btn" class="button" onclick="allStop()">Stop</button>
+      <button id="resume-btn" class="button" onclick="allAhead()">Resume</button>
+      <button id="next-btn" class="button" onclick="stepCode()">Next</button>
+      <p id="state-label" style="margin:0px;">Ready</p>
+    </div>
+
+    <div class="ioConsole">
+      <div id="io-div" style="display:flex; flex-direction:column; margin:0px;">
+        <div id="input-div" style="background-color: #ee99ee;padding:8px; align-items: center;">
+          <p id="output-holder">
+            <span style="background-color: #ee99ee; color: #000000; padding: 8px;">Input:</span>
+            <input type="number" id="input-text" min="0" max="999" >
+            <button onclick="processInput()" id="input-button">Enter</button>
+          </p>
+        </div>
+        <div id="output-div" style="flex: 1; background-color: #ee99ee;padding:8px;"><p style="margin:0px;">
+          <span style="background-color: #ee99ee; color: #000000; padding: 8px;">Output:</span>
+          <textarea id="output-text" rows="8" readonly="true"></textarea>
+        </div>
+      </div>
+      <div id="log-div" style="background-color: #ffbbff;padding:8px;display:flex; flex-direction:column;">
+        <div style="margin:0px; height:100%; box-sizing: border-box;">
+          <span style="background-color: #ffbbff; color: #000000; padding: 8px;">Console:</span>
+          <textarea id="log-text" rows="4" readonly="true"></textarea>
+        </div>
+      </div>
+    </div>
+
+
+    <script>
+      //
+      // Foundation work for clickable processor schematic
+      // Hook the mouse event (should do touch too) and convert
+      // window coordinates to canvas coordinates
+      // Call canvasHitCheck() in the pile of JavaScript
+      // to figure out what they have clicked on
+      //
+      document.getElementById('processor-canvas').onclick=function(e){
+        let rect = document.getElementById('processor-canvas').getBoundingClientRect();
+        canvasHitCheck(e.clientX - rect.left, e.clientY - rect.top);
+      }
+
+      <!-- also temp and doesn't seem to work! -->
+      let canvasElement = document.getElementById("processor-schematic")
+      canvasElement.addEventListener("resize", debouncedResize );
+      function debouncedResize() {
+        console.log("Event fired");
+      }    
+    </script>
+  </body>
+</html>
