@@ -414,11 +414,11 @@ table1 = new Tabulator("#code-table", {
     history:true,
     layout:"fitColumns", //fit columns to width of table (optional)
     columns:[ 
-      {title:"", field:"active", formatter:"traffic", formatterParams:{min:1, max:3, color:["green", "orange", "red"]}, width:25, maxWidth:25, minWidth:25, hozAlign:"center", headerSort:false, download:false},
-      {title:"Line", field:"line", width:"10%", widthShrink:3, headerSort:false},
-      {title:"Label", field:"label", width:"20%", widthShrink:6, hozAlign:"left", editor:true, headerSort:false},
-      {title:"Operator", field:"operator", width:"30%", widthShrink:4, editor:true, headerSort:false},
-      {title:"Operand", field:"operand", width:"35%", widthShrink:6, editor:true, headerSort:false},
+      {title:"", field:"active", formatter:"traffic", formatterParams:{min:1, max:3, color:["green", "orange", "red"]}, width:25, maxWidth:25, minWidth:25, hozAlign:"center", headerSort:false, download:false, resizable:false},
+      {title:"Line", field:"line", width:"10%", widthShrink:3, headerSort:false, resizable:false},
+      {title:"Label", field:"label", width:"20%", widthShrink:6, hozAlign:"left", editor:true, headerSort:false, resizable:false},
+      {title:"Operator", field:"operator", width:"30%", widthShrink:4, editor:true, headerSort:false, resizable:false},
+      {title:"Operand", field:"operand", width:"35%", widthShrink:6, editor:true, headerSort:false, resizable:false},
     ],
     selectable:1,
     keybindings:{
@@ -450,16 +450,16 @@ table1 = new Tabulator("#code-table", {
     clipboard:false,
     layout:"fitColumns", //fit columns to width of table (optional)
     columns:[ //Define Table Columns
-      {title:"", field:"m0", width:"10%", widthShrink:1, hozAlign:"center", headerSort:false},
-      {title:"", field:"m1", width:"10%", widthShrink:1, hozAlign:"center", headerSort:false},
-      {title:"M", field:"m2", width:"10%", widthShrink:1, hozAlign:"center", headerHozAlign:"center", headerSort:false},
-      {title:"E", field:"m3", width:"10%", widthShrink:1, hozAlign:"center", headerHozAlign:"center", headerSort:false},
-      {title:"M", field:"m4", width:"10%", widthShrink:1, hozAlign:"center", headerHozAlign:"center", headerSort:false},
-      {title:"O", field:"m5", width:"10%", widthShrink:1, hozAlign:"center", headerHozAlign:"center", headerSort:false},
-      {title:"R", field:"m6", width:"10%", widthShrink:1, hozAlign:"center", headerHozAlign:"center", headerSort:false},
-      {title:"Y", field:"m7", width:"10%", widthShrink:1, hozAlign:"center", headerHozAlign:"center", headerSort:false},
-      {title:"", field:"m8", width:"10%", widthShrink:1, hozAlign:"center", headerSort:false},
-      {title:"", field:"m9", width:"10%", widthShrink:1, hozAlign:"center", headerSort:false},
+      {title:"", field:"m0", width:"10%", widthShrink:1, hozAlign:"center", headerSort:false, resizable:false},
+      {title:"", field:"m1", width:"10%", widthShrink:1, hozAlign:"center", headerSort:false, resizable:false},
+      {title:"M", field:"m2", width:"10%", widthShrink:1, hozAlign:"center", headerHozAlign:"center", headerSort:false, resizable:false},
+      {title:"E", field:"m3", width:"10%", widthShrink:1, hozAlign:"center", headerHozAlign:"center", headerSort:false, resizable:false},
+      {title:"M", field:"m4", width:"10%", widthShrink:1, hozAlign:"center", headerHozAlign:"center", headerSort:false, resizable:false},
+      {title:"O", field:"m5", width:"10%", widthShrink:1, hozAlign:"center", headerHozAlign:"center", headerSort:false, resizable:false},
+      {title:"R", field:"m6", width:"10%", widthShrink:1, hozAlign:"center", headerHozAlign:"center", headerSort:false, resizable:false},
+      {title:"Y", field:"m7", width:"10%", widthShrink:1, hozAlign:"center", headerHozAlign:"center", headerSort:false, resizable:false},
+      {title:"", field:"m8", width:"10%", widthShrink:1, hozAlign:"center", headerSort:false, resizable:false},
+      {title:"", field:"m9", width:"10%", widthShrink:1, hozAlign:"center", headerSort:false, resizable:false},
     ],	
   });
 
