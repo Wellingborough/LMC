@@ -407,7 +407,40 @@ function filltable() {
   
 //  document.getElementById("codetableholder").style.'max-height' = '${percent}vh';
   
+table1 = new Tabulator("#code-table", {
+    maxHeight:'${percent}vh', // set height of table (in CSS or here)
+    data:codetabledata, //assign data to table
+    tabEndNewRow:true,
+    history:true,
+    layout:"fitColumns", //fit columns to width of table (optional)
+    columns:[ 
+      {title:"", field:"active", formatter:"traffic", formatterParams:{min:1, max:3, color:["green", "orange", "red"]}, width:25, maxWidth:25, minWidth:25, hozAlign:"center", headerSort:false, download:false},
+      {title:"Line", field:"line", width:"10%", widthShrink:3, headerSort:false},
+      {title:"Label", field:"label", width:"20%", widthShrink:6, hozAlign:"left", editor:true, headerSort:false},
+      {title:"Operator", field:"operator", width:"30%", widthShrink:4, editor:true, headerSort:false},
+      {title:"Operand", field:"operand", width:"35%", widthShrink:6, editor:true, headerSort:false},
+    ],
+    selectable:1,
+    keybindings:{
+        "deleteSelectedRows" : "46", //bind clear function to delete
+        "deselectAllRows": "27",
+        "insertRow": "45",
+        "arrowNavNext": "39",
+        "arrowNavPrev": "37",
+    },
+    history:true,
+    downloadRowRange:"selected", //print only currently selected rows
+  });
 
+  table1.on("cellEdited", function(data){ // fired if the user edits the table, but not programmatic changes...
+    clearInterval(intervalHandle);
+    changeState(states.UNASSEMBLED);
+  });
+
+  table1.on("rowAdded", function(row) {
+    handleNewRow(row);
+  });
+  
  //
   // Memory Table
   //  
