@@ -442,28 +442,6 @@ function filltable() {
   });
 
 
-  //
-  // Memory Table
-  //  
-  table2 = new Tabulator("#memory-table", {
-    maxHeight:"600px", // set height of table (in CSS or here)
-    data:blankmemorytabledata, //assign data to table
-    clipboard:false,
-    layout:"fitColumns", //fit columns to width of table (optional)
-    columns:[ //Define Table Columns
-      {title:"", field:"m0", width:"10%", widthShrink:1, hozAlign:"center", headerSort:false},
-      {title:"", field:"m1", width:"10%", widthShrink:1, hozAlign:"center", headerSort:false},
-      {title:"M", field:"m2", width:"10%", widthShrink:1, hozAlign:"center", headerHozAlign:"center", headerSort:false},
-      {title:"E", field:"m3", width:"10%", widthShrink:1, hozAlign:"center", headerHozAlign:"center", headerSort:false},
-      {title:"M", field:"m4", width:"10%", widthShrink:1, hozAlign:"center", headerHozAlign:"center", headerSort:false},
-      {title:"O", field:"m5", width:"10%", widthShrink:1, hozAlign:"center", headerHozAlign:"center", headerSort:false},
-      {title:"R", field:"m6", width:"10%", widthShrink:1, hozAlign:"center", headerHozAlign:"center", headerSort:false},
-      {title:"Y", field:"m7", width:"10%", widthShrink:1, hozAlign:"center", headerHozAlign:"center", headerSort:false},
-      {title:"", field:"m8", width:"10%", widthShrink:1, hozAlign:"center", headerSort:false},
-      {title:"", field:"m9", width:"10%", widthShrink:1, hozAlign:"center", headerSort:false},
-    ],	
-  });
-
 
   //
   // Processor schematic canvas
