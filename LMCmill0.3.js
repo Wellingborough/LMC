@@ -2667,7 +2667,7 @@ function handleFile() {
 // remove it...
 //
 function saveCode() {
-  let resString = "data:text/plain;charset=utf-8,";
+  let resString = "data:text/plain;charset=UTF-8,";
   let code = table1.getData();
 
   for (let i=0; i < code.length; i++) {
@@ -2677,7 +2677,7 @@ function saveCode() {
 
   let element = document.createElement('a');
   element.setAttribute('href', resString);
-  element.setAttribute('download', "");
+  element.setAttribute('download', "LMCProgram");
   element.style.display='none';
   
   document.body.appendChild(element);
