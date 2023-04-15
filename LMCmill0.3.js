@@ -2672,7 +2672,7 @@ function saveCode() {
 
   for (let i=0; i < code.length; i++) {
     currentLine = code[i];
-    resString += currentLine['line'] + "\t" + currentLine['label'] + "\t" + currentLine['operator'] + "\t" + currentLine['operand'] +"\n";
+    resString += currentLine['line'] + "\u0009" + currentLine['label'] + "\u0009" + currentLine['operator'] + "\u0009" + currentLine['operand'] +"\u2028";
   }
 
   let element = document.createElement('a');
