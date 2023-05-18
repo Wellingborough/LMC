@@ -118,15 +118,15 @@ html {
 }
 
 .footer {
-/*  background-color: #9933cc;*/
-  background-color: #000000;
+  background-color: #9933cc;
+/*  background-color: #000000;*/
   color: #ffffff;
   padding: 8px;
 }
 
 body {
-/*  background-color: #9933cc;*/
-  background-color: #000000;
+  background-color: #9933cc;
+/*  background-color: #000000;*/
 }
 
 .menu ul {
@@ -148,8 +148,8 @@ body {
 }
 
 .icon-button {
-/*  background-color: #9933cc;*/
-  background-color: #000000;
+  background-color: #9933cc;
+/*  background-color: #000000;*/
   border: none;
   color: #fecef7; /* Light Purple */
   padding: 12px 12px;
