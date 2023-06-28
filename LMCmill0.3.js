@@ -2649,7 +2649,9 @@ function handleFile() {
     // We need to change the value of the load button here, so that we can reload the same file
     // BUT we don't want to refire the change event!!  Unless we look for a reserved value of course
     //
-    // document.getElementById("load-btn").innerHTML = "Null";
+    document.getElementById("load-btn").removeEventListener('change', handleFile, false);
+    document.getElementById("load-btn").innerHTML = "Null";
+    document.getElementById("load-btn").addEventListener('change', handleFile, false);
 
 
   };
