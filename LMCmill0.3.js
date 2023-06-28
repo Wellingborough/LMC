@@ -2672,7 +2672,17 @@ function saveCode() {
 
   for (let i=0; i < code.length; i++) {
     currentLine = code[i];
-    resString += currentLine['line'] + "%09" + currentLine['label'] + "%09" + currentLine['operator'] + "%09" + currentLine['operand'] +"%0A";
+    //
+    // Nasty - if we have a blank line at the end of the file, then our reader
+    // detects that there is a missing line number, so assumes line numbers
+    // are not present.  Current hacky solution is to detect the last line
+    // and omit the CR.
+    //
+    if (i==code.length-1) {
+        resString += currentLine['line'] + "%09" + currentLine['label'] + "%09" + currentLine['operator'] + "%09" + currentLine['operand'];
+    } else {
+      resString += currentLine['line'] + "%09" + currentLine['label'] + "%09" + currentLine['operator'] + "%09" + currentLine['operand'] +"%0A";
+    }
   }
 
   let element = document.createElement('a');
