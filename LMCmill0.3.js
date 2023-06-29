@@ -2647,15 +2647,11 @@ function handleFile() {
     });
 
     // We need to change the value of the load button here, so that we can reload the same file
-    // BUT we don't want to refire the change event!!  Unless we look for a reserved value of course
+    // BUT we don't want to refire the change event!
     //
     document.getElementById("load-btn").removeEventListener('change', handleFile, false);
-    logobj.value += "> load button value before nulling: " + document.getElementById("load-btn").value +"\n";
     document.getElementById("load-btn").value = null;
-    logobj.value += "> load button value after nulling: " + document.getElementById("load-btn").value +"\n";
     document.getElementById("load-btn").addEventListener('change', handleFile, false);
-
-
   };
 
   codeReader.readAsText(this.files[0]);
