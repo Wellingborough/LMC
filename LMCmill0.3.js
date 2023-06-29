@@ -2650,7 +2650,9 @@ function handleFile() {
     // BUT we don't want to refire the change event!!  Unless we look for a reserved value of course
     //
     document.getElementById("load-btn").removeEventListener('change', handleFile, false);
-    this.value = null;
+    logobj.value += "> load button value before nulling: " + document.getElementById("load-btn").value +"\n";
+    document.getElementById("load-btn").value = null;
+    logobj.value += "> load button value after nulling: " + document.getElementById("load-btn").value +"\n";
     document.getElementById("load-btn").addEventListener('change', handleFile, false);
 
 
