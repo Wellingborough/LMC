@@ -1258,14 +1258,13 @@ const opcodesLMC = [{mnemonic: "ADD", mc:"1xx", name: "Add",
                     {mnemonic: "LDA", mc:"5xx", name: "Load Accumulator", 
                      description: "Copy the value from the given memory location into the Accumulator"},
                     {mnemonic: "BRA", mc:"6xx", name: "Branch", 
-                     description: "Set the Program Counter to the given memory location and execute"
-                       +" the next instruction"},
+                     description: "Set the Program Counter to the given memory location"},
                     {mnemonic: "BRZ", mc:"7xx", name: "Branch if Accumulator Zero", 
                      description: "If the value in the Accumulator is zero,then set the Program Counter"
-                       +" to the given memory location and execute the next instruction"},
+                       +" to the given memory location"},
                     {mnemonic: "BRP", mc:"8xx", name: "Branch if Accumulator Positive", 
                      description: "If the value in the Accumulator is positive, then set the Program"
-                       +" Counter to the given memory location and execute the next instruction"},
+                       +" Counter to the given memory location"},
                     {mnemonic: "INP", mc:"901", name: "Input", 
                      description: "Copy the value from the 'Input' box into the Accumulator"},
                     {mnemonic: "OUT", mc:"902", name: "Output", 
