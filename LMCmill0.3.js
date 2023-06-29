@@ -2650,7 +2650,7 @@ function handleFile() {
     // BUT we don't want to refire the change event!!  Unless we look for a reserved value of course
     //
     document.getElementById("load-btn").removeEventListener('change', handleFile, false);
-    document.getElementById("load-btn").files[0].name = "null";
+    this.fileLoader.value = null;
     document.getElementById("load-btn").addEventListener('change', handleFile, false);
 
 
