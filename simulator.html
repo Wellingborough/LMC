@@ -1,9 +1,27 @@
 <!doctype html>
 <html lang="en">
   <head>
+    
+    <!-- A simulator for the Little Man Computer assembler language       -->
+    <!-- Written in HTML, JavaScript and CSS.                             -->
+    <!-- I am indebted to Oli Folkerd for Tabulator:                      -->
+    <!--    http://tabulator.info                                         -->
+    <!-- I am also indebted to James Hall of parallax for jsPDF:          -->
+    <!--    https://parall.ax/products/jspdf                              -->
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Little Man Computer</title>
+
+    <meta name="keywords" content="LMC, Little Man Computer, CPU, Simulator, Simulation, Emulator, Emulation, Central, Processor, Processing, Unit, ALU, MAR, MDR, CU">
+    <meta name="description" content="Little Man Computer (LMC) Simulator">
+    <meta name="author" content="Mark Gamble">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.1.8/css/tabulator_midnight.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.1.8/js/tabulator.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.20/jspdf.plugin.autotable.min.js"></script>
+    
     
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <script src="LMCmill0.3.js"></script>
@@ -51,7 +69,15 @@
     
     <div class="container text-center">
       <div class="row">
-        <div class="col-sm-4">col-sm-4 (Editor)
+        <div class="col-sm-4">
+          
+          <div class="row content" id="code-table" style="flex: 0 1 auto;" ></div>
+          <div class="footer" id="code-table-buttons" class="footer" style="bottom:0; display:flex; gap:20px; align-items: center; flex: 1;">
+            <input id="load-btn" type="file" style="display:none;">
+            <button id="assemble-button" class="button" onclick="assembleCode()">Assemble</button>
+            <button id="clear-button" onclick="clearCode()" class="button">Clear</button>
+          </div>
+
         </div>
         <div class="col-sm-8">
           <div class="row">
