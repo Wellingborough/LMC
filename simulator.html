@@ -25,7 +25,6 @@
     
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <script src="LMCmill0.3.js"></script>
-    <link rel="stylesheet" href="LMCstyle0.3.css">
 
     <script src="https://kit.fontawesome.com/0b212d21ae.js" crossorigin="anonymous"></script>
     
@@ -74,8 +73,8 @@
       <div class="row">
         <div class="col-sm-4">
           
-          <div class="row content" id="code-table" style="flex: 0 1 auto;" ></div>
-          <div class="footer" id="code-table-buttons" class="footer" style="bottom:0; display:flex; gap:20px; align-items: center; flex: 1;">
+          <div class="row content" id="code-table"></div>
+          <div class="footer" id="code-table-buttons" class="footer">
             <input id="load-btn" type="file" style="display:none;">
             <button id="assemble-button" class="button" onclick="assembleCode()">Assemble</button>
             <button id="clear-button" onclick="clearCode()" class="button">Clear</button>
@@ -84,8 +83,12 @@
         </div>
         <div class="col-sm-8">
           <div class="row">
-            <div class="col-sm">col-sm (CPU)</div>
-            <div class="col-sm">col-sm (Memory)</div>
+            <div class="col-sm">
+              <canvas id="processor-canvas">Your browser does not support the HTML5 canvas</canvas>
+            </div>
+            <div class="col-sm">
+              <div id="memory-table"></div>
+            </div>
           </div>
           <div>
             <div class="col-sm">col-sm (Console)</div>
