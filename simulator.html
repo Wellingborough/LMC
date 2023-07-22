@@ -65,26 +65,33 @@
       </div>
     </nav>
 
-    <!-- Now the main containers.                                                  -->
+    <!-- Now the main container and divs.                                                  -->
     <!-- Responsive design to stack the Editor, CPU Canvas, Memory, and Console at -->
     <!-- anything less than sm - may need to consider stacking at sm too.          -->
     
-    <div class="container" style="background-color: #EBEBEB;">
-      <div class="row" style="background-color: #ABABAB;">
-        <div class="col-sm-4" style="background-color: #CDCDCD;">
-          code editor
+    <div class="container-fluid" style="margin-left: 0; margin-right: 0;">
+      <div class="row">
+        <div class="col-sm-4">
+          
+          <div class="row content" id="code-table"  style="flex-grow: 1; flex-shrink: 0; flex-basis: 25%; "></div>
+          <div class="footer" id="code-table-buttons" class="footer">
+            <input id="load-btn" type="file" style="display:none;">
+            <button id="assemble-button" class="button" onclick="assembleCode()">Assemble</button>
+            <button id="clear-button" onclick="clearCode()" class="button">Clear</button>
+          </div>
+
         </div>
-        <div class="col-sm-8" style="background-color: #DDEEFF;">
-          <div class="row" style="background-color: #EEFFEE;">
-            <div class="col-sm" style="background-color: #FFEEDD;">
-              CPU Canvas
+        <div class="col-sm-8">
+          <div class="row">
+            <div class="col-sm">
+              <canvas id="processor-canvas">Your browser does not support the HTML5 canvas</canvas>
             </div>
-            <div class="col-sm" style="background-color: #BCCEBC;">
-              Memory
+            <div class="col-sm">
+              <div id="memory-table"></div>
             </div>
           </div>
-          <div style="background-color: #6789AB;">
-            Console 
+          <div>
+            <div class="col-sm">col-sm (Console)</div>
           </div>
         </div>
       </div>
