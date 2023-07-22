@@ -82,11 +82,13 @@
 
         </div>
         <div class="col-sm-8">
+          <!-- Rather oddly, Bootstrap seems to treat each column as a full 12 cells wide, -->
+          <!-- so here we need two sixes...                                                -->
           <div class="row" id="processor-memory-row">
-            <div class="col-sm">
+            <div class="col-sm-6">
               <canvas id="processor-canvas">Your browser does not support the HTML5 canvas</canvas>
             </div>
-            <div class="col-sm" id="memory-table-holder">
+            <div class="col-sm-6" id="memory-table-holder">
               <div id="memory-table"></div>
             </div>
           </div>
@@ -101,17 +103,17 @@
           </div>
 
 
-          <div class="row footer" id="I-O-Console-holder" style="display:flex; flex-direction:row; flex: 0 1 auto; margin:0px; width:100%; height:100%;">
+          <div class="row footer" id="I-O-Console-holder">
             <div style="display:flex; flex-direction:column; margin:0px;">
 
-              <div id="input-div" style="background-color: #ee99ee;padding:8px; align-items: center;"><p style="margin:0px"><span style="background-color: #ee99ee; color: #000000; padding: 8px;">Input:</span><input type="number" id="input-text" min="0" max="999" ><button onclick="processInput()" id="input-button">Enter</button></div>
-              <div class="col-12" id="output-div" style="flex: 1; background-color: #ee99ee;padding:8px;"><p style="margin:0px;"><span style="background-color: #ee99ee; color: #000000; padding: 8px;">Output:</span><textarea id="output-text" rows="12" readonly="true"></textarea></div>
+              <div id="input-div" style="padding:8px; align-items: center;"><p style="margin:0px"><span style="padding: 8px;">Input:</span><input type="number" id="input-text" min="0" max="999" ><button onclick="processInput()" id="input-button">Enter</button></div>
+              <div class="col-12" id="output-div" style="padding:8px;"><p style="margin:0px;"><span style="padding: 8px;">Output:</span><textarea id="output-text" rows="12" readonly="true"></textarea></div>
 
             </div>
 
-            <div id="log-div" style="background-color: #ffbbff;padding:8px;display:flex; flex-direction:column; width:100%;">
+            <div id="log-div" style="width:100%;">
               <div style="margin:0px; height:100%; width:100%; box-sizing: border-box;">
-                <span style="background-color: #ffbbff; color: #000000; padding: 8px;">Console:</span>
+                <span style="padding: 8px;">Console:</span>
                 <textarea id="log-text" rows="4" readonly="true" style="height:90%;"></textarea>
               </div>
             </div>
