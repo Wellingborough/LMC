@@ -58,7 +58,7 @@
               <a class="nav-link active" aria-current="page" href="#"><i class="fa-solid fa-circle-info fa-lg"></i></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#"><i class="fa-solid fa-gear fa-lg"></i></a>
+              <a class="nav-link active" aria-current="page" data-bs-toggle="modal" data-bs-target="#settingsModal" href="#"><i class="fa-solid fa-gear fa-lg"></i></a>
             </li>
           </ul>
         </div>
@@ -121,6 +121,37 @@
       </div>
     </div>
 
+    
+    <!-- Settings modal      -->
+    <div class="modal fade" id="settings-modal"  aria-labelledby="settingsModalLabel" aria-hidden="true>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <i class="fa-solid fa-gear fa-2x" style="margin: 8px 8px;"></i>
+            <button class="icon-button" id="settings-close-btn" style="float: right;"onclick="cancelSettings()"><i class="fa-solid fa-circle-xmark fa-2x"></i></button>
+            <h4 class="modal-title" style="margin-left: 8px;">LMC Simulation Settings</h4>
+          </div>
+          <div class="modal-body">
+            <input type="checkbox" name="showDataFlows" value="1" checked id="setting-show-data-flows" style="margin:8px;">
+            <label for="showDataFlows">Show data flows around the CPU during program execution</label><br>
+            <input type="checkbox" name="showVariableValuesInCode" value="1" checked id="setting-show-variable-values" style="margin:8px;">
+            <label for="showDataFlows">Show variable values in the code table during program execution</label><br>
+            <input type="checkbox" name="showMemoryAccess" value="1" checked id="setting-show-memory-access" style="margin:8px;">
+            <label for="showMemoryAccess">Show memory read/write locations during program execution</label><br><br>
+            <input type="range" name="executionSpeed" id="setting-speed" min="0" max="4" step="1" value="2" onchange="changeSetting('speed')">
+            <label for="setting-speed">Execution Speed</label><br><br>
+            <p id="speed-display"><i class="fa-regular fa-hand"></i>Run at Medium speed - about 0.5 seconds per cycle</p>
+          </div>
+          <div class="modal-footer">
+            <button id="settings-cancel-btn" class="button" onclick="cancelSettings()">Cancel</button>
+            <button id="settings-save-btn" class="button" onclick="saveSettings()">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    
     <!-- Finally, reference the Bootstrap file - do not move this.                 -->
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
