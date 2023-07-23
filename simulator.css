@@ -3,14 +3,9 @@
   background-color: #EEEEEE;
 }
 
-.navbar btn-li:hover {
+.navbar .nav-item:hover {
   background-color: #0000FF;
 }
-
-.navbar li:hover {
-  background-color: #FF0000;
-}
-
 
 /* Tabulator styles */
 .tabulator-tableholder {
