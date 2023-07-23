@@ -1,1 +1,11 @@
-/* Move the style elements into here */
+/* Main UI styles */
+
+/* Tabulator styles */
+
+.tabulator-tableholder {
+  padding:0px;
+}
+
+.tabulator-header {
+  padding:0px;
+}
