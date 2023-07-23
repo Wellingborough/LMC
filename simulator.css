@@ -1,7 +1,14 @@
 /* Main UI styles */
+.btn-li {
+  background-color: #EEEEEE;
+}
+
+.btn-li:hover {
+  background-color: #DDDDDD;
+}
+
 
 /* Tabulator styles */
-
 .tabulator-tableholder {
   padding:0px;
 }
