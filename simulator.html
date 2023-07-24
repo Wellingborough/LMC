@@ -283,89 +283,91 @@ The Print button will create and download a PDF version of the current program.
 
     <!-- Instruction Set modal      -->
     <div class="modal fade" id="instructionSetModal"  aria-labelledby="instructionSetModalLabel" aria-hidden="true">
-      <div class="modal-content">
-        <div class="header">
-          <i class="fa-solid fa-table-list fa-2x" style="margin: 8px 8px;"></i>
-          <h4 class="modal-title" style="margin-left: 8px;">Little Man Computer Instruction Set</h4>
-        </div>
-        <div>
-          <table id="instruction-set-table">
-            <tr>
-              <th>Instruction</th> 
-              <th>Mnemonic</th> 
-              <th>Machine Code</th> 
-              <th>Explanation</th> 
-            </tr>
-            <tr>
-              <td>Load Accumulator</td> 
-              <td>LDA</td> 
-              <td>5xx</td> 
-              <td>Load the contents of the given memory address (xx) into the Accumulator</td> 
-            </tr>
-            <tr>
-              <td>Store Accumulator</td> 
-              <td>STA</td> 
-              <td>3xx</td> 
-              <td>Store the contents of the Accumulator at the given memory address (xx)</td> 
-            </tr>
-            <tr>
-              <td>Add</td> 
-              <td>ADD</td> 
-              <td>1xx</td> 
-              <td>Add the contents of the given memory address (xx) to the value in the Accumulator</td> 
-            </tr>
-            <tr>
-              <td>Subtract</td> 
-              <td>SUB</td> 
-              <td>2xx</td> 
-              <td>Subtract the contents of the given memory address (xx) from the value in the Accumulator</td> 
-            </tr>
-            <tr>
-              <td>Input</td> 
-              <td>INP</td> 
-              <td>901</td> 
-              <td>Copy the value from the Input 'mailbox' into the Accumulator</td> 
-            </tr>
-            <tr>
-              <td>Output</td> 
-              <td>OUT</td> 
-              <td>902</td> 
-              <td>Copy the value from the Accumulator into the Output 'mailbox'</td> 
-            </tr>
-            <tr>
-              <td>Branch</td> 
-              <td>BRA</td> 
-              <td>6xx</td> 
-              <td>Branch (jump) to the instruction at the given memory address (xx)</td> 
-            </tr>
-            <tr>
-              <td>Branch if positive</td> 
-              <td>BRP</td> 
-              <td>8xx</td> 
-              <td>If the value in the Accumulator is positive (including zero), then branch to the instruction at the given memory address (xx)</td> 
-            </tr>
-            <tr>
-              <td>Branch if zero</td> 
-              <td>BRZ</td> 
-              <td>7xx</td> 
-              <td>If the value in the Accumulator is zero, then branch to the instruction at the given memory address (xx)</td> 
-            </tr>
-            <tr>
-              <td>Halt</td> 
-              <td>HLT</td> 
-              <td>000</td> 
-              <td>Stop execution of the program</td> 
-            </tr>
-            <tr>
-              <td>Data</td> 
-              <td>DAT</td> 
-              <td>value of the data</td> 
-              <td>Indicates that the current memory address holds a data value</td> 
-            </tr>
-          </table>
-        </div>
-        <div class="modal-footer">
-          <button id="rinstruction-set-close-btn" class="button" data-bs-dismiss="modal">Close</button>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="header">
+            <i class="fa-solid fa-table-list fa-2x" style="margin: 8px 8px;"></i>
+            <h4 class="modal-title" style="margin-left: 8px;">Little Man Computer Instruction Set</h4>
+          </div>
+          <div>
+            <table id="instruction-set-table">
+              <tr>
+                <th>Instruction</th> 
+                <th>Mnemonic</th> 
+                <th>Machine Code</th> 
+                <th>Explanation</th> 
+              </tr>
+              <tr>
+                <td>Load Accumulator</td> 
+                <td>LDA</td> 
+                <td>5xx</td> 
+                <td>Load the contents of the given memory address (xx) into the Accumulator</td> 
+              </tr>
+              <tr>
+                <td>Store Accumulator</td> 
+                <td>STA</td> 
+                <td>3xx</td> 
+                <td>Store the contents of the Accumulator at the given memory address (xx)</td> 
+              </tr>
+              <tr>
+                <td>Add</td> 
+                <td>ADD</td> 
+                <td>1xx</td> 
+                <td>Add the contents of the given memory address (xx) to the value in the Accumulator</td> 
+              </tr>
+              <tr>
+                <td>Subtract</td> 
+                <td>SUB</td> 
+                <td>2xx</td> 
+                <td>Subtract the contents of the given memory address (xx) from the value in the Accumulator</td> 
+              </tr>
+              <tr>
+                <td>Input</td> 
+                <td>INP</td> 
+                <td>901</td> 
+                <td>Copy the value from the Input 'mailbox' into the Accumulator</td> 
+              </tr>
+              <tr>
+                <td>Output</td> 
+                <td>OUT</td> 
+                <td>902</td> 
+                <td>Copy the value from the Accumulator into the Output 'mailbox'</td> 
+              </tr>
+              <tr>
+                <td>Branch</td> 
+                <td>BRA</td> 
+                <td>6xx</td> 
+                <td>Branch (jump) to the instruction at the given memory address (xx)</td> 
+              </tr>
+              <tr>
+                <td>Branch if positive</td> 
+                <td>BRP</td> 
+                <td>8xx</td> 
+                <td>If the value in the Accumulator is positive (including zero), then branch to the instruction at the given memory address (xx)</td> 
+              </tr>
+              <tr>
+                <td>Branch if zero</td> 
+                <td>BRZ</td> 
+                <td>7xx</td> 
+                <td>If the value in the Accumulator is zero, then branch to the instruction at the given memory address (xx)</td> 
+              </tr>
+              <tr>
+                <td>Halt</td> 
+                <td>HLT</td> 
+                <td>000</td> 
+                <td>Stop execution of the program</td> 
+              </tr>
+              <tr>
+                <td>Data</td> 
+                <td>DAT</td> 
+                <td>value of the data</td> 
+                <td>Indicates that the current memory address holds a data value</td> 
+              </tr>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button id="rinstruction-set-close-btn" class="button" data-bs-dismiss="modal">Close</button>
+          </div>
         </div>
       </div>
     </div>
