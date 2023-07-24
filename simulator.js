@@ -2698,7 +2698,7 @@ function saveCode() {
 // Functions for the settings modal.
 //
 function cancelSettings() {
-  document.getElementById("settingsModal").style.display = "none";
+  //document.getElementById("settingsModal").style.display = "none";
 
   settingSpeed = stashedSettingSpeed;
   settingShowDataFlows = stashedSettingShowDataFlows;
@@ -2708,7 +2708,7 @@ function cancelSettings() {
 
 function saveSettings() {
   // Update the relevant globals here...
-  document.getElementById("settingsModal").style.display = "none";
+  //document.getElementById("settingsModal").style.display = "none";
 
   // Speed is handled by changeSetting() below...
   settingShowDataFlows = document.getElementById("setting-show-data-flows").checked;
