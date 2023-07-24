@@ -2698,7 +2698,7 @@ function saveCode() {
 // Functions for the settings modal.
 //
 function cancelSettings() {
-  document.getElementById("settings-modal").style.display = "none";
+  document.getElementById("settingsModal").style.display = "none";
 
   settingSpeed = stashedSettingSpeed;
   settingShowDataFlows = stashedSettingShowDataFlows;
@@ -2708,7 +2708,7 @@ function cancelSettings() {
 
 function saveSettings() {
   // Update the relevant globals here...
-  document.getElementById("settings-modal").style.display = "none";
+  document.getElementById("settingsModal").style.display = "none";
 
   // Speed is handled by changeSetting() below...
   settingShowDataFlows = document.getElementById("setting-show-data-flows").checked;
@@ -2795,26 +2795,26 @@ function changeSetting(target) {
 // Functions for the about modal.
 //
 function closeAbout() {
-  document.getElementById("about-modal").style.display = "none";
+  document.getElementById("aboutModal").style.display = "none";
 }
 
 //
 // Functions for the help modal.
 //
 function closeHelp() {
-  document.getElementById("help-modal").style.display = "none";
+  document.getElementById("helpModal").style.display = "none";
 }
 
 //
 // Functions for the examples modal.
 //
 function closeExamples() {
-  document.getElementById("examples-modal").style.display = "none";
+  document.getElementById("examplesModal").style.display = "none";
 }
 
 function loadExample() {
   // Dismiss modal
-  document.getElementById("examples-modal").style.display = "none";
+  document.getElementById("examplesModal").style.display = "none";
 
   // Reset state
   changeState(states.UNASSEMBLED);
