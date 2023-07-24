@@ -375,6 +375,13 @@ The Print button will create and download a PDF version of the current program.
       </div>
     </div>
 
+    <script>
+      let settingsModalBtn = document.getElementById("settings-modal-btn");
+
+      settingsModalBtn.onclick = function(){
+        stashOldSettings();
+      }
+    </script>
     
     <!-- Finally, reference the Bootstrap file - do not move this.                 -->
     
