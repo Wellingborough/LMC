@@ -160,10 +160,10 @@
             </div>
             <br><br>
             <div class="row">
-              <div class="col col-8">
+              <div class="col col-6">
                 <label for="setting-speed">Execution Speed</label>
               </div>
-              <div class="col col-4">
+              <div class="col col-6">
                 <input type="range" name="executionSpeed" id="setting-speed" min="0" max="4" step="1" value="2" onchange="changeSetting('speed')">
               </div>
             </div>
@@ -267,36 +267,34 @@
 
     <!-- About modal      -->
     <div class="modal fade" id="aboutModal"  aria-labelledby="aboutModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
           <div class="header">
             <i class="fa-solid fa-circle-info fa-2x" style="margin: 8px 8px;"></i>
             <h4 class="modal-title" style="margin-left: 8px;">About the Little Man Computer</h4>
           </div>
           <div>
-            <h3>An Introduction to the LMC</h3>
-  <p>
-  The Little Man Computer (LMC) is a simplified model of a computer, based on the von Neumann architecture.
-  </p>
-    <h3>The LMC Simulator</h3>
-  <p>
-  This web app provides a simulation of the LMC, so that you can write programs in the LMC assembler
-  and then assemble and run the programs.  The simulator will show you the state of all of the main
-  registers in the CPU, as well as the state of the 'memory' of the LMC.
-  </p> 
-  <p>
-  The flow of data around the CPU is displayed, and you can pause and resume the execution of your
-  program at any time.
-  </p> 
-  <p>
-  The code editor has individual columns for labels, operators and operands.  To learn more about how the editor
-  works, just press the 'Editor Help' button below.
-  You can use Ctrl-Z to undo any editor actions.
-  </p>
-  <p>
-  There are a number of example programs that you can try out - just press the 'Examples' button
-  below for more information.
-  </p>
+            <p>
+            The Little Man Computer (LMC) is a simplified model of a computer, based on the von Neumann architecture.
+            </p>
+            <p>
+            This web app provides a simulation of the LMC, so that you can write programs in the LMC assembler
+            and then assemble and run the programs.  The simulator will show you the state of all of the main
+            registers in the CPU, as well as the state of the 'memory' of the LMC.
+            </p> 
+            <p>
+            The flow of data around the CPU is displayed, and you can pause and resume the execution of your
+            program at any time.
+            </p> 
+            <p>
+            The code editor has individual columns for labels, operators and operands.  To learn more about how the editor
+            works, just press the 'Editor Help' button below.
+            You can use Ctrl-Z to undo any editor actions.
+            </p>
+            <p>
+            There are a number of example programs that you can try out - just press the 'Examples' button
+            below for more information.
+            </p>
           </div>
           <div class="modal-footer">
             <button id="rabout-close-btn" class="button" onclick="closeAbout()" data-bs-dismiss="modal">Close</button>
@@ -396,6 +394,7 @@
                 </tr>
               </tbody>
             </table>
+            <p>some additional text to test the scrolling...</p>
           </div>
           <div class="modal-footer">
             <button id="rinstruction-set-close-btn" class="button" data-bs-dismiss="modal">Close</button>
