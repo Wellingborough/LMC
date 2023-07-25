@@ -336,76 +336,64 @@
             <table class="table" id="instruction-set-table">
               <thead>
                 <tr>
-                  <th scope="col">Instruction</th>
-                  <th scope="col">Mnemonic</th>
+                  <th scope="col">Instruction (Mnemonic)</th>
                   <th scope="col">Machine Code</th>
                   <th scope="col">Explanation</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <th scope="row">Load Accumulator</th>
-                  <td>LDA</td>
+                  <th scope="row">Load Accumulator (LDA)</th>
                   <td>5xx</td>
                   <td>Load the contents of the given memory address (xx) into the Accumulator</td>
                 </tr>
                 <tr>
-                  <th scope="row">Store Accumulator</th> 
-                  <td>STA</td> 
+                  <th scope="row">Store Accumulator (STA)</th> 
                   <td>3xx</td> 
                   <td>Store the contents of the Accumulator at the given memory address (xx)</td> 
                 </tr>
                 <tr>
-                  <th scope="row">Add</th> 
-                  <td>ADD</td> 
+                  <th scope="row">Add (ADD)</th> 
                   <td>1xx</td> 
                   <td>Add the contents of the given memory address (xx) to the value in the Accumulator</td> 
                 </tr>
                 <tr>
-                  <th scope="row">Subtract</th> 
-                  <td>SUB</td> 
+                  <th scope="row">Subtract (SUB)</th> 
                   <td>2xx</td> 
                   <td>Subtract the contents of the given memory address (xx) from the value in the Accumulator</td> 
                 </tr>
                 <tr>
-                  <th scope="row">Input</th> 
-                  <td>INP</td> 
+                  <th scope="row">Input (INP)</th> 
                   <td>901</td> 
                   <td>Copy the value from the Input 'mailbox' into the Accumulator</td> 
                 </tr>
                 <tr>
-                  <th scope="row">Output</th> 
-                  <td>OUT</td> 
+                  <th scope="row">Output (OUT)</th> 
                   <td>902</td> 
                   <td>Copy the value from the Accumulator into the Output 'mailbox'</td> 
                 </tr>
                 <tr>
-                  <th scope="row">Branch</th> 
-                  <td>BRA</td> 
+                  <th scope="row">Branch (BRA)</th> 
                   <td>6xx</td> 
                   <td>Branch (jump) to the instruction at the given memory address (xx)</td> 
                 </tr>
                 <tr>
-                  <th scope="row">Branch if positive</th> 
-                  <td>BRP</td> 
+                  <th scope="row">Branch if positive (BRP)</th> 
                   <td>8xx</td> 
                   <td>If the value in the Accumulator is positive (including zero), then branch to the instruction at the given memory address (xx)</td> 
                 </tr>
                 <tr>
-                  <th scope="row">Branch if zero</th> 
-                  <td>BRZ</td> 
+                  <th scope="row">Branch if zero (BRZ)</th> 
                   <td>7xx</td> 
                   <td>If the value in the Accumulator is zero, then branch to the instruction at the given memory address (xx)</td> 
                 </tr>
                 <tr>
-                  <th scope="row">Halt</th> 
-                  <td>HLT</td> 
+                  <th scope="row">Halt (HLT)</th> 
                   <td>000</td> 
                   <td>Stop execution of the program</td> 
                 </tr>
                 <tr>
-                  <th scope="row">Data</th> 
-                  <td>DAT</td> 
+                  <th scope="row">Data (DAT)</th> 
                   <td>value of the data</td> 
                   <td>Indicates that the current memory address holds a data value</td> 
                 </tr>
