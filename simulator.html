@@ -222,41 +222,41 @@
             <h4 class="modal-title" style="margin-left: 8px;">LMC Editor Help</h4>
           </div>
           <div class="modal-body">
-<p>
-The Code Editor is based on a grid system, with columns for you to enter
-labels, operators and operands.
-The left-most column is used to show which line of code is being executed when the program
-is running, and the 'Line' column shows non-editable line numbers.
-</p>
-<p>
-You can move between lines and columns by pressing the Tab key, or by using the cursor keys.
-</p>
-<p>
-Ctrl-Z and Ctrl-Y will undo and redo the last edit, but only if you are not editing a cell in the Code Editor.
-</p>
-<p>
-Select a line by left-clicking anywhere on the line.  The line will be highlighted.
-</p>
-<p>
-You can delete the current line using the Del or Delete key - all of the subsequent lines will be moved up.
-</p>
-<p>
-Pressing the Ins or Insert key will create a new line above the current line, moving all subsequent lines down.
-</p>
-<p>
-When you are happy with your code, press the Assemble button, and the LMC Simulator will check and
-assemble your code into memory.  If there are any errors, a message will appear in the Console window
-indicating the line and problem.
-</p>
-<p>
-The Load button can be used to load pre-written programs from your computer.
-</p>
-<p>
-The Save button will save a text file on your computer containing the current program.
-</p>
-<p>
-The Print button will create and download a PDF version of the current program.
-</p>
+            <p>
+            The Code Editor is based on a grid system, with columns for you to enter
+            labels, operators and operands.
+            The left-most column is used to show which line of code is being executed when the program
+            is running, and the 'Line' column shows non-editable line numbers.
+            </p>
+            <p>
+            You can move between lines and columns by pressing the Tab key, or by using the cursor keys.
+            </p>
+            <p>
+            Ctrl-Z and Ctrl-Y will undo and redo the last edit, but only if you are not editing a cell in the Code Editor.
+            </p>
+            <p>
+            Select a line by left-clicking anywhere on the line.  The line will be highlighted.
+            </p>
+            <p>
+            You can delete the current line using the Del or Delete key - all of the subsequent lines will be moved up.
+            </p>
+            <p>
+            Pressing the Ins or Insert key will create a new line above the current line, moving all subsequent lines down.
+            </p>
+            <p>
+            When you are happy with your code, press the Assemble button, and the LMC Simulator will check and
+            assemble your code into memory.  If there are any errors, a message will appear in the Console window
+            indicating the line and problem.
+            </p>
+            <p>
+            The Load button can be used to load pre-written programs from your computer.
+            </p>
+            <p>
+            The Save button will save a text file on your computer containing the current program.
+            </p>
+            <p>
+            The Print button will create and download a PDF version of the current program.
+            </p>
           </div>
           <div class="modal-footer">
             <button id="help-close-btn" class="button" onclick="closeHelp()" data-bs-dismiss="modal">Close</button>
@@ -371,7 +371,7 @@ The Print button will create and download a PDF version of the current program.
                   <td>Branch (jump) to the instruction at the given memory address (xx)</td> 
                 </tr>
                 <tr>
-                  <td>Branch if positive</th> 
+                  <th scope="row">Branch if positive</th> 
                   <td>BRP</td> 
                   <td>8xx</td> 
                   <td>If the value in the Accumulator is positive (including zero), then branch to the instruction at the given memory address (xx)</td> 
