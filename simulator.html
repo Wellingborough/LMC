@@ -133,28 +133,28 @@
           </div>
           <div class="modal-body">
             <div class="row">
-              <div class="col col-11">
+              <div class="col col-10">
                 <label for="setting-show-data-flows">Show data flows around the CPU during program execution</label><br>            
               </div>
-              <div class="col col-1">
+              <div class="col col-2">
                 <input type="checkbox" name="showDataFlows" value="1" checked id="setting-show-data-flows" style="margin:8px;">            
               </div>
             </div>
 
             <div class="row">
-              <div class="col col-11">
+              <div class="col col-10">
                 <label for="setting-show-variable-values">Show variable values in the code table during program execution</label><br>
               </div>
-              <div class="col col-1">
+              <div class="col col-2">
                 <input type="checkbox" name="showVariableValuesInCode" value="1" checked id="setting-show-variable-values" style="margin:8px;">
               </div>
             </div>
 
             <div class="row">
-              <div class="col col-11">
+              <div class="col col-10">
                 <label for="setting-show-memory-access">Show memory read/write locations during program execution</label>
               </div>
-              <div class="col col-1">
+              <div class="col col-2">
                 <input type="checkbox" name="showMemoryAccess" value="1" checked id="setting-show-memory-access" style="margin:8px;">
               </div>
             </div>
@@ -163,7 +163,7 @@
               <div class="col col-6">
                 <label for="setting-speed">Execution Speed</label>
               </div>
-              <div class="col col-6">
+              <div class="col col-4">
                 <input type="range" name="executionSpeed" id="setting-speed" min="0" max="4" step="1" value="2" onchange="changeSetting('speed')">
               </div>
             </div>
@@ -188,21 +188,37 @@
           </div>
           <div class="modal-body">
             <p>Select an example to load:</p>
-            <div>
-              <input type="radio" id="example1" name="example_select" value=1 checked>
-              <label for="example1">Example 1 - Add two numbers together</label>
+            <div class="row">
+              <div class="col col-1">
+                <input type="radio" id="example1" name="example_select" value=1 checked>
+              </div>
+              <div class="col col-11">
+                <label for="example1">Example 1 - Add two numbers together</label>
+              </div>
             </div>
-            <div>
-              <input type="radio" id="example2" name="example_select" value=2>
-              <label for="example2">Example 2 - Output a pattern of 1s and 0s</label>
+            <div class="row">
+              <div class="col col-1">
+                <input type="radio" id="example2" name="example_select" value=2>
+              </div>
+              <div class="col col-11">
+                <label for="example2">Example 2 - Output a pattern of 1s and 0s</label>
+              </div>
             </div>
-            <div>
-              <input type="radio" id="example3" name="example_select" value=3>
-              <label for="example3">Example 3 - Calculate the square of a number</label>
+            <div class="row">
+              <div class="col col-1">
+                <input type="radio" id="example3" name="example_select" value=3>
+              </div>
+              <div class="col col-11">
+                <label for="example3">Example 3 - Calculate the square of a number</label>
+              </div>
             </div>
-            <div>
-              <input type="radio" id="example4" name="example_select" value=4>
-              <label for="example4">Example 4 - Integer division</label>
+            <div class="row">
+              <div class="col col-1">
+                <input type="radio" id="example4" name="example_select" value=4>
+              </div>
+              <div class="col col-11">
+                <label for="example4">Example 4 - Integer division</label>
+              </div>
             </div>
           </div>
           <div class="modal-footer" style="margin-top:20px;">
@@ -289,7 +305,7 @@
             </p> 
             <p>
             The code editor has individual columns for labels, operators and operands.  To learn more about how the editor
-            works, just press the 'Editor Help' button below.
+            works, just press the 'Editor' button below.
             You can use Ctrl-Z to undo any editor actions.
             </p>
             <p>
@@ -299,9 +315,9 @@
           </div>
           <div class="modal-footer">
             <button id="rabout-close-btn" class="button" onclick="closeAbout()" data-bs-dismiss="modal">Close</button>
-            <button id="instruction-set-modal-btn" class="button" data-bs-toggle="modal" data-bs-target="#instructionSetModal">Instruction Set</button>
+            <button id="instruction-set-modal-btn" class="button" data-bs-toggle="modal" data-bs-target="#instructionSetModal">Instructions</button>
             <button id="examples-modal-btn" class="button" data-bs-toggle="modal" data-bs-target="#examplesModal">Examples</button>
-            <button id="help-modal-btn" class="button" data-bs-toggle="modal" data-bs-target="#helpModal">Editor Help</button>
+            <button id="help-modal-btn" class="button" data-bs-toggle="modal" data-bs-target="#helpModal">Editor</button>
           </div>
         </div>
       </div>
@@ -395,7 +411,6 @@
                 </tr>
               </tbody>
             </table>
-            <p>some additional text to test the scrolling...</p>
           </div>
           <div class="modal-footer">
             <button id="rinstruction-set-close-btn" class="button" data-bs-dismiss="modal">Close</button>
