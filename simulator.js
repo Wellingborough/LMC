@@ -1273,6 +1273,8 @@ const opcodesLMC = [{mnemonic: "ADD", mc:"1xx", name: "Add",
                      description: "Set the given memory location to the supplied value"},
                     {mnemonic: "HLT", mc:"000", name: "End program", 
                      description: "Instructs the processor to stop executing instructions"},
+                    {mnemonic: "COB", mc:"000", name: "End program", 
+                     description: "Coffee Break - equivalent to HLT"},
                    ];
 
 
