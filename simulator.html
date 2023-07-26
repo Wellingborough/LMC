@@ -413,6 +413,19 @@
       settingsModalBtn.onclick = function(){
         stashOldSettings();
       }
+
+      //
+      // Foundation work for clickable processor schematic
+      // Hook the mouse event (should do touch too) and convert
+      // window coordinates to canvas coordinates
+      // Call canvasHitCheck() in the pile of JavaScript
+      // to figure out what they have clicked on
+      //
+      document.getElementById('processor-canvas').onclick=function(e){
+        let rect = document.getElementById('processor-canvas').getBoundingClientRect();
+        canvasHitCheck(e.clientX - rect.left, e.clientY - rect.top);
+      }
+
     </script>
     
     <!-- Finally, reference the Bootstrap file - do not move this.                 -->
