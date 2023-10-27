@@ -1279,70 +1279,70 @@ const opcodesLMC = [{mnemonic: "ADD", mc:"1xx", name: "Add",
 //
 // CAIE Instruction Set
 //
-const opcodesCAIE = [{mnemonic: "LDM", mc:"01xx", name: "Load", 
-                     description: "Load the number n to the accumulator.  Immediate addressing"}, 
-                    {mnemonic: "LDD", mc:"02xx", name: "Load Accumulator", 
-                     description: "Load the contents of the given memory location to the accumulator.  Direct addressing"},
-                    {mnemonic: "LDI", mc:"03xx", name: "Load Accumulator", 
-                     description: "Use the contents of the given memory location as an addrees.  Load the contents of that address to the accumulator.  Indirect addressing"},
-                    {mnemonic: "LDX", mc:"04xx", name: "Load Accumulator", 
-                     description: "Load the contents of the given memory location + the IX register to the accumulator.  Indexed addressing"},
-                    {mnemonic: "LDR", mc:"05xx", name: "Load Index Register", 
-                     description: "Load the number n to the index register.  Immediate addressing"},
-                    {mnemonic: "MOV", mc:"0600", name: "Move Accumulator", 
-                     description: "Copy the contents of the accumulatorto the index register"},
-                    {mnemonic: "STO", mc:"07xx", name: "Store Accumulator", 
-                     description: "Copy the value in the Accumulator to the given memory address"},
-                    {mnemonic: "ADD", mc:"08xx", name: "Add to Accumulator", 
-                     description: "Add the value from the given memory location to the Accumulator.  Direct addressing"},
-                    {mnemonic: "ADD", mc:"08yx", name: "Add to Accumulator", 
-                     description: "Add the number n to the Accumulator.  Immediate addressing"},
-                    {mnemonic: "SUB", mc:"09xx", name: "Subtract from Accumulator", 
-                     description: "Subtract the value at the given memory location from the Accumulator.  Direct addressing"},
-                    {mnemonic: "SUB", mc:"09yx", name: "Subtract from Accumulator", 
-                     description: "Subtract the number n from the Accumulator.  Immediate addressing"},
-                    {mnemonic: "INC", mc:"0Axx", name: "Add to Accumulator", 
-                     description: "Increment the value in the Accumulator"},
-                    {mnemonic: "INC", mc:"0Axx", name: "Add to Index Register", 
-                     description: "Increment the value in the Index Register"},
-                    {mnemonic: "DEC", mc:"0Byx", name: "Decrement the Accumulator", 
-                     description: "Increment the value in the Accumulator"},
-                    {mnemonic: "DEC", mc:"0Byx", name: "Add to Index Register", 
-                     description: "Increment the value in the Index Register"},
-                    {mnemonic: "JMP", mc:"0Cxx", name: "Jump", 
-                     description: "Jump to the given memory location"},
-                    {mnemonic: "CMP", mc:"0Dyx", name: "Compare", 
-                     description: "Compare the contents of the Accumulator with the contents of the given memory address"},
-                    {mnemonic: "CMP", mc:"0Exx", name: "Compare", 
-                     description: "Compare the contents of the Accumulator with the number n"},
-                    {mnemonic: "CMI", mc:"0Fxx", name: "Compare", 
-                     description: "Compare the contents of the Accumulator with the contents of the given memory address, twice..."},
-                    {mnemonic: "JPE", mc:"10xx", name: "Jump if equal", 
-                     description: "Jump to the given memory location if the previous Compare operation was True"},
-                    {mnemonic: "JPN", mc:"11xx", name: "Jump if not equal", 
-                     description: "Jump to the given memory location if the previous compare operation was False"},
-                    {mnemonic: "IN", mc:"1201", name: "Input", 
-                     description: "Copy the value from the 'Input' box into the Accumulator"},
-                    {mnemonic: "OUT", mc:"1302", name: "Output", 
-                     description: "Copy the value in the Accumulator to the 'Output' box"},
-                    {mnemonic: "AND", mc:"1402", name: "Bitwise AND", 
-                     description: "Bitwise AND the value in the Accumulator with the value supplied"},
-                    {mnemonic: "AND", mc:"1502", name: "Bitwise AND", 
-                     description: "Bitwise AND the value in the Accumulator with the contents of the memory address supplied"},
-                    {mnemonic: "XOR", mc:"1602", name: "Bitwise AND", 
-                     description: "Bitwise XOR the value in the Accumulator with the value supplied"},
-                    {mnemonic: "XOR", mc:"1702", name: "Bitwise XOR", 
-                     description: "Bitwise XOR the value in the Accumulator with the contents of the memory address supplied"},
-                    {mnemonic: "OR", mc:"1802", name: "Bitwise XOR", 
-                     description: "Bitwise OR the value in the Accumulator with the value supplied"},
-                    {mnemonic: "OR", mc:"1902", name: "Bitwise OR", 
-                     description: "Bitwise OR the value in the Accumulator with the contents of the memory address  supplied"},
-                    {mnemonic: "LSL", mc:"1A02", name: "Bitwise OR", 
-                     description: "Shift the value in the Accumulator to the left n places"},
-                    {mnemonic: "LSR", mc:"1B02", name: "Logical Shift Right", 
-                     description: "Shift the value in the Accumulator to the right n places"},
-                    {mnemonic: "END", mc:"9900", name: "End program", 
+const opcodesCAIE = [{mnemonic: "END", mc:"0x00", name: "End program", 
                      description: "Instructs the processor to stop executing instructions"},
+                     {mnemonic: "IN", mc:"0x12", name: "Input", 
+                     description: "Copy the value from the 'Input' box into the Accumulator"},
+                     {mnemonic: "LDM", mc:"0x22", name: "Load", 
+                     description: "Load the number n to the accumulator.  Immediate addressing"}, 
+                     {mnemonic: "LDD", mc:"0x26", name: "Load Accumulator", 
+                     description: "Load the contents of the given memory location to the accumulator.  Direct addressing"},
+                     {mnemonic: "LDI", mc:"0x2A", name: "Load Accumulator", 
+                     description: "Use the contents of the given memory location as an addrees.  Load the contents of that address to the accumulator.  Indirect addressing"},
+                     {mnemonic: "LDX", mc:"0x2E", name: "Load Accumulator", 
+                     description: "Load the contents of the given memory location + the IX register to the accumulator.  Indexed addressing"},
+                     {mnemonic: "LDR", mc:"0x20", name: "Load Index Register", 
+                     description: "Load the number n to the index register.  Immediate addressing"},
+                     {mnemonic: "MOV", mc:"0x30", name: "Move Accumulator", 
+                     description: "Copy the contents of the accumulatorto the index register"},
+                     {mnemonic: "STO", mc:"0x31", name: "Store Accumulator", 
+                     description: "Copy the value in the Accumulator to the given memory address"},
+                     {mnemonic: "ADD", mc:"0x42", name: "Add to Accumulator", 
+                     description: "Add the value from the given memory location to the Accumulator.  Direct addressing"},
+                     {mnemonic: "ADD", mc:"0x46", name: "Add to Accumulator", 
+                     description: "Add the number n to the Accumulator.  Immediate addressing"},
+                     {mnemonic: "SUB", mc:"0x52", name: "Subtract from Accumulator", 
+                     description: "Subtract the value at the given memory location from the Accumulator.  Direct addressing"},
+                     {mnemonic: "SUB", mc:"0x56", name: "Subtract from Accumulator", 
+                     description: "Subtract the number n from the Accumulator.  Immediate addressing"},
+                     {mnemonic: "INC", mc:"0x60", name: "Add to Accumulator", 
+                     description: "Increment the value in the Accumulator"},
+                     {mnemonic: "INC", mc:"0x62", name: "Add to Index Register", 
+                     description: "Increment the value in the Index Register"},
+                     {mnemonic: "DEC", mc:"0x70", name: "Decrement the Accumulator", 
+                     description: "Increment the value in the Accumulator"},
+                     {mnemonic: "DEC", mc:"0x72", name: "Add to Index Register", 
+                     description: "Increment the value in the Index Register"},
+                     {mnemonic: "JMP", mc:"0x82", name: "Jump", 
+                     description: "Jump to the given memory location"},
+                     {mnemonic: "CMP", mc:"0x92", name: "Compare", 
+                     description: "Compare the contents of the Accumulator with the contents of the given memory address"},
+                     {mnemonic: "CMP", mc:"0x96", name: "Compare", 
+                     description: "Compare the contents of the Accumulator with the number n"},
+                     {mnemonic: "CMI", mc:"0x9A", name: "Compare", 
+                     description: "Compare the contents of the Accumulator with the contents of the given memory address, twice..."},
+                     {mnemonic: "JPE", mc:"0xA2", name: "Jump if equal", 
+                     description: "Jump to the given memory location if the previous Compare operation was True"},
+                     {mnemonic: "JPN", mc:"0xA3", name: "Jump if not equal", 
+                     description: "Jump to the given memory location if the previous compare operation was False"},
+                     {mnemonic: "OUT", mc:"0xB2", name: "Output", 
+                     description: "Copy the value in the Accumulator to the 'Output' box"},
+                     {mnemonic: "AND", mc:"0xC2", name: "Bitwise AND", 
+                     description: "Bitwise AND the value in the Accumulator with the value supplied"},
+                     {mnemonic: "AND", mc:"0xC6", name: "Bitwise AND", 
+                     description: "Bitwise AND the value in the Accumulator with the contents of the memory address supplied"},
+                     {mnemonic: "XOR", mc:"0xD2", name: "Bitwise XOR", 
+                     description: "Bitwise XOR the value in the Accumulator with the value supplied"},
+                     {mnemonic: "XOR", mc:"0xD6", name: "Bitwise XOR", 
+                     description: "Bitwise XOR the value in the Accumulator with the contents of the memory address supplied"},
+                     {mnemonic: "OR", mc:"0xE2", name: "Bitwise OR", 
+                     description: "Bitwise OR the value in the Accumulator with the value supplied"},
+                     {mnemonic: "OR", mc:"0xE6", name: "Bitwise OR", 
+                     description: "Bitwise OR the value in the Accumulator with the contents of the memory address  supplied"},
+                     {mnemonic: "LSL", mc:"0xF2", name: "Logical Shift Left", 
+                     description: "Shift the value in the Accumulator to the left n places"},
+                     {mnemonic: "LSR", mc:"0xF6", name: "Logical Shift Right", 
+                     description: "Shift the value in the Accumulator to the right n places"},
                    ];
 
 
@@ -2350,6 +2350,268 @@ function reportAssemblyError(lineNo, errString){
   table1.deselectRow();
   table1.selectRow(lineNo);
 }
+
+//
+// Function to 'assemble' the assembler code
+//
+function assembleCAIECode() {
+  let code = table1.getData();
+
+  table2.setData(blankmemorytabledata);
+
+  //
+  // Clear log (by setting logobj value to a new string) and log start time
+  //
+  var timestamp = new Date().toLocaleTimeString('en-GB', {hour: "numeric", minute: "numeric", second: "numeric"});
+  var logobj=document.getElementById("log-text");
+  logobj.value = "> CAIE ASSEMBLY:  Started assembly at " + timestamp + "\n";
+
+  //
+  // Clear out Symbol Table (in a memory-friendly way) and reset count
+  //
+  symbolTable.splice(0, symbolTable.length);
+  symbolCount = 0;
+  
+  //
+  // First pass - construct symbol table and check OpCodes
+  //
+  for (let i=0; i < code.length; i++) {
+    currentLine = code[i];
+
+    // Sanitise the label, operator and operand by converting to
+    // uppercase and stripping any whitespace
+    
+    let operator = currentLine['operator']
+    operator = operator.trim()
+    operator = operator.toUpperCase()
+
+    let operand = currentLine['operand']
+    operand = operand.trim()
+    operand = operand.toUpperCase()
+
+    let label = currentLine['label']
+    label = label.trim()
+    label = label.toUpperCase()
+
+    // console.log(currentLine);
+
+    if (label != '') {
+      //
+      // We have a symbol - check that it is new, and add it
+      //
+      for (let s=0; s < symbolTable.length; s++) {
+        if (symbolTable[s]['symbol'] == label) {
+          let errString = "> Error, line " + i + ": duplicate symbol: " + symbolTable[s]['symbol'] + "\n";
+          reportAssemblyError(i+1, errString);
+          return;
+        }
+      }
+      symbolTable.push({"symbol": label, "value": i });
+    }
+
+    var foundOpcode = false;
+
+    for (let j=0; j < opcodesCAIE.length; j++) {
+      if (opcodesCAIE[j]['mnemonic'] == operator) {
+        foundOpcode = true;
+      }
+    }
+
+    if (!foundOpcode && operator != "") {
+      let errString = "> Error, line " + i + ": unrecognised opcode: " + currentLine['operator'] + "\n";
+      reportAssemblyError(i+1, errString);
+      return;
+    }
+  }
+  logobj.value += "> ASSEMBLY:  Symbol table built\n";
+  logobj.scrollTop = logobj.scrollHeight;
+
+  //
+  // Second pass - assemble into machine code and store in memory
+  //
+  var memory = table2.getData();
+
+  for (let i=0; i < code.length; i++) {
+    currentLine = code[i];
+
+    // Sanitise the label, operator and operand by converting to
+    // uppercase and stripping any whitespace
+    
+    let operator = currentLine['operator']
+    operator = operator.trim()
+    operator = operator.toUpperCase()
+
+    let operand = currentLine['operand']
+    operand = operand.trim()
+    operand = operand.toUpperCase()
+
+    let label = currentLine['label']
+    label = label.trim()
+    label = label.toUpperCase()
+    
+    //
+    // Look up the opcode (skip if no operator present)
+    //
+    if (operator == "") {
+      continue;
+    }
+
+    var mc = "";
+
+    for (let j=0; j < opcodesCAIE.length; j++) {
+      if (opcodesCAIE[j]['mnemonic'] == operator) {
+        //
+        // Check whether we have an operand, and if this matches the machine
+        // code definition
+        // CAIE CHANGE REQUIRED - HOW DO WE INDICATE OPERAND REQUIRED?
+        // 
+        if (operand.trim().length != 0) {
+          if (opcodesCAIE[j]['mc'].includes("xx")) {
+            //
+            // If DAT, then just set the memory location to the Data
+            // Otherwise, combine the machine code and label value from the
+            // Symbol Table
+            // CAIE CHANGE REQUIRED - DATA MARKER?
+            //
+            if (opcodesCAIE[j]['mnemonic'] == "DAT") {
+              var datum = operand;
+              var datumValue = parseInt(datum);
+              if ((datumValue < -999) || (datumValue > 999)) {
+                let errString = "> Error, line " + i + ": value out of range: " + currentLine['operand'] + "\n";
+                reportAssemblyError(i+1, errString);
+                return;
+              }
+              datum = datum.toString().padStart(3, "0");
+
+              mc = datum;
+            } else {
+              //
+              // Lookup label in Symbol Table
+              //
+              let target = "yy";
+              let found = false;
+              for (let s=0; s < symbolTable.length; s++) {
+                if ( symbolTable[s]['symbol'] == operand) {
+                  target = symbolTable[s]['value'];
+                  found = true;
+                }
+              }
+
+              if (!found) {
+                // 
+                // If the operand looks like a numeric memory address (0 to 99),
+                // and we haven't got a matching entry in the symbol table, then 
+                // just use the value.
+                //
+                var operandValue = parseInt(currentLine['operand']);
+                if ((operandValue >= 0) && (operandValue <= 99)) {
+                  target = operandValue;
+                } else {
+                  //let errString = "> Error, line " + i + ": symbol not found: " + currentLine['operand'] + "\n";
+                  let errString = "> Error, line " + i + ": symbol not found: " + currentLine['operand'] + " " + operand + "\n";
+                  reportAssemblyError(i+1, errString);
+                  return;
+                }
+              }
+
+              target = target.toString();
+
+              if (target.length == 1) {
+                target = "0"+target;
+              }
+              originalmc = opcodesCAIE[j]['mc'];
+              mc = originalmc.replace("xx", target);
+            }
+          } else {
+            let errString = "> Error, line " + i + ": machine code instruction " + currentLine['operator'] + " should not have an operand\n";
+            reportAssemblyError(i+1, errString);
+            return;
+          }
+        }
+        else {
+          //
+          // If we expect an operand but have none, report an error, unless the
+          // opcode is DAT, in which case an absent operand is OK.
+          //
+          if (opcodesCAIE[j]['mc'].includes("xx") && opcodesCAIE[j]['mnemonic'] != "DAT") {
+            let errString = "> Error, line " + i + ": machine code instruction " + currentLine['operator'] + " requires an operand\n";
+            reportAssemblyError(i+1, errString);
+            return;
+          } else {
+            //
+            // We have an operand-less instruction, so just use the machine code
+            //
+            if (opcodesCAIE[j]['mnemonic'] == "DAT") {
+              mc = "000";
+            } else {
+              mc = opcodesCAIE[j]['mc'];
+            }
+          }
+        }
+      }
+    }
+    //
+    // Now figure out where to write the machine code
+    //
+    // For the row number, we need to account for the 'address' rows being
+    // interspersed with data rows (hence the 2 *) and the offset for the
+    // first row being 1, rather than 0
+    //
+    var rownum = 2 * (Math.floor(i / 10) + 1);
+    var colnum = (i % 10);
+    var colref = 'm' + colnum.toString();
+
+    //
+    // We may need to check that all browsers support this ES6 feature (using
+    // a variable as a property name).  I think everything relatively new will
+    // be OK.
+    //
+    table2.updateData([{id:rownum, [colref]: mc}]);
+  }
+
+  var timestamp = new Date().toLocaleTimeString('en-GB', {hour: "numeric", minute: "numeric", second: "numeric"});
+  logobj.value += "> CAIE ASSEMBLY:  Assembly completed at " + timestamp + "\n";
+  logobj.scrollTop = logobj.scrollHeight;
+  changeState(states.ASSEMBLED);
+
+  
+  //
+  // Clear the current line indicator (if a program has previously run)
+  //
+  if (previousProgramCounter != 0) {
+    table1.updateData([{id:previousProgramCounter, active: "-"}]);
+  }
+
+  // 
+  // Clear the bus animation from any previous run
+  //
+  var c = document.getElementById("processor-canvas");
+  var ctx = c.getContext("2d");
+
+  if (canvasInfo.lastBusAnimation != -1) {
+    animateBus2(ctx, canvasInfo.lastBusAnimation, true);
+  }
+
+  //
+  // Clear all register values...
+  //
+  programCounter = 0;
+  previousProgramCounter = 0;
+  accumulator = 0;
+  memoryDataRegister = 0;
+  memoryAddressRegister = 0;
+  currentInstructionRegister = 0;
+  statusRegister = "00000000";
+  
+  //
+  // Refresh the CPU diagram
+  //  
+
+  drawCPU(ctx);
+
+  return;
+}
+
 
 //
 // State changes - enable/disable buttons in here.
