@@ -286,12 +286,6 @@ const speeds = {
   SUPERFAST: "<i class='fa-solid fa-rocket'></i>  Just Run!  About 0.1 seconds per cycle",
 }
 
-//
-// Default to MEDIUM
-// If this is changed, then the HTML for the Settings modal
-// needs to have a matching change
-//
-let settingSpeed = speeds.MEDIUM;
 
 
 //
@@ -315,9 +309,19 @@ var stashedSettingSpeed = speeds.MEDIUM;
 var stashedSettingShowDataFlows = true;
 var stashedSettingShowVariables = true;
 var stashedSettingShowMemoryAccess = true;
+var stashedSettingSwitchToCAIE = false;
+
 var settingShowDataFlows = stashedSettingShowDataFlows;
 var settingShowVariables = stashedSettingShowVariables;
 var settingShowMemoryAccess = stashedSettingShowMemoryAccess;
+var settingSwitchToCAIE = stashedSettingSwitchToCAIE;
+
+//
+// Default to MEDIUM
+// If this is changed, then the HTML for the Settings modal
+// needs to have a matching change
+//
+let settingSpeed = speeds.MEDIUM;
 
 // Main function
 function filltable() {
@@ -3111,6 +3115,7 @@ function cancelSettings() {
   settingShowDataFlows = stashedSettingShowDataFlows;
   settingShowVariables = stashedSettingShowVariables;
   settingShowMemoryAccess = stashedSettingShowMemoryAccess;
+  settingSwitchToCAIE = stashedSettingSwitchToCAIE;
 }
 
 function saveSettings() {
@@ -3121,6 +3126,7 @@ function saveSettings() {
   settingShowDataFlows = document.getElementById("setting-show-data-flows").checked;
   settingShowVariables = document.getElementById("setting-show-variable-values").checked;
   settingShowMemoryAccess = document.getElementById("setting-show-memory-access").checked;
+  settingSwitchToCAIE = document.getElementById("setting-switch-to-caie").checked;
 }
 
 function stashOldSettings() {
@@ -3128,6 +3134,7 @@ function stashOldSettings() {
   stashedSettingShowDataFlows = settingShowDataFlows;
   stashedSettingShowVariables = settingShowVariables;
   stashedSettingShowMemoryAccess = settingShowMemoryAccess;
+  stashedSettingSwitchToCAIE = settingSwitchToCAIE;
 
   let speedValue = 0;
   let newText = "some new text";
@@ -3162,6 +3169,7 @@ function stashOldSettings() {
   document.getElementById("setting-show-data-flows").checked = settingShowDataFlows;
   document.getElementById("setting-show-variable-values").checked = settingShowVariables;
   document.getElementById("setting-show-memory-access").checked = settingShowMemoryAccess;
+  document.getElementById("setting-switch-to-caie").checked = settingSwitchToCAIE;
 }
 
 function changeSetting(target) {
