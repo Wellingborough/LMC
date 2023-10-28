@@ -1646,6 +1646,16 @@ function fetchInstruction() {
 
 
 function decodeInstruction() {
+  if ( settingSwitchToCAIE == false ) {
+    decodeInstructionOCR()
+  }
+  else
+  {
+    decodeInstructionCAIE()
+  }
+}
+
+function decodeInstructionOCR() {
   var c = document.getElementById("processor-canvas");
   var ctx = c.getContext("2d");
 
@@ -1782,6 +1792,153 @@ function decodeInstruction() {
     let dummy = 1.0;
   }
 }
+
+function decodeInstructionCAIE() {
+  var c = document.getElementById("processor-canvas");
+  var ctx = c.getContext("2d");
+
+  //
+  // Temporary code to highlight the current line in the
+  // code table and blank out the previous line
+  //  
+  table1.updateData([{id:previousProgramCounter, active: "-"}]);
+  table1.updateData([{id:programCounter, active: "1"}]);
+  previousProgramCounter = programCounter;
+
+  //
+  // Now process the instruction
+  //
+  //
+  instructionDetails = "EMPTY";
+  instructionCode = "EMPTY";
+
+  // HERE
+  var foundOpcode = false;
+
+  for (let j=0; j < opcodesCAIE.length; j++) {
+    if (opcodesCAIE[j]['mnemonic'] == operator) {
+      foundOpcode = true;
+    }
+  }
+  
+  if (currentInstructionRegister[0] == "1"){
+    // ADD
+    var address = currentInstructionRegister.substring(1,3);
+    memoryAddressRegister = address;
+    numSubStages = 5;
+    instructionCode = "ADD";
+    drawRegisterValue("DECODER", "ADD ["+address+"]", ctx);
+    drawRegisterValue("ALU", "ADD", ctx);
+  }
+
+  if (currentInstructionRegister[0] == "2"){
+    // SUB
+    var address = currentInstructionRegister.substring(1,3);
+    memoryAddressRegister = address;
+    numSubStages = 5;
+    instructionCode = "SUB";
+    drawRegisterValue("DECODER", "SUB ["+address+"]", ctx);
+    drawRegisterValue("ALU", "SUB", ctx);
+  }
+        
+  if (currentInstructionRegister[0] == "3"){
+    // STA
+    var address = currentInstructionRegister.substring(1,3);
+    memoryAddressRegister = address;
+    numSubStages = 2;
+    instructionCode = "STA";
+    drawRegisterValue("DECODER", "STA ["+address+"]", ctx);
+  }
+        
+  if (currentInstructionRegister[0] == "4"){
+    console.log("Unrecognised Command");
+    numSubStages = 0;
+  }
+        
+  if (currentInstructionRegister[0] == "5"){
+    // LDA
+    var address = currentInstructionRegister.substring(1,3);
+    memoryAddressRegister = address;
+    numSubStages = 4;
+    instructionCode = "LDA";
+    drawRegisterValue("DECODER", "LDA ["+address+"]", ctx);
+  }
+        
+  if (currentInstructionRegister[0] == "6"){
+    // BRA
+    var address = currentInstructionRegister.substring(1,3);
+    // Nothing to do here...
+    numSubStages = 1;
+    instructionCode = "BRA";
+    drawRegisterValue("DECODER", "BRA ["+address+"]", ctx);
+  }
+        
+  if (currentInstructionRegister[0] == "7"){
+    // BRZ
+    var address = currentInstructionRegister.substring(1,3);
+    // Nothing to do here...
+    numSubStages = 1;
+    instructionCode = "BRZ";
+    drawRegisterValue("DECODER", "BRZ ["+address+"]", ctx);
+  }
+        
+  if (currentInstructionRegister[0] == "8"){
+    // BRP
+    var address = currentInstructionRegister.substring(1,3);
+    // Nothing to do here...
+    numSubStages = 1;
+    instructionCode = "BRP";
+    drawRegisterValue("DECODER", "BRP ["+address+"]", ctx);
+  }
+        
+  if (currentInstructionRegister[0] == "9"){
+    // INP/OUT
+    var type = currentInstructionRegister.substring(1,3);
+    // Nothing to do here...        
+    numSubStages = 1;
+    if (currentInstructionRegister == "901") {
+      instructionCode = "INP";
+      drawRegisterValue("DECODER", "INP", ctx);
+    } else {
+      instructionCode = "OUT";
+      drawRegisterValue("DECODER", "OUT", ctx);
+    }
+  }
+
+  if (currentInstructionRegister == "000"){
+    // HLT
+    var type = currentInstructionRegister.substring(1,3);
+    // Nothing to do here...
+    numSubStages = 1;
+    instructionCode = "HLT";
+    drawRegisterValue("DECODER", "HLT", ctx);
+  }
+  
+  for (let i=0; i < opcodesLMC.length; i++) {
+    if (opcodesLMC[i]['mnemonic'] == instructionCode) {
+      instructionDetails = opcodesLMC[i]['description'];
+      break;
+    }
+  }
+
+  let logobj=document.getElementById("log-text");
+  logobj.value += "> DECODE:  " + currentInstructionRegister + " = " + instructionCode + ": " + instructionDetails + "\n";
+  logobj.scrollTop = logobj.scrollHeight;
+
+  formattedPC = programCounter.toString().padStart(2, "0");
+
+  //
+  // For the moment, just stop when the PC hits 99
+  //
+  if (programCounter == 99){
+    clearInterval(intervalHandle);
+  }
+
+  if (settingSpeed != speeds.SUPERFAST) {
+    let dummy = 1.0;
+  }
+}
+
 
 
 function executeInstruction() {
@@ -2169,17 +2326,17 @@ function readMemory(addressString){
 //
 function assembleCode() {
   if ( settingSwitchToCAIE == false ) {
-    assembleLMCCode()
+    assembleCodeLMC()
   }
   else {
-    assembleCAIECode();
+    assembleCodeCAIE();
   }
 }
 
 //
 // Function to 'assemble' the LMC assembler code
 //
-function assembleLMCCode() {
+function assembleCodeLMC() {
   let code = table1.getData();
 
   table2.setData(blankmemorytabledata);
@@ -2448,7 +2605,7 @@ function reportAssemblyError(lineNo, errString){
 //
 // Function to 'assemble' the assembler code
 //
-function assembleCAIECode() {
+function assembleCodeCAIE() {
   let code = table1.getData();
 
   table2.setData(blankmemorytabledata);
