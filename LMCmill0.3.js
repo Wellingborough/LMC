@@ -172,6 +172,81 @@ var codetabledata4 = [
 ];
 
 //
+// CAIE Code example table 1 - Square a given number
+//
+var codetabledatacaie1 = [
+  {id:1,  active:"-", line:"00", label:"start", operator:"IN", operand:""},
+  {id:2,  active:"-", line:"01", label:"",      operator:"STO", operand:"number"},
+  {id:3,  active:"-", line:"02", label:"",      operator:"LDD", operand:"zero"},
+  {id:4,  active:"-", line:"03", label:"",      operator:"STO", operand:"sum"},
+  {id:5,  active:"-", line:"04", label:"",      operator:"STO", operand:"count"},
+  {id:6,  active:"-", line:"05", label:"loop",  operator:"LDD", operand:"sum"},
+  {id:7,  active:"-", line:"06", label:"",      operator:"ADD", operand:"number"},
+  {id:8,  active:"-", line:"07", label:"",      operator:"STO", operand:"sum"},
+  {id:9,  active:"-", line:"08", label:"",      operator:"LDD", operand:"count"},
+  {id:10, active:"-", line:"09", label:"",      operator:"ADD", operand:"one"},
+  {id:11, active:"-", line:"10", label:"",      operator:"STO", operand:"count"},
+  {id:12, active:"-", line:"11", label:"",      operator:"SUB", operand:"number"},
+  {id:13, active:"-", line:"12", label:"",      operator:"CMP", operand:"zero"},
+  {id:13, active:"-", line:"13", label:"",      operator:"JPE", operand:"finish"},
+  {id:14, active:"-", line:"14", label:"",      operator:"JMP", operand:"loop"},
+  {id:15, active:"-", line:"15", label:"finish",operator:"LDD", operand:"sum"},
+  {id:16, active:"-", line:"16", label:"",      operator:"OUT", operand:""},
+  {id:17, active:"-", line:"17", label:"",      operator:"END", operand:""},
+  {id:19, active:"-", line:"18", label:"",      operator:"",    operand:""},
+  {id:20, active:"-", line:"19", label:"",      operator:"",    operand:""},
+  {id:21, active:"-", line:"20", label:"",      operator:"",    operand:""},
+  {id:22, active:"-", line:"21", label:"",      operator:"",    operand:""},
+  {id:23, active:"-", line:"22", label:"",      operator:"",    operand:""},
+  {id:24, active:"-", line:"23", label:"",      operator:"",    operand:""},
+  {id:25, active:"-", line:"24", label:"",      operator:"",    operand:""},
+  {id:26, active:"-", line:"25", label:"",      operator:"",    operand:""},
+  {id:27, active:"-", line:"26", label:"",      operator:"",    operand:""},
+  {id:28, active:"-", line:"27", label:"",      operator:"",    operand:""},
+  {id:29, active:"-", line:"28", label:"",      operator:"",    operand:""},
+  {id:30, active:"-", line:"29", label:"",      operator:"",    operand:""},
+  {id:31, active:"-", line:"30", label:"number",operator:"DAT", operand:""},
+  {id:32, active:"-", line:"31", label:"sum",   operator:"DAT", operand:""},
+  {id:33, active:"-", line:"32", label:"count", operator:"DAT", operand:""},
+  {id:34, active:"-", line:"33", label:"zero",  operator:"DAT", operand:"0"},
+  {id:35, active:"-", line:"34", label:"one",   operator:"DAT", operand:"1"},
+];
+
+
+//
+// CAIE Code example table 2 - Integer division
+// INCOMPLETE - NEED TO THINK ABOUT HOW TO DO THIS WITH JUST CMP!
+// STOPPED AT LINE 09
+//
+var codetabledatacaie2 = [
+  {id:1,  active:"-", line:"00", label:"start",   operator:"IN", operand:""},
+  {id:2,  active:"-", line:"01", label:"",        operator:"STO", operand:"dividend"},
+  {id:3,  active:"-", line:"02", label:"",        operator:"IN", operand:""},
+  {id:4,  active:"-", line:"03", label:"",        operator:"STO", operand:"divisor"},
+  {id:5,  active:"-", line:"04", label:"",        operator:"LDD", operand:"zero"},
+  {id:6,  active:"-", line:"05", label:"",        operator:"STO", operand:"answer"},
+  {id:7,  active:"-", line:"06", label:"",        operator:"LDD", operand:"dividend"},
+  {id:8,  active:"-", line:"07", label:"loop",    operator:"SUB", operand:"divisor"},
+  {id:9,  active:"-", line:"08", label:"",        operator:"STO", operand:"dividend"},
+  {id:10, active:"-", line:"09", label:"",        operator:"BRP", operand:"greater"},
+  {id:11, active:"-", line:"10", label:"",        operator:"LDA", operand:"answer"},
+  {id:12, active:"-", line:"11", label:"",        operator:"OUT", operand:""},
+  {id:13, active:"-", line:"12", label:"",        operator:"HLT", operand:""},
+  {id:14, active:"-", line:"13", label:"greater", operator:"LDA", operand:"answer"},
+  {id:15, active:"-", line:"14", label:"",        operator:"ADD", operand:"one"},
+  {id:16, active:"-", line:"15", label:"",        operator:"STA", operand:"answer"},
+  {id:17, active:"-", line:"16", label:"",        operator:"LDA", operand:"dividend"},
+  {id:18, active:"-", line:"17", label:"",        operator:"BRA", operand:"loop"},
+  {id:19, active:"-", line:"18", label:"",        operator:"",    operand:""},
+  {id:20, active:"-", line:"19", label:"",        operator:"",    operand:""},
+  {id:21, active:"-", line:"20", label:"zero",    operator:"DAT", operand:"0"},
+  {id:22, active:"-", line:"21", label:"one",     operator:"DAT", operand:"1"},
+  {id:23, active:"-", line:"22", label:"answer",  operator:"DAT", operand:""},
+  {id:24, active:"-", line:"23", label:"dividend",operator:"DAT", operand:""},
+  {id:25, active:"-", line:"24", label:"divisor", operator:"DAT", operand:""},
+];
+
+//
 // Memory table - styled using CSS so that the 'address' rows
 // are distinguished from the 'data' rows by lighter/darker background colours?
 //
