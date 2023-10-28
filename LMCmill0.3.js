@@ -3257,6 +3257,11 @@ function loadExample() {
         codetabledata = codetabledata4;
       }
 
+      // TEMP - if we have switched to CAIE, just load the square a number example
+      if (settingSwitchToCAIE == true) {
+        codetabledata = codetabledatacaie1
+      }
+          
       while (codetabledata.length < 100) {
         let newrowno = codetabledata.length+1
         codetabledata.push({id:newrowno, active:"-", line:(newrowno-1).toString().padStart(2, "0"), label:"", operator:"", operand:""});
