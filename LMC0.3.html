@@ -117,6 +117,8 @@
             <label for="showMemoryAccess">Show memory read/write locations during program execution</label><br><br>
             <input type="range" name="executionSpeed" id="setting-speed" min="0" max="4" step="1" value="2" onchange="changeSetting('speed')">
             <label for="setting-speed">Execution Speed</label><br><br>
+            <input type="checkbox" name="switchToCAIE" value="0" id="setting-switch-to-caie" style="margin:8px;">
+            <label for="switchToCAIE">Switch to the CAIE pseudo-assembler language</label><br>
             <p id="speed-display"><i class="fa-regular fa-hand"></i>Run at Medium speed - about 0.5 seconds per cycle</p>
           </div>
           <div class="modal-footer">
