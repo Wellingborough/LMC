@@ -2163,8 +2163,21 @@ function readMemory(addressString){
 
 //
 // Function to 'assemble' the assembler code
+// Call either the LMC or the CAIE assembler...
 //
 function assembleCode() {
+  if ( settingSwitchToCAIE == false ) {
+    assembleLMCCode()
+  }
+  else {
+    assembleCAIECode();
+  }
+}
+
+//
+// Function to 'assemble' the LMC assembler code
+//
+function assembleLMCCode() {
   let code = table1.getData();
 
   table2.setData(blankmemorytabledata);
