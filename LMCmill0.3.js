@@ -2558,9 +2558,10 @@ function assembleCAIECode() {
         // Check whether we have an operand, and if this matches the machine
         // code definition
         // CAIE CHANGE REQUIRED - HOW DO WE INDICATE OPERAND REQUIRED?
+        // Everything requires an operand with the exception of IN, OUT, END and DAT
         // 
         if (operand.trim().length != 0) {
-          if (opcodesCAIE[j]['mc'].includes("xx")) {
+          if (opcodesCAIE[j]['mnemonic']=="IN" or opcodesCAIE[j]['mnemonic']=="OUT" or opcodesCAIE[j]['mnemonic']=="END" or opcodesCAIE[j]['mnemonic']=="DAT") {
             //
             // If DAT, then just set the memory location to the Data
             // Otherwise, combine the machine code and label value from the
