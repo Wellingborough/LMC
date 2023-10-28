@@ -2557,7 +2557,7 @@ function assembleCAIECode() {
         //
         // Check whether we have an operand, and if this matches the machine
         // code definition
-        // CAIE CHANGE REQUIRED - HOW DO WE INDICATE OPERAND REQUIRED?
+        // 
         // Everything requires an operand with the exception of IN, OUT, END and DAT
         // 
         if (operand.trim().length != 0) {
@@ -2615,7 +2615,8 @@ function assembleCAIECode() {
                 target = "0"+target;
               }
               originalmc = opcodesCAIE[j]['mc'];
-              mc = originalmc.replace("xx", target);
+              // mc = originalmc.replace("xx", target);
+              mc = originalmc + target;
             }
           } else {
             let errString = "> Error, line " + i + ": machine code instruction " + currentLine['operator'] + " should not have an operand\n";
@@ -2628,7 +2629,7 @@ function assembleCAIECode() {
           // If we expect an operand but have none, report an error, unless the
           // opcode is DAT, in which case an absent operand is OK.
           //
-          if (opcodesCAIE[j]['mc'].includes("xx") && opcodesCAIE[j]['mnemonic'] != "DAT") {
+          if (opcodesCAIE[j]['mnemonic']!="IN" && opcodesCAIE[j]['mnemonic']!="OUT" && opcodesCAIE[j]['mnemonic']!="END" && opcodesCAIE[j]['mnemonic'] != "DAT") {
             let errString = "> Error, line " + i + ": machine code instruction " + currentLine['operator'] + " requires an operand\n";
             reportAssemblyError(i+1, errString);
             return;
