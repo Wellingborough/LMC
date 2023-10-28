@@ -1794,6 +1794,15 @@ function decodeInstructionOCR() {
   }
 }
 
+
+// 
+// Note - we are taking advantage of the existing (LMC) execution code
+// for example, SUB and ADD are the same operation in LMC and CAIE,
+// and we can just rename IN to INP.
+// We will need to extend the (LMC) execution code to deal with CAIE-
+// only instructions, but this seems like the best approach
+// We will need to think about the immediate modes for AD, SUB etc.
+//
 function decodeInstructionCAIE() {
   var c = document.getElementById("processor-canvas");
   var ctx = c.getContext("2d");
@@ -1832,6 +1841,13 @@ function decodeInstructionCAIE() {
     numSubStages = 5;
     drawRegisterValue("DECODER", "ADD ["+address+"]", ctx);
     drawRegisterValue("ALU", "ADD", ctx);
+  }
+
+  if (instructionCode == "IN"){
+    // IN
+    instructionCode = "INP"
+    numSubStages = 1;
+    drawRegisterValue("DECODER", "INPUT", ctx);
   }
 
   if (instructionCode == "SUB"){
