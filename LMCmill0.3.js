@@ -2561,7 +2561,7 @@ function assembleCAIECode() {
         // Everything requires an operand with the exception of IN, OUT, END and DAT
         // 
         if (operand.trim().length != 0) {
-          if (opcodesCAIE[j]['mnemonic']=="IN" || opcodesCAIE[j]['mnemonic']=="OUT" || opcodesCAIE[j]['mnemonic']=="END" || opcodesCAIE[j]['mnemonic']=="DAT") {
+          if (opcodesCAIE[j]['mnemonic']!="IN" && opcodesCAIE[j]['mnemonic']!="OUT" && opcodesCAIE[j]['mnemonic']!="END") {
             //
             // If DAT, then just set the memory location to the Data
             // Otherwise, combine the machine code and label value from the
