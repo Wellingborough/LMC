@@ -1422,6 +1422,8 @@ const opcodesCAIE = [{mnemonic: "END", mc:"0x00", name: "End program",
                      description: "Shift the value in the Accumulator to the left n places"},
                      {mnemonic: "LSR", mc:"0xF6", name: "Logical Shift Right", 
                      description: "Shift the value in the Accumulator to the right n places"},
+                     {mnemonic: "DAT", mc:"None", name: "Data", 
+                     description: "Indicates a memory location holding data"},
                    ];
 
 
