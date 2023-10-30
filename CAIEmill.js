@@ -2933,11 +2933,6 @@ function loadExample() {
       } else {
         codetabledata = codetabledata4;
       }
-
-      // TEMP - if we have switched to CAIE, just load the square a number example
-      if (settingSwitchToCAIE == true) {
-        codetabledata = codetabledatacaie1
-      }
           
       while (codetabledata.length < 100) {
         let newrowno = codetabledata.length+1
