@@ -1702,12 +1702,6 @@ function decodeInstruction() {
     drawRegisterValue("DECODER", "CPI [["+address+"]]", ctx);
   }
 
-  if (instructionCode == "OUT"){
-    // OUT
-    numSubStages = 1;
-    drawRegisterValue("DECODER", "OUT ACC", ctx);
-  }
-
   if (instructionCode == "AND"){
     // AND
     numSubStages = 1;
@@ -1741,13 +1735,7 @@ function decodeInstruction() {
     drawRegisterValue("DECODER", "LSR ACC", ctx);
   }
 
-    if (instructionCode == "OUT"){
-    // OUT
-    numSubStages = 1;
-    drawRegisterValue("DECODER", "OUT ACC", ctx);
-  }
-
-    if (instructionCode == "OUT"){
+  if (instructionCode == "OUT"){
     // OUT
     numSubStages = 1;
     drawRegisterValue("DECODER", "OUT ACC", ctx);
@@ -1785,7 +1773,19 @@ function executeInstruction() {
   var memory = table2.getData();
   var foundLocation = false;
 
-  if (currentInstructionRegister[0] == "1"){
+  var foundOpcode = false;
+  operator = currentInstructionRegister.substring(0,2);
+  
+  for (let j=0; j < opcodesCAIE.length; j++) {
+    if (opcodesCAIE[j]['mc'] == operator) {
+      foundOpcode = true;
+      instructionCode = opcodesCAIE[j]['mnemonic'];
+      instructionDetails = currentInstructionRegister.substring(2,6);
+    }
+  }
+
+  
+  if (instructionCode == "ADD"){
     // ADD
     if (numSubStages == 4) {
       animateBus(ctx, 5);
@@ -1804,7 +1804,7 @@ function executeInstruction() {
     }
   }
 
-  if (currentInstructionRegister[0] == "2"){
+  if (instructionCode == "SUB"){
     // SUB
     if (numSubStages ==4) {
       animateBus(ctx, 5);
@@ -1823,8 +1823,8 @@ function executeInstruction() {
     }
   }
         
-  if (currentInstructionRegister[0] == "3"){
-    // STA
+  if (instructionCode == "STO"){
+    // STO
     if (numSubStages == 1) {
       animateBus(ctx, 8);
       memoryDataRegister = accumulator;
@@ -1838,12 +1838,8 @@ function executeInstruction() {
     }
   }
         
-  if (currentInstructionRegister[0] == "4"){
-    console.log("Unrecognised Command");
-  }
-        
-  if (currentInstructionRegister[0] == "5"){
-    // LDA
+  if (instructionCode == "LDD"){
+    // LDD
     if (numSubStages == 3) {
       animateBus(ctx, 5);
     } else if (numSubStages == 2 ) {
@@ -1858,83 +1854,81 @@ function executeInstruction() {
     }
   }
         
-  if (currentInstructionRegister[0] == "6"){
-    // BRA
-    var address = currentInstructionRegister.substring(1,3);
+  if (instructionCode == "JMP"){
+    // JMP
+    var address = instructionDetails;
     programCounter = parseInt(address);
     animateBus(ctx, 11);
   }
         
-  if (currentInstructionRegister[0] == "7"){
-    // BRZ
-    var address = currentInstructionRegister.substring(1,3);
+  if (instructionCode == "JPN"){
+    // JPN
+    var address = instructionDetails;
     if (accumulator == 0){
       programCounter = parseInt(address);
       animateBus(ctx, 11);
     }
   }
         
-  if (currentInstructionRegister[0] == "8"){
-    // BRP
-    var address = currentInstructionRegister.substring(1,3);
+  if (instructionCode == "JPE"){
+    // JPE
+    var address = instructionDetails;
 
     if (accumulator >= 0){
       programCounter = parseInt(address);
       if (settingSpeed != speeds.SUPERFAST) {
         animateBus(ctx, 11);
         let logobj=document.getElementById("log-text");
-        logobj.value += "> EXECUTE:  BRP: Branching as Accumulator is " + accumulator + "\n";
+        logobj.value += "> EXECUTE:  JPE: Branching as Accumulator is " + accumulator + "\n";
         logobj.scrollTop = logobj.scrollHeight;
       }
     } else {
       if (settingSpeed != speeds.SUPERFAST) {
         var logobj=document.getElementById("log-text");
-        logobj.value += "> EXECUTE:  BRP: Not branching as Accumulator is " + accumulator + "\n";
+        logobj.value += "> EXECUTE:  JPE: Not branching as Accumulator is " + accumulator + "\n";
         logobj.scrollTop = logobj.scrollHeight;
       }
     }
   }
         
-  if (currentInstructionRegister[0] == "9"){
-    // INP/OUT
-    var type = currentInstructionRegister.substring(1,3);
+  if (instructionCode == "IN"){
         
-    if (type == "01"){
 //      animateBus(ctx, 4);
-      let logobj=document.getElementById("log-text");
-      logobj.value += "> EXECUTE:  Waiting for input (to accumulator)\n";
-      logobj.scrollTop = logobj.scrollHeight;
-      let outobj=document.getElementById("input-text");
-      outobj.value = "";
-      clearInterval(intervalHandle);
-      // Save the current state - either running or step-by-step - so that
-      // we can restore that state when user input is complete...
-      stateBeforeInput = state;
-      changeState(states.RUNNING.BLOCKEDONINPUT);
-    } else {
-      animateBus(ctx, 14);
-      let outobj=document.getElementById("output-text");
-      outobj.value += parseInt(accumulator) + "\n";
-      outobj.scrollTop = outobj.scrollHeight;
+    let logobj=document.getElementById("log-text");
+    logobj.value += "> EXECUTE:  Waiting for input (to accumulator)\n";
+    logobj.scrollTop = logobj.scrollHeight;
+    let outobj=document.getElementById("input-text");
+    outobj.value = "";
+    clearInterval(intervalHandle);
+    // Save the current state - either running or step-by-step - so that
+    // we can restore that state when user input is complete...
+    stateBeforeInput = state;
+    changeState(states.RUNNING.BLOCKEDONINPUT);
+  } 
+  
+  if (instructionCode == "OUT"){
+    animateBus(ctx, 14);
+    let outobj=document.getElementById("output-text");
+    outobj.value += parseInt(accumulator) + "\n";
+    outobj.scrollTop = outobj.scrollHeight;
 
-      let logobj=document.getElementById("log-text");
-      logobj.value += "> EXECUTE:  OUT: Transferring value in Accumulator to Output\n";
-      logobj.scrollTop = logobj.scrollHeight;
+    let logobj=document.getElementById("log-text");
+    logobj.value += "> EXECUTE:  OUT: Transferring value in Accumulator to Output\n";
+    logobj.scrollTop = logobj.scrollHeight;
 
-      // Update the Output Mailbox
-      var c = document.getElementById("processor-canvas");
-      var ctx = c.getContext("2d");
-      drawRegisterValue("OUT", accumulator, ctx);
-    }
+    // Update the Output Mailbox
+    var c = document.getElementById("processor-canvas");
+    var ctx = c.getContext("2d");
+    drawRegisterValue("OUT", accumulator, ctx);
   }
 
-  if (currentInstructionRegister == "000"){
+  if (instructionCode == "END"){
     let logobj=document.getElementById("log-text");
     logobj.value += "> EXECUTE:  HALT instruction found\n";
     allHalt();
   }
   
-  formattedPC = programCounter.toString().padStart(2, "0");
+  formattedPC = programCounter.toString().padStart(4, "0");
 
   //
   // For the moment, just stop when the PC hits 99
