@@ -103,78 +103,6 @@ var codetabledata2 = [
 // Code example table 3 - Square a given number
 //
 var codetabledata3 = [
-  {id:1,  active:"-", line:"00", label:"start", operator:"INP", operand:""},
-  {id:2,  active:"-", line:"01", label:"",      operator:"STA", operand:"number"},
-  {id:3,  active:"-", line:"02", label:"",      operator:"LDA", operand:"zero"},
-  {id:4,  active:"-", line:"03", label:"",      operator:"STA", operand:"sum"},
-  {id:5,  active:"-", line:"04", label:"",      operator:"STA", operand:"count"},
-  {id:6,  active:"-", line:"05", label:"loop",  operator:"LDA", operand:"sum"},
-  {id:7,  active:"-", line:"06", label:"",      operator:"ADD", operand:"number"},
-  {id:8,  active:"-", line:"07", label:"",      operator:"STA", operand:"sum"},
-  {id:9,  active:"-", line:"08", label:"",      operator:"LDA", operand:"count"},
-  {id:10, active:"-", line:"09", label:"",      operator:"ADD", operand:"one"},
-  {id:11, active:"-", line:"10", label:"",      operator:"STA", operand:"count"},
-  {id:12, active:"-", line:"11", label:"",      operator:"SUB", operand:"number"},
-  {id:13, active:"-", line:"12", label:"",      operator:"BRP", operand:"finish"},
-  {id:14, active:"-", line:"13", label:"",      operator:"BRA", operand:"loop"},
-  {id:15, active:"-", line:"14", label:"finish",operator:"LDA", operand:"sum"},
-  {id:16, active:"-", line:"15", label:"",      operator:"OUT", operand:""},
-  {id:17, active:"-", line:"16", label:"",      operator:"HLT", operand:""},
-  {id:18, active:"-", line:"17", label:"",      operator:"",    operand:""},
-  {id:19, active:"-", line:"18", label:"",      operator:"",    operand:""},
-  {id:20, active:"-", line:"19", label:"",      operator:"",    operand:""},
-  {id:21, active:"-", line:"20", label:"",      operator:"",    operand:""},
-  {id:22, active:"-", line:"21", label:"",      operator:"",    operand:""},
-  {id:23, active:"-", line:"22", label:"",      operator:"",    operand:""},
-  {id:24, active:"-", line:"23", label:"",      operator:"",    operand:""},
-  {id:25, active:"-", line:"24", label:"",      operator:"",    operand:""},
-  {id:26, active:"-", line:"25", label:"",      operator:"",    operand:""},
-  {id:27, active:"-", line:"26", label:"",      operator:"",    operand:""},
-  {id:28, active:"-", line:"27", label:"",      operator:"",    operand:""},
-  {id:29, active:"-", line:"28", label:"",      operator:"",    operand:""},
-  {id:30, active:"-", line:"29", label:"",      operator:"",    operand:""},
-  {id:31, active:"-", line:"30", label:"number",operator:"DAT", operand:""},
-  {id:32, active:"-", line:"31", label:"sum",   operator:"DAT", operand:""},
-  {id:33, active:"-", line:"32", label:"count", operator:"DAT", operand:""},
-  {id:34, active:"-", line:"33", label:"zero",  operator:"DAT", operand:"0"},
-  {id:35, active:"-", line:"34", label:"one",   operator:"DAT", operand:"1"},
-];
-
-//
-// Code example table 4 - Integer division
-//
-var codetabledata4 = [
-  {id:1,  active:"-", line:"00", label:"start",   operator:"INP", operand:""},
-  {id:2,  active:"-", line:"01", label:"",        operator:"STA", operand:"dividend"},
-  {id:3,  active:"-", line:"02", label:"",        operator:"INP", operand:""},
-  {id:4,  active:"-", line:"03", label:"",        operator:"STA", operand:"divisor"},
-  {id:5,  active:"-", line:"04", label:"",        operator:"LDA", operand:"zero"},
-  {id:6,  active:"-", line:"05", label:"",        operator:"STA", operand:"answer"},
-  {id:7,  active:"-", line:"06", label:"",        operator:"LDA", operand:"dividend"},
-  {id:8,  active:"-", line:"07", label:"loop",    operator:"SUB", operand:"divisor"},
-  {id:9,  active:"-", line:"08", label:"",        operator:"STA", operand:"dividend"},
-  {id:10, active:"-", line:"09", label:"",        operator:"BRP", operand:"greater"},
-  {id:11, active:"-", line:"10", label:"",        operator:"LDA", operand:"answer"},
-  {id:12, active:"-", line:"11", label:"",        operator:"OUT", operand:""},
-  {id:13, active:"-", line:"12", label:"",        operator:"HLT", operand:""},
-  {id:14, active:"-", line:"13", label:"greater", operator:"LDA", operand:"answer"},
-  {id:15, active:"-", line:"14", label:"",        operator:"ADD", operand:"one"},
-  {id:16, active:"-", line:"15", label:"",        operator:"STA", operand:"answer"},
-  {id:17, active:"-", line:"16", label:"",        operator:"LDA", operand:"dividend"},
-  {id:18, active:"-", line:"17", label:"",        operator:"BRA", operand:"loop"},
-  {id:19, active:"-", line:"18", label:"",        operator:"",    operand:""},
-  {id:20, active:"-", line:"19", label:"",        operator:"",    operand:""},
-  {id:21, active:"-", line:"20", label:"zero",    operator:"DAT", operand:"0"},
-  {id:22, active:"-", line:"21", label:"one",     operator:"DAT", operand:"1"},
-  {id:23, active:"-", line:"22", label:"answer",  operator:"DAT", operand:""},
-  {id:24, active:"-", line:"23", label:"dividend",operator:"DAT", operand:""},
-  {id:25, active:"-", line:"24", label:"divisor", operator:"DAT", operand:""},
-];
-
-//
-// CAIE Code example table 1 - Square a given number
-//
-var codetabledatacaie1 = [
   {id:1,  active:"-", line:"00", label:"start", operator:"IN", operand:""},
   {id:2,  active:"-", line:"01", label:"",      operator:"STO", operand:"number"},
   {id:3,  active:"-", line:"02", label:"",      operator:"LDD", operand:"zero"},
@@ -212,13 +140,13 @@ var codetabledatacaie1 = [
   {id:35, active:"-", line:"34", label:"one",   operator:"DAT", operand:"1"},
 ];
 
-
 //
-// CAIE Code example table 2 - Integer division
+// Code example table 4 - Integer division
+//
 // INCOMPLETE - NEED TO THINK ABOUT HOW TO DO THIS WITH JUST CMP!
 // STOPPED AT LINE 09
 //
-var codetabledatacaie2 = [
+var codetabledata4 = [
   {id:1,  active:"-", line:"00", label:"start",   operator:"IN", operand:""},
   {id:2,  active:"-", line:"01", label:"",        operator:"STO", operand:"dividend"},
   {id:3,  active:"-", line:"02", label:"",        operator:"IN", operand:""},
@@ -309,12 +237,10 @@ var stashedSettingSpeed = speeds.MEDIUM;
 var stashedSettingShowDataFlows = true;
 var stashedSettingShowVariables = true;
 var stashedSettingShowMemoryAccess = true;
-var stashedSettingSwitchToCAIE = false;
 
 var settingShowDataFlows = stashedSettingShowDataFlows;
 var settingShowVariables = stashedSettingShowVariables;
 var settingShowMemoryAccess = stashedSettingShowMemoryAccess;
-var settingSwitchToCAIE = stashedSettingSwitchToCAIE;
 
 //
 // Default to MEDIUM
@@ -703,8 +629,8 @@ function drawCPU(context) {
   //
   // Update the register values
   //
-  let formattedPC = programCounter.toString().padStart(2, "0");
-  let formattedMAR = memoryAddressRegister.toString().padStart(2, "0");
+  let formattedPC = programCounter.toString().padStart(4, "0");
+  let formattedMAR = memoryAddressRegister.toString().padStart(4, "0");
 
   drawRegisterValue("MAR", formattedMAR, context);
   drawRegisterValue("MDR", memoryDataRegister, context);
@@ -1307,9 +1233,9 @@ function printCode(){
     table1.selectRow(i)
   }
 
-  table1.download("pdf", "lmcprogram.pdf", {
+  table1.download("pdf", "caieprogram.pdf", {
         orientation:"portrait", //set page orientation to portrait
-        title:"LMC Program", //add title to report
+        title:"CAIE Assembler Program", //add title to report
   });
   
   for (i=0; i<=lastLine; i++) {
@@ -1323,36 +1249,6 @@ function printCode(){
 //function printCode(){
 //  table1.print(false, true);
 //}
-
-
-//
-// LMC Instruction Set
-//
-const opcodesLMC = [{mnemonic: "ADD", mc:"1xx", name: "Add", 
-                     description: "Add the contents of the given memory location to the accumulator"}, 
-                    {mnemonic: "SUB", mc:"2xx", name: "Subtract", 
-                     description: "Subtract the contents of the given memory location from the accumulator"},
-                    {mnemonic: "STA", mc:"3xx", name: "Store Accumulator", 
-                     description: "Copy the value in the Accumulator to the given memory address"},
-                    {mnemonic: "LDA", mc:"5xx", name: "Load Accumulator", 
-                     description: "Copy the value from the given memory location into the Accumulator"},
-                    {mnemonic: "BRA", mc:"6xx", name: "Branch", 
-                     description: "Set the Program Counter to the given memory location"},
-                    {mnemonic: "BRZ", mc:"7xx", name: "Branch if Accumulator Zero", 
-                     description: "If the value in the Accumulator is zero,then set the Program Counter"
-                       +" to the given memory location"},
-                    {mnemonic: "BRP", mc:"8xx", name: "Branch if Accumulator Positive", 
-                     description: "If the value in the Accumulator is positive, then set the Program"
-                       +" Counter to the given memory location"},
-                    {mnemonic: "INP", mc:"901", name: "Input", 
-                     description: "Copy the value from the 'Input' box into the Accumulator"},
-                    {mnemonic: "OUT", mc:"902", name: "Output", 
-                     description: "Copy the value in the Accumulator to the 'Output' box"},
-                    {mnemonic: "DAT", mc:"xxx", name: "Data", 
-                     description: "Set the given memory location to the supplied value"},
-                    {mnemonic: "HLT", mc:"000", name: "End program", 
-                     description: "Instructs the processor to stop executing instructions"},
-                   ];
 
 
 //
@@ -1628,7 +1524,7 @@ function fetchInstruction() {
     clearInterval(intervalHandle);
   }
   
-  formattedPC = programCounter.toString().padStart(2, "0");
+  formattedPC = programCounter.toString().padStart(4, "0");
 
   var c = document.getElementById("processor-canvas");
   var ctx = c.getContext("2d");
@@ -1647,163 +1543,6 @@ function fetchInstruction() {
 
 
 function decodeInstruction() {
-  if ( settingSwitchToCAIE == false ) {
-    decodeInstructionOCR()
-  }
-  else
-  {
-    decodeInstructionCAIE()
-  }
-}
-
-function decodeInstructionOCR() {
-  var c = document.getElementById("processor-canvas");
-  var ctx = c.getContext("2d");
-
-  //
-  // Temporary code to highlight the current line in the
-  // code table and blank out the previous line
-  //  
-  table1.updateData([{id:previousProgramCounter, active: "-"}]);
-  table1.updateData([{id:programCounter, active: "1"}]);
-  previousProgramCounter = programCounter;
-
-  //
-  // Now process the instruction
-  //
-  // (Should look this up from the table of LMC instructions)
-  //
-  instructionDetails = "EMPTY";
-  instructionCode = "EMPTY";
-
-  if (currentInstructionRegister[0] == "1"){
-    // ADD
-    var address = currentInstructionRegister.substring(1,3);
-    memoryAddressRegister = address;
-    numSubStages = 5;
-    instructionCode = "ADD";
-    drawRegisterValue("DECODER", "ADD ["+address+"]", ctx);
-    drawRegisterValue("ALU", "ADD", ctx);
-  }
-
-  if (currentInstructionRegister[0] == "2"){
-    // SUB
-    var address = currentInstructionRegister.substring(1,3);
-    memoryAddressRegister = address;
-    numSubStages = 5;
-    instructionCode = "SUB";
-    drawRegisterValue("DECODER", "SUB ["+address+"]", ctx);
-    drawRegisterValue("ALU", "SUB", ctx);
-  }
-        
-  if (currentInstructionRegister[0] == "3"){
-    // STA
-    var address = currentInstructionRegister.substring(1,3);
-    memoryAddressRegister = address;
-    numSubStages = 2;
-    instructionCode = "STA";
-    drawRegisterValue("DECODER", "STA ["+address+"]", ctx);
-  }
-        
-  if (currentInstructionRegister[0] == "4"){
-    console.log("Unrecognised Command");
-    numSubStages = 0;
-  }
-        
-  if (currentInstructionRegister[0] == "5"){
-    // LDA
-    var address = currentInstructionRegister.substring(1,3);
-    memoryAddressRegister = address;
-    numSubStages = 4;
-    instructionCode = "LDA";
-    drawRegisterValue("DECODER", "LDA ["+address+"]", ctx);
-  }
-        
-  if (currentInstructionRegister[0] == "6"){
-    // BRA
-    var address = currentInstructionRegister.substring(1,3);
-    // Nothing to do here...
-    numSubStages = 1;
-    instructionCode = "BRA";
-    drawRegisterValue("DECODER", "BRA ["+address+"]", ctx);
-  }
-        
-  if (currentInstructionRegister[0] == "7"){
-    // BRZ
-    var address = currentInstructionRegister.substring(1,3);
-    // Nothing to do here...
-    numSubStages = 1;
-    instructionCode = "BRZ";
-    drawRegisterValue("DECODER", "BRZ ["+address+"]", ctx);
-  }
-        
-  if (currentInstructionRegister[0] == "8"){
-    // BRP
-    var address = currentInstructionRegister.substring(1,3);
-    // Nothing to do here...
-    numSubStages = 1;
-    instructionCode = "BRP";
-    drawRegisterValue("DECODER", "BRP ["+address+"]", ctx);
-  }
-        
-  if (currentInstructionRegister[0] == "9"){
-    // INP/OUT
-    var type = currentInstructionRegister.substring(1,3);
-    // Nothing to do here...        
-    numSubStages = 1;
-    if (currentInstructionRegister == "901") {
-      instructionCode = "INP";
-      drawRegisterValue("DECODER", "INP", ctx);
-    } else {
-      instructionCode = "OUT";
-      drawRegisterValue("DECODER", "OUT", ctx);
-    }
-  }
-
-  if (currentInstructionRegister == "000"){
-    // HLT
-    var type = currentInstructionRegister.substring(1,3);
-    // Nothing to do here...
-    numSubStages = 1;
-    instructionCode = "HLT";
-    drawRegisterValue("DECODER", "HLT", ctx);
-  }
-  
-  for (let i=0; i < opcodesLMC.length; i++) {
-    if (opcodesLMC[i]['mnemonic'] == instructionCode) {
-      instructionDetails = opcodesLMC[i]['description'];
-      break;
-    }
-  }
-
-  let logobj=document.getElementById("log-text");
-  logobj.value += "> DECODE:  " + currentInstructionRegister + " = " + instructionCode + ": " + instructionDetails + "\n";
-  logobj.scrollTop = logobj.scrollHeight;
-
-  formattedPC = programCounter.toString().padStart(2, "0");
-
-  //
-  // For the moment, just stop when the PC hits 99
-  //
-  if (programCounter == 99){
-    clearInterval(intervalHandle);
-  }
-
-  if (settingSpeed != speeds.SUPERFAST) {
-    let dummy = 1.0;
-  }
-}
-
-
-// 
-// Note - we are taking advantage of the existing (LMC) execution code
-// for example, SUB and ADD are the same operation in LMC and CAIE,
-// and we can just rename IN to INP.
-// We will need to extend the (LMC) execution code to deal with CAIE-
-// only instructions, but this seems like the best approach
-// We will need to think about the immediate modes for AD, SUB etc.
-//
-function decodeInstructionCAIE() {
   var c = document.getElementById("processor-canvas");
   var ctx = c.getContext("2d");
 
@@ -2359,287 +2098,6 @@ function readMemory(addressString){
 // Call either the LMC or the CAIE assembler...
 //
 function assembleCode() {
-  if ( settingSwitchToCAIE == false ) {
-    assembleCodeLMC()
-  }
-  else {
-    assembleCodeCAIE();
-  }
-}
-
-//
-// Function to 'assemble' the LMC assembler code
-//
-function assembleCodeLMC() {
-  let code = table1.getData();
-
-  table2.setData(blankmemorytabledata);
-
-  //
-  // Clear log (by setting logobj value to a new string) and log start time
-  //
-  var timestamp = new Date().toLocaleTimeString('en-GB', {hour: "numeric", minute: "numeric", second: "numeric"});
-  var logobj=document.getElementById("log-text");
-  logobj.value = "> ASSEMBLY:  Started assembly at " + timestamp + "\n";
-
-  //
-  // Clear out Symbol Table (in a memory-friendly way) and reset count
-  //
-  symbolTable.splice(0, symbolTable.length);
-  symbolCount = 0;
-  
-  //
-  // First pass - construct symbol table and check OpCodes
-  //
-  for (let i=0; i < code.length; i++) {
-    currentLine = code[i];
-
-    // Sanitise the label, operator and operand by converting to
-    // uppercase and stripping any whitespace
-    
-    let operator = currentLine['operator']
-    operator = operator.trim()
-    operator = operator.toUpperCase()
-
-    let operand = currentLine['operand']
-    operand = operand.trim()
-    operand = operand.toUpperCase()
-
-    let label = currentLine['label']
-    label = label.trim()
-    label = label.toUpperCase()
-
-    // console.log(currentLine);
-
-    if (label != '') {
-      //
-      // We have a symbol - check that it is new, and add it
-      //
-      for (let s=0; s < symbolTable.length; s++) {
-        if (symbolTable[s]['symbol'] == label) {
-          let errString = "> Error, line " + i + ": duplicate symbol: " + symbolTable[s]['symbol'] + "\n";
-          reportAssemblyError(i+1, errString);
-          return;
-        }
-      }
-      symbolTable.push({"symbol": label, "value": i });
-    }
-
-    var foundOpcode = false;
-
-    for (let j=0; j < opcodesLMC.length; j++) {
-      if (opcodesLMC[j]['mnemonic'] == operator) {
-        foundOpcode = true;
-      }
-    }
-
-    if (!foundOpcode && operator != "") {
-      let errString = "> Error, line " + i + ": unrecognised opcode: " + currentLine['operator'] + "\n";
-      reportAssemblyError(i+1, errString);
-      return;
-    }
-  }
-  logobj.value += "> ASSEMBLY:  Symbol table built\n";
-  logobj.scrollTop = logobj.scrollHeight;
-
-  //
-  // Second pass - assemble into machine code and store in memory
-  //
-  var memory = table2.getData();
-
-  for (let i=0; i < code.length; i++) {
-    currentLine = code[i];
-
-    // Sanitise the label, operator and operand by converting to
-    // uppercase and stripping any whitespace
-    
-    let operator = currentLine['operator']
-    operator = operator.trim()
-    operator = operator.toUpperCase()
-
-    let operand = currentLine['operand']
-    operand = operand.trim()
-    operand = operand.toUpperCase()
-
-    let label = currentLine['label']
-    label = label.trim()
-    label = label.toUpperCase()
-    
-    //
-    // Look up the opcode (skip if no operator present)
-    //
-    if (operator == "") {
-      continue;
-    }
-
-    var mc = "";
-
-    for (let j=0; j < opcodesLMC.length; j++) {
-      if (opcodesLMC[j]['mnemonic'] == operator) {
-        //
-        // Check whether we have an operand, and if this matches the machine
-        // code definition
-        // 
-        if (operand.trim().length != 0) {
-          if (opcodesLMC[j]['mc'].includes("xx")) {
-            //
-            // If DAT, then just set the memory location to the Data
-            // Otherwise, combine the machine code and label value from the
-            // Symbol Table
-            //
-            if (opcodesLMC[j]['mnemonic'] == "DAT") {
-              var datum = operand;
-              var datumValue = parseInt(datum);
-              if ((datumValue < -999) || (datumValue > 999)) {
-                let errString = "> Error, line " + i + ": value out of range: " + currentLine['operand'] + "\n";
-                reportAssemblyError(i+1, errString);
-                return;
-              }
-              datum = datum.toString().padStart(3, "0");
-
-              mc = datum;
-            } else {
-              //
-              // Lookup label in Symbol Table
-              //
-              let target = "yy";
-              let found = false;
-              for (let s=0; s < symbolTable.length; s++) {
-                if ( symbolTable[s]['symbol'] == operand) {
-                  target = symbolTable[s]['value'];
-                  found = true;
-                }
-              }
-
-              if (!found) {
-                // 
-                // If the operand looks like a numeric memory address (0 to 99),
-                // and we haven't got a matching entry in the symbol table, then 
-                // just use the value.
-                //
-                var operandValue = parseInt(currentLine['operand']);
-                if ((operandValue >= 0) && (operandValue <= 99)) {
-                  target = operandValue;
-                } else {
-                  //let errString = "> Error, line " + i + ": symbol not found: " + currentLine['operand'] + "\n";
-                  let errString = "> Error, line " + i + ": symbol not found: " + currentLine['operand'] + " " + operand + "\n";
-                  reportAssemblyError(i+1, errString);
-                  return;
-                }
-              }
-
-              target = target.toString();
-
-              if (target.length == 1) {
-                target = "0"+target;
-              }
-              originalmc = opcodesLMC[j]['mc'];
-              mc = originalmc.replace("xx", target);
-            }
-          } else {
-            let errString = "> Error, line " + i + ": machine code instruction " + currentLine['operator'] + " should not have an operand\n";
-            reportAssemblyError(i+1, errString);
-            return;
-          }
-        }
-        else {
-          //
-          // If we expect an operand but have none, report an error, unless the
-          // opcode is DAT, in which case an absent operand is OK.
-          //
-          if (opcodesLMC[j]['mc'].includes("xx") && opcodesLMC[j]['mnemonic'] != "DAT") {
-            let errString = "> Error, line " + i + ": machine code instruction " + currentLine['operator'] + " requires an operand\n";
-            reportAssemblyError(i+1, errString);
-            return;
-          } else {
-            //
-            // We have an operand-less instruction, so just use the machine code
-            //
-            if (opcodesLMC[j]['mnemonic'] == "DAT") {
-              mc = "000";
-            } else {
-              mc = opcodesLMC[j]['mc'];
-            }
-          }
-        }
-      }
-    }
-    //
-    // Now figure out where to write the machine code
-    //
-    // For the row number, we need to account for the 'address' rows being
-    // interspersed with data rows (hence the 2 *) and the offset for the
-    // first row being 1, rather than 0
-    //
-    var rownum = 2 * (Math.floor(i / 10) + 1);
-    var colnum = (i % 10);
-    var colref = 'm' + colnum.toString();
-
-    //
-    // We may need to check that all browsers support this ES6 feature (using
-    // a variable as a property name).  I think everything relatively new will
-    // be OK.
-    //
-    table2.updateData([{id:rownum, [colref]: mc}]);
-  }
-
-  var timestamp = new Date().toLocaleTimeString('en-GB', {hour: "numeric", minute: "numeric", second: "numeric"});
-  logobj.value += "> ASSEMBLY:  Assembly completed at " + timestamp + "\n";
-  logobj.scrollTop = logobj.scrollHeight;
-  changeState(states.ASSEMBLED);
-
-  
-  //
-  // Clear the current line indicator (if a program has previously run)
-  //
-  if (previousProgramCounter != 0) {
-    table1.updateData([{id:previousProgramCounter, active: "-"}]);
-  }
-
-  // 
-  // Clear the bus animation from any previous run
-  //
-  var c = document.getElementById("processor-canvas");
-  var ctx = c.getContext("2d");
-
-  if (canvasInfo.lastBusAnimation != -1) {
-    animateBus2(ctx, canvasInfo.lastBusAnimation, true);
-  }
-
-  //
-  // Clear all register values...
-  //
-  programCounter = 0;
-  previousProgramCounter = 0;
-  accumulator = 0;
-  memoryDataRegister = 0;
-  memoryAddressRegister = 0;
-  currentInstructionRegister = 0;
-  statusRegister = "00000000";
-  
-  //
-  // Refresh the CPU diagram
-  //  
-
-  drawCPU(ctx);
-
-  return;
-}
-
-function reportAssemblyError(lineNo, errString){
-  var logobj=document.getElementById("log-text");
-
-  logobj.value += errString;
-  logobj.value += "> ASSEMBLY:  Assembly failed\n";
-  logobj.scrollTop = logobj.scrollHeight;
-  table1.deselectRow();
-  table1.selectRow(lineNo);
-}
-
-//
-// Function to 'assemble' the assembler code
-//
-function assembleCodeCAIE() {
   let code = table1.getData();
 
   table2.setData(blankmemorytabledata);
@@ -2897,6 +2355,17 @@ function assembleCodeCAIE() {
   drawCPU(ctx);
 
   return;
+}
+
+
+function reportAssemblyError(lineNo, errString){
+  var logobj=document.getElementById("log-text");
+
+  logobj.value += errString;
+  logobj.value += "> ASSEMBLY:  Assembly failed\n";
+  logobj.scrollTop = logobj.scrollHeight;
+  table1.deselectRow();
+  table1.selectRow(lineNo);
 }
 
 
