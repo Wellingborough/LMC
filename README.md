@@ -13,3 +13,5 @@ The Little Man Computer simulator app can be found [here](https://wellingborough
 If you have any questions or comments on this LMC simulator, please contact me at mga@wellingboroughschool.org
 
 The source code for this LMC simulator is available under the GNU General Public License v3.0.
+## Wellingborough School - CAIE Assembler Simulator
+I am currently adding support for the CAIE exam board's pseudo-assembler.  This will be available [here](https://wellingborough.github.io/LMC/CAIE.html)
