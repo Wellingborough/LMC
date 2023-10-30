@@ -1637,63 +1637,128 @@ function decodeInstruction() {
     drawRegisterValue("DECODER", "LDI [["+address+"]]", ctx);
   }
 
-  if (currentInstructionRegister[0] == "6"){
-    // BRA
-    var address = currentInstructionRegister.substring(1,3);
-    // Nothing to do here...
-    numSubStages = 1;
-    instructionCode = "BRA";
-    drawRegisterValue("DECODER", "BRA ["+address+"]", ctx);
-  }
-        
-  if (currentInstructionRegister[0] == "7"){
-    // BRZ
-    var address = currentInstructionRegister.substring(1,3);
-    // Nothing to do here...
-    numSubStages = 1;
-    instructionCode = "BRZ";
-    drawRegisterValue("DECODER", "BRZ ["+address+"]", ctx);
-  }
-        
-  if (currentInstructionRegister[0] == "8"){
-    // BRP
-    var address = currentInstructionRegister.substring(1,3);
-    // Nothing to do here...
-    numSubStages = 1;
-    instructionCode = "BRP";
-    drawRegisterValue("DECODER", "BRP ["+address+"]", ctx);
-  }
-        
-  if (currentInstructionRegister[0] == "9"){
-    // INP/OUT
-    var type = currentInstructionRegister.substring(1,3);
-    // Nothing to do here...        
-    numSubStages = 1;
-    if (currentInstructionRegister == "901") {
-      instructionCode = "INP";
-      drawRegisterValue("DECODER", "INP", ctx);
-    } else {
-      instructionCode = "OUT";
-      drawRegisterValue("DECODER", "OUT", ctx);
-    }
+  if (instructionCode == "LDX"){
+    // LDX
+    numSubStages = 6;
+    var address = instructionDetails;
+    memoryAddressRegister = address;
+    drawRegisterValue("DECODER", "LDX ["+address+"+IX]", ctx);
   }
 
-  if (currentInstructionRegister == "000"){
-    // HLT
-    var type = currentInstructionRegister.substring(1,3);
-    // Nothing to do here...
+  if (instructionCode == "MOV"){
+    // MOV
     numSubStages = 1;
-    instructionCode = "HLT";
-    drawRegisterValue("DECODER", "HLT", ctx);
+    drawRegisterValue("DECODER", "MOV ACC to IX", ctx);
   }
   
-  for (let i=0; i < opcodesLMC.length; i++) {
-    if (opcodesLMC[i]['mnemonic'] == instructionCode) {
-      instructionDetails = opcodesLMC[i]['description'];
-      break;
-    }
+  if (instructionCode == "INC"){
+    // INC
+    numSubStages = 1;
+    drawRegisterValue("DECODER", "INC ACC or IX", ctx);
+  }
+  if (instructionCode == "DEC"){
+    // DEC
+    numSubStages = 1;
+    drawRegisterValue("DECODER", "DEC ACC or IX", ctx);
   }
 
+  if (instructionCode == "JMP"){
+    // JMP:
+    var address = instructionDetails;
+    // Nothing to do here...
+    numSubStages = 1;
+    drawRegisterValue("DECODER", "JMP ["+address+"]", ctx);
+  }
+
+  if (instructionCode == "JPE"){
+    // JPE:
+    var address = instructionDetails;
+    // Nothing to do here...
+    numSubStages = 1;
+    drawRegisterValue("DECODER", "JPE ["+address+"]", ctx);
+  }
+  
+  if (instructionCode == "JPN"){
+    // JPN
+    var address = instructionDetails;
+    // Nothing to do here...
+    numSubStages = 1;
+    drawRegisterValue("DECODER", "JPN ["+address+"]", ctx);
+  }
+        
+  if (instructionCode == "CMP"){
+    // CMP
+    var address = instructionDetails;
+    memoryAddressRegister = address;
+    numSubStages = 3;
+    drawRegisterValue("DECODER", "CMP ["+address+"]", ctx);
+  }
+
+  if (instructionCode == "CPI"){
+    // CPI
+    var address = instructionDetails;
+    memoryAddressRegister = address;
+    numSubStages = 5;
+    drawRegisterValue("DECODER", "CPI [["+address+"]]", ctx);
+  }
+
+  if (instructionCode == "OUT"){
+    // OUT
+    numSubStages = 1;
+    drawRegisterValue("DECODER", "OUT ACC", ctx);
+  }
+
+  if (instructionCode == "AND"){
+    // AND
+    numSubStages = 1;
+    drawRegisterValue("DECODER", "AND value", ctx);
+//    drawRegisterValue("DECODER", "AND [address]", ctx);
+  }
+
+  if (instructionCode == "XOR"){
+    // XOR
+    numSubStages = 1;
+    drawRegisterValue("DECODER", "XOR value", ctx);
+//    drawRegisterValue("DECODER", "XOR [address]", ctx);
+  }
+
+  if (instructionCode == "OR"){
+    // OR
+    numSubStages = 1;
+    drawRegisterValue("DECODER", "OR value", ctx);
+//    drawRegisterValue("DECODER", "OR [address]", ctx);
+  }
+
+  if (instructionCode == "LSL"){
+    // LSL
+    numSubStages = 1;
+    drawRegisterValue("DECODER", "LSL ACC", ctx);
+  }
+
+  if (instructionCode == "LSR"){
+    // LSR
+    numSubStages = 1;
+    drawRegisterValue("DECODER", "LSR ACC", ctx);
+  }
+
+    if (instructionCode == "OUT"){
+    // OUT
+    numSubStages = 1;
+    drawRegisterValue("DECODER", "OUT ACC", ctx);
+  }
+
+    if (instructionCode == "OUT"){
+    // OUT
+    numSubStages = 1;
+    drawRegisterValue("DECODER", "OUT ACC", ctx);
+  }
+
+  if (instructionCode == "END"){
+    // END
+    numSubStages = 1;
+    drawRegisterValue("DECODER", "END", ctx);
+  }
+ 
   let logobj=document.getElementById("log-text");
   logobj.value += "> DECODE:  " + currentInstructionRegister + " = " + instructionCode + ": " + instructionDetails + "\n";
   logobj.scrollTop = logobj.scrollHeight;
