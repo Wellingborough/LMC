@@ -1415,15 +1415,21 @@ const executionStages = {
   EXECUTE: "execute",
 }
 
+//
+// currentSubStage is used in FETCH and in EXECUTE in slightly different ways
+// 1.  For FETCH, we always set it to 4, for the PC-MAR, MAR-Memory, Memory-MDR,
+//     MDR-CIR substages.
+// 2.  For EXECUTE, we set the number of substages from the instruction metadata
+//
 var execStage = executionStages.FETCH;
-var numSubStages = 4;
+var currentSubStage = 4;
 
 function nextInstruction() {
   // 
   // Splits the execution of an instruction into Fetch/Decode/Execute
   // so that we can display the changes to the registers
   //
-  numSubStages -= 1;
+  currentSubStage -= 1;
 
   if (settingSpeed != speeds.SUPERFAST) {
     // Remove any memory read/write highlight
@@ -1437,8 +1443,8 @@ function nextInstruction() {
 
   if (execStage == executionStages.FETCH){
     fetchInstruction();
-    if (numSubStages == 0){
-      numSubStages = 1;
+    if (currentSubStage == 0){
+      currentSubStage = 1;
       execStage = executionStages.DECODE;
     }
     return;
@@ -1457,8 +1463,8 @@ function nextInstruction() {
     let dummy = 1.0;
 
     executeInstruction();
-    if (numSubStages == 0){
-      numSubStages = 4;
+    if (currentSubStage == 0){
+      currentSubStage = 4;
       execStage = executionStages.FETCH;
 
       if ( state == states.RUNNING.STOPPING ) {
@@ -1480,7 +1486,7 @@ function fetchInstruction() {
 
   let formattedPC = programCounter.toString().padStart(2, "0");
 
-  if (numSubStages == 3) {
+  if (currentSubStage == 3) {
     if (settingSpeed != speeds.SUPERFAST) {
       animateBus(ctx, 0);
 
@@ -1490,11 +1496,11 @@ function fetchInstruction() {
     }
     memoryAddressRegister = formattedPC;
 
-  } else if (numSubStages == 2) {
+  } else if (currentSubStage == 2) {
     animateBus(ctx, 1);
     programCounter = programCounter+1;
 
-  } else if (numSubStages == 1) {
+  } else if (currentSubStage == 1) {
     //
     // Get the memory contents from the next row, update the CIR
     //
@@ -1561,7 +1567,6 @@ function decodeInstruction() {
   instructionDetails = "EMPTY";
   instructionCode = "EMPTY";
 
-  // HERE
   var foundOpcode = false;
   operator = currentInstructionRegister.substring(0,2);
   
@@ -1573,11 +1578,17 @@ function decodeInstruction() {
     }
   }
 
+  //
+  // In all of the following, the currentSubStage should be set using the
+  // length of the subStages list provided in the instruction
+  // The code should then be further refactored to use metadata rather than
+  // hard-coding instruction details
+  //
   if (instructionCode == "ADD"){
     // ADD
     var address = instructionDetails;
     memoryAddressRegister = address;
-    numSubStages = 5;
+    currentSubStage = 5;
     drawRegisterValue("DECODER", "ADD ["+address+"]", ctx);
     drawRegisterValue("ALU", "ADD", ctx);
   }
@@ -1585,7 +1596,7 @@ function decodeInstruction() {
   if (instructionCode == "IN"){
     // IN
     instructionCode = "INP"
-    numSubStages = 1;
+    currentSubStage = 1;
     drawRegisterValue("DECODER", "INPUT", ctx);
   }
 
@@ -1593,7 +1604,7 @@ function decodeInstruction() {
     // SUB
     var address = instructionDetails;
     memoryAddressRegister = address;
-    numSubStages = 5;
+    currentSubStage = 5;
     drawRegisterValue("DECODER", "SUB ["+address+"]", ctx);
     drawRegisterValue("ALU", "SUB", ctx);
   }
@@ -1602,21 +1613,21 @@ function decodeInstruction() {
     // STO
     var address = instructionDetails;
     memoryAddressRegister = address;
-    numSubStages = 2;
+    currentSubStage = 2;
     instructionCode = "STO";
     drawRegisterValue("DECODER", "STO ["+address+"]", ctx);
   }
                 
   if (instructionCode == "LDM"){
     // LDM
-    numSubStages = 1;
+    currentSubStage = 1;
     var value = instructionDetails;
     drawRegisterValue("DECODER", "LDM "+value, ctx);
   }
 
   if (instructionCode == "LDR"){
     // LDR
-    numSubStages = 1;
+    currentSubStage = 1;
     var value = instructionDetails;
     drawRegisterValue("DECODER", "LDR "+value, ctx);
   }
@@ -1625,13 +1636,13 @@ function decodeInstruction() {
     // LDD
     var address = instructionDetails;
     memoryAddressRegister = address;
-    numSubStages = 3;
+    currentSubStage = 3;
     drawRegisterValue("DECODER", "LDD ["+address+"]", ctx);
   }
 
   if (instructionCode == "LDI"){
     // LDI
-    numSubStages = 6;
+    currentSubStage = 6;
     var address = instructionDetails;
     memoryAddressRegister = address;
     drawRegisterValue("DECODER", "LDI [["+address+"]]", ctx);
@@ -1639,7 +1650,7 @@ function decodeInstruction() {
 
   if (instructionCode == "LDX"){
     // LDX
-    numSubStages = 6;
+    currentSubStage = 6;
     var address = instructionDetails;
     memoryAddressRegister = address;
     drawRegisterValue("DECODER", "LDX ["+address+"+IX]", ctx);
@@ -1647,18 +1658,18 @@ function decodeInstruction() {
 
   if (instructionCode == "MOV"){
     // MOV
-    numSubStages = 1;
+    currentSubStage = 1;
     drawRegisterValue("DECODER", "MOV ACC to IX", ctx);
   }
   
   if (instructionCode == "INC"){
     // INC
-    numSubStages = 1;
+    currentSubStage = 1;
     drawRegisterValue("DECODER", "INC ACC or IX", ctx);
   }
   if (instructionCode == "DEC"){
     // DEC
-    numSubStages = 1;
+    currentSubStage = 1;
     drawRegisterValue("DECODER", "DEC ACC or IX", ctx);
   }
 
@@ -1666,7 +1677,7 @@ function decodeInstruction() {
     // JMP:
     var address = instructionDetails;
     // Nothing to do here...
-    numSubStages = 1;
+    currentSubStage = 1;
     drawRegisterValue("DECODER", "JMP ["+address+"]", ctx);
   }
 
@@ -1674,7 +1685,7 @@ function decodeInstruction() {
     // JPE:
     var address = instructionDetails;
     // Nothing to do here...
-    numSubStages = 1;
+    currentSubStage = 1;
     drawRegisterValue("DECODER", "JPE ["+address+"]", ctx);
   }
   
@@ -1682,7 +1693,7 @@ function decodeInstruction() {
     // JPN
     var address = instructionDetails;
     // Nothing to do here...
-    numSubStages = 1;
+    currentSubStage = 1;
     drawRegisterValue("DECODER", "JPN ["+address+"]", ctx);
   }
         
@@ -1690,7 +1701,7 @@ function decodeInstruction() {
     // CMP
     var address = instructionDetails;
     memoryAddressRegister = address;
-    numSubStages = 3;
+    currentSubStage = 3;
     drawRegisterValue("DECODER", "CMP ["+address+"]", ctx);
   }
 
@@ -1698,52 +1709,52 @@ function decodeInstruction() {
     // CPI
     var address = instructionDetails;
     memoryAddressRegister = address;
-    numSubStages = 5;
+    currentSubStage = 5;
     drawRegisterValue("DECODER", "CPI [["+address+"]]", ctx);
   }
 
   if (instructionCode == "AND"){
     // AND
-    numSubStages = 1;
+    currentSubStage = 1;
     drawRegisterValue("DECODER", "AND value", ctx);
 //    drawRegisterValue("DECODER", "AND [address]", ctx);
   }
 
   if (instructionCode == "XOR"){
     // XOR
-    numSubStages = 1;
+    currentSubStage = 1;
     drawRegisterValue("DECODER", "XOR value", ctx);
 //    drawRegisterValue("DECODER", "XOR [address]", ctx);
   }
 
   if (instructionCode == "OR"){
     // OR
-    numSubStages = 1;
+    currentSubStage = 1;
     drawRegisterValue("DECODER", "OR value", ctx);
 //    drawRegisterValue("DECODER", "OR [address]", ctx);
   }
 
   if (instructionCode == "LSL"){
     // LSL
-    numSubStages = 1;
+    currentSubStage = 1;
     drawRegisterValue("DECODER", "LSL ACC", ctx);
   }
 
   if (instructionCode == "LSR"){
     // LSR
-    numSubStages = 1;
+    currentSubStage = 1;
     drawRegisterValue("DECODER", "LSR ACC", ctx);
   }
 
   if (instructionCode == "OUT"){
     // OUT
-    numSubStages = 1;
+    currentSubStage = 1;
     drawRegisterValue("DECODER", "OUT ACC", ctx);
   }
 
   if (instructionCode == "END"){
     // END
-    numSubStages = 1;
+    currentSubStage = 1;
     drawRegisterValue("DECODER", "END", ctx);
   }
  
@@ -1787,15 +1798,15 @@ function executeInstruction() {
   
   if (instructionCode == "ADD"){
     // ADD
-    if (numSubStages == 4) {
+    if (currentSubStage == 4) {
       animateBus(ctx, 5);
-    } else if (numSubStages == 3) {
+    } else if (currentSubStage == 3) {
       animateBus(ctx, 1);
-    } else if (numSubStages == 2) {
+    } else if (currentSubStage == 2) {
       animateBus(ctx, 2);
       var value = readMemory(memoryAddressRegister);
       memoryDataRegister = value;
-    } else if (numSubStages == 1) {
+    } else if (currentSubStage == 1) {
       animateBus(ctx, 6);
     } else {
       animateBus(ctx, 7);
@@ -1806,15 +1817,15 @@ function executeInstruction() {
 
   if (instructionCode == "SUB"){
     // SUB
-    if (numSubStages ==4) {
+    if (currentSubStage ==4) {
       animateBus(ctx, 5);
-    } else if (numSubStages == 3) {
+    } else if (currentSubStage == 3) {
       animateBus(ctx, 1);
-    } else if (numSubStages == 2) {
+    } else if (currentSubStage == 2) {
       animateBus(ctx, 2);
       var value = readMemory(memoryAddressRegister);
       memoryDataRegister = value;
-    } else if (numSubStages == 1) {
+    } else if (currentSubStage == 1) {
       animateBus(ctx, 6);
     } else {
       animateBus(ctx, 7);
@@ -1825,7 +1836,7 @@ function executeInstruction() {
         
   if (instructionCode == "STO"){
     // STO
-    if (numSubStages == 1) {
+    if (currentSubStage == 1) {
       animateBus(ctx, 8);
       memoryDataRegister = accumulator;
     } else {
@@ -1840,11 +1851,11 @@ function executeInstruction() {
         
   if (instructionCode == "LDD"){
     // LDD
-    if (numSubStages == 3) {
+    if (currentSubStage == 3) {
       animateBus(ctx, 5);
-    } else if (numSubStages == 2 ) {
+    } else if (currentSubStage == 2 ) {
       animateBus(ctx, 1);
-    } else if (numSubStages == 1 ) {
+    } else if (currentSubStage == 1 ) {
       animateBus(ctx, 2);
       var value = readMemory(memoryAddressRegister);
       memoryDataRegister = value;
