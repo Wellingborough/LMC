@@ -1935,7 +1935,7 @@ function executeInstruction() {
 //    } else {
 //      animateBus(ctx, 10);
 //      accumulator = parseInt(memoryDataRegister);
-    }
+//    }
   }
         
   if (instructionCode == "JMP"){
