@@ -1254,73 +1254,135 @@ function printCode(){
 //
 // CAIE Instruction Set
 // machine code (mc below) should be interpreted as two hex digits
+// +--------------------------------+----------------+------+------+
+// |           4 bits               |     2 bits     | 1 bit| 1 bit|
+// +--------------------------------+----------------+------+------+
+// |       Instruction Code         |    AMC         | RMC  | OPMC |
+// +--------------------------------+----------------+------+------+
+//
+// AMC Values are
+// 00 = Immediate Addressing
+// 01 = Direct Addressing
+// 10 = Indirect Addressing
+// 11 = Indexed Addressing
+//
+// RMC Values are:
+// 1 = Accumulator
+// 0 = IX
+//
+// OPMC Values are dependent on the instruction, but are basically:
+// 0 = first variant
+// 1 = second variant
+//
+// So, for example, MOV = variant 0, STO = variant 1; 
+// JPE = variant 0, JNE = variant 1
+// LSL = variant 0, LSR = variant 1
+//
+//(Need some convenience functions for these mappings)
+//
+// The substages array contains the bus animation indices, somewhat confusingly
+// in reverse order (as currentSubStage counts down, it makes it easier to use
+// the currentSubStage value as the index)
 //
 const opcodesCAIE = [{mnemonic: "END", mc:"00", name: "End program", 
-                     description: "Instructs the processor to stop executing instructions"},
+                     description: "Instructs the processor to stop executing instructions",
+                     substages: []},
                      {mnemonic: "IN", mc:"12", name: "Input", 
-                     description: "Copy the value from the 'Input' box into the Accumulator"},
+                     description: "Copy the value from the 'Input' box into the Accumulator",
+                     substages: []},
                      {mnemonic: "LDM", mc:"22", name: "Load Accumulator", 
-                     description: "Load the number n to the accumulator.  Immediate addressing"}, 
+                     description: "Load the number n to the accumulator.  Immediate addressing",
+                     substages: []}, 
                      {mnemonic: "LDD", mc:"26", name: "Load Accumulator", 
-                     description: "Load the contents of the given memory location to the accumulator.  Direct addressing"},
+                     description: "Load the contents of the given memory location to the accumulator.  Direct addressing",
+                     substages: [10, 2, 1, 5]},
                      {mnemonic: "LDI", mc:"2A", name: "Load Accumulator", 
-                     description: "Use the contents of the given memory location as an addrees.  Load the contents of that address to the accumulator.  Indirect addressing"},
+                     description: "Use the contents of the given memory location as an addrees.  Load the contents of that address to the accumulator.  Indirect addressing",
+                     substages: []},
                      {mnemonic: "LDX", mc:"2E", name: "Load Accumulator", 
-                     description: "Load the contents of the given memory location + the IX register to the accumulator.  Indexed addressing"},
+                     description: "Load the contents of the given memory location + the IX register to the accumulator.  Indexed addressing",
+                     substages: []},
                      {mnemonic: "LDR", mc:"20", name: "Load Index Register", 
-                     description: "Load the number n to the index register.  Immediate addressing"},
+                     description: "Load the number n to the index register.  Immediate addressing",
+                     substages: []},
                      {mnemonic: "MOV", mc:"30", name: "Move Accumulator", 
-                     description: "Copy the contents of the accumulatorto the index register"},
+                     description: "Copy the contents of the accumulatorto the index register",
+                     substages: []},
                      {mnemonic: "STO", mc:"31", name: "Store Accumulator", 
-                     description: "Copy the value in the Accumulator to the given memory address"},
+                     description: "Copy the value in the Accumulator to the given memory address",
+                     substages: []},
                      {mnemonic: "ADD", mc:"42", name: "Add to Accumulator", 
-                     description: "Add the value from the given memory location to the Accumulator.  Direct addressing"},
+                     description: "Add the value from the given memory location to the Accumulator.  Direct addressing",
+                     substages: []},
                      {mnemonic: "ADD", mc:"46", name: "Add to Accumulator", 
-                     description: "Add the number n to the Accumulator.  Immediate addressing"},
+                     description: "Add the number n to the Accumulator.  Immediate addressing",
+                     substages: []},
                      {mnemonic: "SUB", mc:"52", name: "Subtract from Accumulator", 
-                     description: "Subtract the value at the given memory location from the Accumulator.  Direct addressing"},
+                     description: "Subtract the value at the given memory location from the Accumulator.  Direct addressing",
+                     substages: []},
                      {mnemonic: "SUB", mc:"56", name: "Subtract from Accumulator", 
-                     description: "Subtract the number n from the Accumulator.  Immediate addressing"},
+                     description: "Subtract the number n from the Accumulator.  Immediate addressing",
+                     substages: []},
                      {mnemonic: "INC", mc:"60", name: "Add to Accumulator", 
-                     description: "Increment the value in the Accumulator"},
+                     description: "Increment the value in the Accumulator",
+                     substages: []},
                      {mnemonic: "INC", mc:"62", name: "Add to Index Register", 
-                     description: "Increment the value in the Index Register"},
+                     description: "Increment the value in the Index Register",
+                     substages: []},
                      {mnemonic: "DEC", mc:"70", name: "Decrement the Accumulator", 
-                     description: "Increment the value in the Accumulator"},
+                     description: "Increment the value in the Accumulator",
+                     substages: []},
                      {mnemonic: "DEC", mc:"72", name: "Add to Index Register", 
-                     description: "Increment the value in the Index Register"},
+                     description: "Increment the value in the Index Register",
+                     substages: []"},
                      {mnemonic: "JMP", mc:"82", name: "Jump", 
-                     description: "Jump to the given memory location"},
+                     description: "Jump to the given memory location",
+                     substages: []},
                      {mnemonic: "CMP", mc:"92", name: "Compare", 
-                     description: "Compare the contents of the Accumulator with the contents of the given memory address"},
+                     description: "Compare the contents of the Accumulator with the contents of the given memory address",
+                     substages: []},
                      {mnemonic: "CMP", mc:"96", name: "Compare", 
-                     description: "Compare the contents of the Accumulator with the number n"},
+                     description: "Compare the contents of the Accumulator with the number n",
+                     substages: []},
                      {mnemonic: "CMI", mc:"9A", name: "Compare", 
-                     description: "Compare the contents of the Accumulator with the contents of the given memory address, twice..."},
+                     description: "Compare the contents of the Accumulator with the contents of the given memory address, twice...",
+                     substages: []},
                      {mnemonic: "JPE", mc:"A2", name: "Jump if equal", 
-                     description: "Jump to the given memory location if the previous Compare operation was True"},
+                     description: "Jump to the given memory location if the previous Compare operation was True",
+                     substages: []},
                      {mnemonic: "JPN", mc:"A3", name: "Jump if not equal", 
-                     description: "Jump to the given memory location if the previous compare operation was False"},
+                     description: "Jump to the given memory location if the previous compare operation was False",
+                     substages: []},
                      {mnemonic: "OUT", mc:"B2", name: "Output", 
-                     description: "Copy the value in the Accumulator to the 'Output' box"},
+                     description: "Copy the value in the Accumulator to the 'Output' box",
+                     substages: []},
                      {mnemonic: "AND", mc:"C2", name: "Bitwise AND", 
-                     description: "Bitwise AND the value in the Accumulator with the value supplied"},
+                     description: "Bitwise AND the value in the Accumulator with the value supplied",
+                     substages: []},
                      {mnemonic: "AND", mc:"C6", name: "Bitwise AND", 
-                     description: "Bitwise AND the value in the Accumulator with the contents of the memory address supplied"},
+                     description: "Bitwise AND the value in the Accumulator with the contents of the memory address supplied",
+                     substages: []},
                      {mnemonic: "XOR", mc:"D2", name: "Bitwise XOR", 
-                     description: "Bitwise XOR the value in the Accumulator with the value supplied"},
+                     description: "Bitwise XOR the value in the Accumulator with the value supplied",
+                     substages: []},
                      {mnemonic: "XOR", mc:"D6", name: "Bitwise XOR", 
-                     description: "Bitwise XOR the value in the Accumulator with the contents of the memory address supplied"},
+                     description: "Bitwise XOR the value in the Accumulator with the contents of the memory address supplied",
+                     substages: []},
                      {mnemonic: "OR", mc:"E2", name: "Bitwise OR", 
-                     description: "Bitwise OR the value in the Accumulator with the value supplied"},
+                     description: "Bitwise OR the value in the Accumulator with the value supplied",
+                     substages: []},
                      {mnemonic: "OR", mc:"E6", name: "Bitwise OR", 
-                     description: "Bitwise OR the value in the Accumulator with the contents of the memory address  supplied"},
+                     description: "Bitwise OR the value in the Accumulator with the contents of the memory address  supplied",
+                     substages: []},
                      {mnemonic: "LSL", mc:"F2", name: "Logical Shift Left", 
-                     description: "Shift the value in the Accumulator to the left n places"},
+                     description: "Shift the value in the Accumulator to the left n places",
+                     substages: []},
                      {mnemonic: "LSR", mc:"F6", name: "Logical Shift Right", 
-                     description: "Shift the value in the Accumulator to the right n places"},
+                     description: "Shift the value in the Accumulator to the right n places",
+                     substages: []},
                      {mnemonic: "DAT", mc:"None", name: "Data", 
-                     description: "Indicates a memory location holding data"},
+                     description: "Indicates a memory location holding data",
+                     substages: []},
                    ];
 
 
@@ -1566,6 +1628,7 @@ function decodeInstruction() {
   //
   instructionDetails = "EMPTY";
   instructionCode = "EMPTY";
+  subStages = []
 
   var foundOpcode = false;
   operator = currentInstructionRegister.substring(0,2);
@@ -1575,6 +1638,7 @@ function decodeInstruction() {
       foundOpcode = true;
       instructionCode = opcodesCAIE[j]['mnemonic'];
       instructionDetails = currentInstructionRegister.substring(2,6);
+      subStages = opcodesCAIE[j]['substages'];
     }
   }
 
@@ -1636,7 +1700,7 @@ function decodeInstruction() {
     // LDD
     var address = instructionDetails;
     memoryAddressRegister = address;
-    currentSubStage = 3;
+    currentSubStage = subStages.length;
     drawRegisterValue("DECODER", "LDD ["+address+"]", ctx);
   }
 
@@ -1851,17 +1915,26 @@ function executeInstruction() {
         
   if (instructionCode == "LDD"){
     // LDD
-    if (currentSubStage == 3) {
-      animateBus(ctx, 5);
-    } else if (currentSubStage == 2 ) {
-      animateBus(ctx, 1);
-    } else if (currentSubStage == 1 ) {
-      animateBus(ctx, 2);
+    animateBus(ctx, subStages[currentSubStage];
+    if (currentSubStage == 1 ) {
       var value = readMemory(memoryAddressRegister);
       memoryDataRegister = value;
-    } else {
+    } else if (currentSubStage == 0 ) {
       animateBus(ctx, 10);
       accumulator = parseInt(memoryDataRegister);
+    }
+
+//    if (currentSubStage == 3) {
+//      animateBus(ctx, 5);
+//    } else if (currentSubStage == 2 ) {
+//      animateBus(ctx, 1);
+//    } else if (currentSubStage == 1 ) {
+//      animateBus(ctx, 2);
+//      var value = readMemory(memoryAddressRegister);
+//      memoryDataRegister = value;
+//    } else {
+//      animateBus(ctx, 10);
+//      accumulator = parseInt(memoryDataRegister);
     }
   }
         
