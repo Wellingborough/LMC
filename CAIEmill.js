@@ -1915,7 +1915,7 @@ function executeInstruction() {
         
   if (instructionCode == "LDD"){
     // LDD
-    animateBus(ctx, subStages[currentSubStage];
+    animateBus(ctx, subStages[currentSubStage]);
     if (currentSubStage == 1 ) {
       var value = readMemory(memoryAddressRegister);
       memoryDataRegister = value;
