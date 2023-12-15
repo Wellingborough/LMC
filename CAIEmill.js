@@ -1337,7 +1337,7 @@ const opcodesCAIE = [{mnemonic: "END", mc:"00", name: "End program",
                      substages: []},
                      {mnemonic: "JMP", mc:"82", name: "Jump", 
                      description: "Jump to the given memory location",
-                     substages: []},
+                     substages: [11]},
                      {mnemonic: "CMP", mc:"92", name: "Compare", 
                      description: "Compare the contents of the Accumulator with the contents of the given memory address",
                      substages: []},
@@ -1349,13 +1349,13 @@ const opcodesCAIE = [{mnemonic: "END", mc:"00", name: "End program",
                      substages: []},
                      {mnemonic: "JPE", mc:"A2", name: "Jump if equal", 
                      description: "Jump to the given memory location if the previous Compare operation was True",
-                     substages: []},
+                     substages: [11]},
                      {mnemonic: "JPN", mc:"A3", name: "Jump if not equal", 
                      description: "Jump to the given memory location if the previous compare operation was False",
-                     substages: []},
+                     substages: [11]},
                      {mnemonic: "OUT", mc:"B2", name: "Output", 
                      description: "Copy the value in the Accumulator to the 'Output' box",
-                     substages: []},
+                     substages: [14]},
                      {mnemonic: "AND", mc:"C2", name: "Bitwise AND", 
                      description: "Bitwise AND the value in the Accumulator with the value supplied",
                      substages: []},
@@ -1740,24 +1740,21 @@ function decodeInstruction() {
   if (instructionCode == "JMP"){
     // JMP:
     var address = instructionDetails;
-    // Nothing to do here...
-    currentSubStage = 1;
+    currentSubStage = subStages.length;
     drawRegisterValue("DECODER", "JMP ["+address+"]", ctx);
   }
 
   if (instructionCode == "JPE"){
     // JPE:
     var address = instructionDetails;
-    // Nothing to do here...
-    currentSubStage = 1;
+    currentSubStage = subStages.length;
     drawRegisterValue("DECODER", "JPE ["+address+"]", ctx);
   }
   
   if (instructionCode == "JPN"){
     // JPN
     var address = instructionDetails;
-    // Nothing to do here...
-    currentSubStage = 1;
+    currentSubStage = subStages.length;
     drawRegisterValue("DECODER", "JPN ["+address+"]", ctx);
   }
         
@@ -1812,7 +1809,7 @@ function decodeInstruction() {
 
   if (instructionCode == "OUT"){
     // OUT
-    currentSubStage = 1;
+    currentSubStage = subStages.length;
     drawRegisterValue("DECODER", "OUT ACC", ctx);
   }
 
@@ -1916,41 +1913,29 @@ function executeInstruction() {
   if (instructionCode == "LDD"){
     // LDD
     animateBus(ctx, subStages[currentSubStage]);
+
     if (currentSubStage == 1 ) {
       var value = readMemory(memoryAddressRegister);
       memoryDataRegister = value;
     } else if (currentSubStage == 0 ) {
-      animateBus(ctx, 10);
       accumulator = parseInt(memoryDataRegister);
     }
-
-//    if (currentSubStage == 3) {
-//      animateBus(ctx, 5);
-//    } else if (currentSubStage == 2 ) {
-//      animateBus(ctx, 1);
-//    } else if (currentSubStage == 1 ) {
-//      animateBus(ctx, 2);
-//      var value = readMemory(memoryAddressRegister);
-//      memoryDataRegister = value;
-//    } else {
-//      animateBus(ctx, 10);
-//      accumulator = parseInt(memoryDataRegister);
-//    }
   }
         
   if (instructionCode == "JMP"){
     // JMP
+    animateBus(ctx, subStages[currentSubStage]);
+
     var address = instructionDetails;
     programCounter = parseInt(address);
-    animateBus(ctx, 11);
   }
         
   if (instructionCode == "JPN"){
     // JPN
     var address = instructionDetails;
-    if (accumulator == 0){
+    if (accumulator != 0){
       programCounter = parseInt(address);
-      animateBus(ctx, 11);
+      animateBus(ctx, subStages[currentSubStage]);
     }
   }
         
@@ -1961,7 +1946,7 @@ function executeInstruction() {
     if (accumulator >= 0){
       programCounter = parseInt(address);
       if (settingSpeed != speeds.SUPERFAST) {
-        animateBus(ctx, 11);
+        animateBus(ctx, subStages[currentSubStage]);
         let logobj=document.getElementById("log-text");
         logobj.value += "> EXECUTE:  JPE: Branching as Accumulator is " + accumulator + "\n";
         logobj.scrollTop = logobj.scrollHeight;
@@ -1991,7 +1976,7 @@ function executeInstruction() {
   } 
   
   if (instructionCode == "OUT"){
-    animateBus(ctx, 14);
+    animateBus(ctx, subStages[currentSubStage]);
     let outobj=document.getElementById("output-text");
     outobj.value += parseInt(accumulator) + "\n";
     outobj.scrollTop = outobj.scrollHeight;
