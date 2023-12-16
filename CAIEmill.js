@@ -878,7 +878,7 @@ function animateBus2(context, operation, erase) {
   }
 
   if ( operation == 0 ) {
-    // PC-to-MAR
+    // PC-to-MAR (First stage of FETCH)
     x0 = canvasInfo.x_offset + canvasInfo.regWidth + os;
     y0 = canvasInfo.y_offset + canvasInfo.regHeight/2;
 
@@ -888,7 +888,7 @@ function animateBus2(context, operation, erase) {
     points=[[x0, y0], [x1, y1]];
   }
   else if (operation == 1) {
-    // MAR-to-Memory
+    // MAR-to-Memory (Second stage of FETCH)
     x0 = canvasInfo.x_offset + canvasInfo.x_increment*2 + canvasInfo.regWidth + os;
     y0 = canvasInfo.y_offset + canvasInfo.regHeight/2;
 
@@ -898,7 +898,7 @@ function animateBus2(context, operation, erase) {
     points=[[x0, y0], [x1, y1]];
   }
   else if (operation == 2) {
-    // Memory-to-MDR
+    // Memory-to-MDR  (Third stage of FETCH)
     x0 = canvasInfo.x_offset + canvasInfo.x_increment*2 + canvasInfo.regWidth + os;
     y0 = canvasInfo.y_offset + canvasInfo.y_increment1 + canvasInfo.regHeight/2;
 
@@ -908,7 +908,7 @@ function animateBus2(context, operation, erase) {
     points=[[x0, y0], [x1, y1]];
   }
   else if (operation == 3) {
-    // MDR-to-CIR
+    // MDR-to-CIR  (Fourth stage of FETCH)
     x0 = canvasInfo.x_offset + canvasInfo.regWidth + os;
     y0 = canvasInfo.y_offset + canvasInfo.y_increment1 + canvasInfo.regHeight/2;
 
@@ -918,10 +918,10 @@ function animateBus2(context, operation, erase) {
     points=[[x0, y0], [x1, y1]];
   }
   else if (operation == 4) {
-    // NULL?
+    // Not used in LMC - Use for an IX transfer in CAIE
   }
   else if (operation == 5) {
-    // CIR-to-MAR
+    // CIR-to-MAR (Direct Adddressing?  Use operand in CIR as address)
     x0 = canvasInfo.x_offset + canvasInfo.regWidth + os;
     y0 = canvasInfo.y_offset + canvasInfo.y_increment1 + canvasInfo.regHeight/2;
 
@@ -937,7 +937,7 @@ function animateBus2(context, operation, erase) {
     points2=[[x0, y0], [x1, y1], [x2, y2], [x3, y3]];
   }
   else if (operation == 6) {
-    // ACC-to-ALU
+    // ACC-to-ALU (Arithmetic operation involving values in ACC and MDR)
     x0 = canvasInfo.x_offset + canvasInfo.x_increment - os;
     y0 = canvasInfo.y_offset + canvasInfo.y_increment1 + canvasInfo.y_increment2*2 + canvasInfo.regHeight/2;
 
@@ -970,7 +970,7 @@ function animateBus2(context, operation, erase) {
     points2=[[x0, y0], [x1, y1], [x2, y2]];
   }
   else if (operation == 7) {
-    // ALU-to-ACC
+    // ALU-to-ACC (Output results from ALU to ACC)
     x0 = canvasInfo.x_offset + canvasInfo.x_increment + canvasInfo.regWidth/2;
     y0 = canvasInfo.y_offset + canvasInfo.y_increment1 + canvasInfo.y_increment2 + canvasInfo.regHeight*3/2 + os;
 
@@ -980,7 +980,7 @@ function animateBus2(context, operation, erase) {
     points=[[x0, y0], [x1, y1]];
   }
   else if (operation == 8) {
-    // ACC-to-MDR
+    // ACC-to-MDR (Write value in ACC to memory address in CIR)
     x0 = canvasInfo.x_offset + canvasInfo.x_increment*2 - os;
     y0 = canvasInfo.y_offset + canvasInfo.y_increment1 + canvasInfo.regHeight/2;
 
@@ -1012,7 +1012,7 @@ function animateBus2(context, operation, erase) {
     points2=[[x0, y0], [x1, y1], [x2, y2], [x3, y3]];
   }
   else if (operation == 9) {
-    // MAR-to-Memory
+    // MAR-to-Memory (Memory read; MAR-to-Memory, Memory-to-MDR)
     x0 = canvasInfo.x_offset + canvasInfo.x_increment*2 + canvasInfo.regWidth + os;
     y0 = canvasInfo.y_offset + canvasInfo.regHeight/2;
 
@@ -1021,7 +1021,7 @@ function animateBus2(context, operation, erase) {
 
     points=[[x0, y0], [x1, y1]];
 
-    // MDR-to-Memory
+    // Memory-to-MDR
     x0 = canvasInfo.x_offset + canvasInfo.x_increment*2 + canvasInfo.regWidth + os;
     y0 = canvasInfo.y_offset + canvasInfo.y_increment1 + canvasInfo.regHeight/2;
 
@@ -1031,7 +1031,7 @@ function animateBus2(context, operation, erase) {
     points2=[[x0, y0], [x1, y1]];
   }
   else if (operation == 10) {
-    // MDR-to-ACC
+    // MDR-to-ACC (contents of MDR to ACC - Load)
     x0 = canvasInfo.x_offset + canvasInfo.x_increment*2 - os;
     y0 = canvasInfo.y_offset + canvasInfo.y_increment1 + canvasInfo.regHeight/2;
 
@@ -1047,7 +1047,7 @@ function animateBus2(context, operation, erase) {
     points=[[x0, y0], [x1, y1], [x2, y2], [x3, y3]];
   }
   else if (operation == 11) {
-    // CIR-to-PC
+    // CIR-to-PC (Branch/Jump)
     x0 = canvasInfo.x_offset + canvasInfo.regWidth + os;
     y0 = canvasInfo.y_offset + canvasInfo.y_increment1 + canvasInfo.regHeight/2;
 
@@ -1062,8 +1062,11 @@ function animateBus2(context, operation, erase) {
 
     points=[[x0, y0], [x1, y1], [x2, y2], [x3, y3]];
   }
+  else if (operation == 12) {
+    // Not used in LMC - Use for an IX transfer in CAIE
+  }
   else if (operation == 13) {
-    // INPUT-to-ACC
+    // INPUT-to-ACC (Plain old input)
     x0 = canvasInfo.x_offset + canvasInfo.regWidth + os;
     y0 = canvasInfo.y_offset + canvasInfo.y_increment1 + canvasInfo.y_increment2*2 + canvasInfo.regHeight/2;
 
@@ -1073,7 +1076,7 @@ function animateBus2(context, operation, erase) {
     points=[[x0, y0], [x1, y1]];
   }
   else if (operation == 14) {
-    // ACC-to-OUTPUT
+    // ACC-to-OUTPUT (Plain old output)
     x0 = canvasInfo.x_offset + canvasInfo.x_increment + canvasInfo.regWidth + os;
     y0 = canvasInfo.y_offset + canvasInfo.y_increment1 + canvasInfo.y_increment2*2 + canvasInfo.regHeight/2;
 
@@ -1312,37 +1315,37 @@ const opcodesCAIE = [{mnemonic: "END", mc:"00", name: "End program",
                      description: "Copy the value in the Accumulator to the given memory address",
                      substages: []},
                      {mnemonic: "ADD", mc:"42", name: "Add to Accumulator", 
-                     description: "Add the value from the given memory location to the Accumulator.  Direct addressing",
-                     substages: []},
-                     {mnemonic: "ADD", mc:"46", name: "Add to Accumulator", 
                      description: "Add the number n to the Accumulator.  Immediate addressing",
                      substages: []},
-                     {mnemonic: "SUB", mc:"52", name: "Subtract from Accumulator", 
-                     description: "Subtract the value at the given memory location from the Accumulator.  Direct addressing",
+                     {mnemonic: "ADD", mc:"46", name: "Add to Accumulator", 
+                     description: "Add the value from the given memory location to the Accumulator.  Direct addressing",
                      substages: []},
-                     {mnemonic: "SUB", mc:"56", name: "Subtract from Accumulator", 
+                     {mnemonic: "SUB", mc:"52", name: "Subtract from Accumulator", 
                      description: "Subtract the number n from the Accumulator.  Immediate addressing",
                      substages: []},
-                     {mnemonic: "INC", mc:"60", name: "Add to Accumulator", 
+                     {mnemonic: "SUB", mc:"56", name: "Subtract from Accumulator", 
+                     description: "Subtract the value at the given memory location from the Accumulator.  Direct addressing",
+                     substages: []},
+                     {mnemonic: "INC", mc:"60", name: "Add 1 to Accumulator", 
                      description: "Increment the value in the Accumulator",
                      substages: []},
-                     {mnemonic: "INC", mc:"62", name: "Add to Index Register", 
+                     {mnemonic: "INC", mc:"62", name: "Add 1 to Index Register", 
                      description: "Increment the value in the Index Register",
                      substages: []},
                      {mnemonic: "DEC", mc:"70", name: "Decrement the Accumulator", 
-                     description: "Increment the value in the Accumulator",
+                     description: "Decrement the value in the Accumulator",
                      substages: []},
-                     {mnemonic: "DEC", mc:"72", name: "Add to Index Register", 
-                     description: "Increment the value in the Index Register",
+                     {mnemonic: "DEC", mc:"72", name: "Decrement the Index Register", 
+                     description: "Decrement the value in the Index Register",
                      substages: []},
                      {mnemonic: "JMP", mc:"82", name: "Jump", 
                      description: "Jump to the given memory location",
                      substages: [11]},
                      {mnemonic: "CMP", mc:"92", name: "Compare", 
-                     description: "Compare the contents of the Accumulator with the contents of the given memory address",
+                     description: "Compare the contents of the Accumulator with the number n.",
                      substages: []},
                      {mnemonic: "CMP", mc:"96", name: "Compare", 
-                     description: "Compare the contents of the Accumulator with the number n",
+                     description: "Compare the contents of the Accumulator with the contents of the given memory address.",
                      substages: []},
                      {mnemonic: "CMI", mc:"9A", name: "Compare", 
                      description: "Compare the contents of the Accumulator with the contents of the given memory address, twice...",
@@ -1385,6 +1388,29 @@ const opcodesCAIE = [{mnemonic: "END", mc:"00", name: "End program",
                      substages: []},
                    ];
 
+function getAddressMode(mc) {
+  let hexValue = parseInt(mc, 16);
+  let binaryString = hexValue.toString(2).padStart(8,'0');
+  let addressMode = binaryString.slice(4,6);
+
+  let retval = "Undefined";
+  
+  switch (addressMode) {
+    case "00":
+      retval = "Immediate";
+      break;
+    case "01":
+      retval = "Direct";
+      break;
+    case "00":
+      retval = "Indirect";
+      break;
+    case "01":
+      retval = "Indexed";
+      break;
+  }
+  return retval
+}
 
 const symbolTable = [];
 var symbolCount = 0;
@@ -1629,6 +1655,7 @@ function decodeInstruction() {
   instructionDetails = "EMPTY";
   instructionCode = "EMPTY";
   subStages = []
+  addressMode = "Undefined";
 
   var foundOpcode = false;
   operator = currentInstructionRegister.substring(0,2);
@@ -1639,6 +1666,8 @@ function decodeInstruction() {
       instructionCode = opcodesCAIE[j]['mnemonic'];
       instructionDetails = currentInstructionRegister.substring(2,6);
       subStages = opcodesCAIE[j]['substages'];
+      addressMode = getAddressMode(operator);
+      console.log("Address mode is; ", addressMode)
     }
   }
 
