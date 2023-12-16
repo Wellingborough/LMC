@@ -1311,9 +1311,9 @@ const opcodesCAIE = [{mnemonic: "END", mc:"00", name: "End program",
                      {mnemonic: "MOV", mc:"30", name: "Move Accumulator", 
                      description: "Copy the contents of the accumulatorto the index register",
                      substages: []},
-                     {mnemonic: "STO", mc:"31", name: "Store Accumulator", 
+                     {mnemonic: "STO", mc:"35", name: "Store Accumulator", 
                      description: "Copy the value in the Accumulator to the given memory address",
-                     substages: []},
+                     substages: [9,8]},
                      {mnemonic: "ADD", mc:"42", name: "Add to Accumulator", 
                      description: "Add the number n to the Accumulator.  Immediate addressing",
                      substages: []},
@@ -1659,7 +1659,10 @@ function decodeInstruction() {
 
   var foundOpcode = false;
   operator = currentInstructionRegister.substring(0,2);
-  
+
+  //
+  // Match on the hex opcode, so we always get the right instruction
+  //
   for (let j=0; j < opcodesCAIE.length; j++) {
     if (opcodesCAIE[j]['mc'] == operator) {
       foundOpcode = true;
@@ -1701,7 +1704,21 @@ function decodeInstruction() {
     drawRegisterValue("DECODER", "SUB ["+address+"]", ctx);
     drawRegisterValue("ALU", "SUB", ctx);
   }
-        
+
+    if (instructionCode == "INC"){
+    // INC - could be IX or ACC, depending on RMC
+    currentSubStage = 0;
+    drawRegisterValue("DECODER", "INC", ctx);
+    drawRegisterValue("ALU", "+1", ctx);
+  }
+
+    if (instructionCode == "DEC"){
+    // DEC
+    currentSubStage = 0;
+    drawRegisterValue("DECODER", "DEC", ctx);
+    drawRegisterValue("ALU", "-1", ctx);
+  }
+
   if (instructionCode == "STO"){
     // STO
     var address = instructionDetails;
@@ -1924,17 +1941,32 @@ function executeInstruction() {
     }
   }
         
+  if (instructionCode == "INC"){
+    // INC - could be IX or ACC
+    // animateBus(ctx, subStages[currentSubStage]);
+
+    if (currentSubStage == 0 ) {
+      accumulator = accumulator + 1;
+    }
+  }
+
+  if (instructionCode == "DEC"){
+    // DEC - could be IX or ACC
+    // animateBus(ctx, subStages[currentSubStage]);
+
+    if (currentSubStage == 0 ) {
+      accumulator = accumulator - 1;
+    }
+  }
+
   if (instructionCode == "STO"){
     // STO
+    animateBus(ctx, subStages[currentSubStage]);
+    
     if (currentSubStage == 1) {
-      animateBus(ctx, 8);
       memoryDataRegister = accumulator;
     } else {
-      animateBus(ctx, 9);
       var address = memoryAddressRegister;
-      //
-      // Now store the value in the Accumulator into memory
-      //
       writeMemory(address, accumulator);
     }
   }
