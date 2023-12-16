@@ -2434,15 +2434,15 @@ function assembleCode() {
               // Check for IX/ACC for the INC/DEC instructions
               //
 
-              if (!found and currentLine['operand'] == "ACC") {
-                if (opcodesCAIE[j]['mnemonic'] == "INC" or opcodesCAIE[j]['mnemonic'] == "DEC"){
+              if (!found && currentLine['operand'] == "ACC") {
+                if (opcodesCAIE[j]['mnemonic'] == "INC" || opcodesCAIE[j]['mnemonic'] == "DEC"){
                   console.log("Found DEC or INC with ACC");
                   found = true
                 }
               }
 
-              if (!found and currentLine['operand'] == "IX") {
-                if (opcodesCAIE[j]['mnemonic'] == "INC" or opcodesCAIE[j]['mnemonic'] == "DEC"){
+              if (!found && currentLine['operand'] == "IX") {
+                if (opcodesCAIE[j]['mnemonic'] == "INC" || opcodesCAIE[j]['mnemonic'] == "DEC"){
                   console.log("Found INC/DEC with IX");
                   found = true
                 }
