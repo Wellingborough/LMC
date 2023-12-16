@@ -2999,7 +2999,6 @@ function cancelSettings() {
   settingShowDataFlows = stashedSettingShowDataFlows;
   settingShowVariables = stashedSettingShowVariables;
   settingShowMemoryAccess = stashedSettingShowMemoryAccess;
-  settingSwitchToCAIE = stashedSettingSwitchToCAIE;
 }
 
 function saveSettings() {
@@ -3010,7 +3009,6 @@ function saveSettings() {
   settingShowDataFlows = document.getElementById("setting-show-data-flows").checked;
   settingShowVariables = document.getElementById("setting-show-variable-values").checked;
   settingShowMemoryAccess = document.getElementById("setting-show-memory-access").checked;
-  settingSwitchToCAIE = document.getElementById("setting-switch-to-caie").checked;
 }
 
 function stashOldSettings() {
@@ -3018,7 +3016,6 @@ function stashOldSettings() {
   stashedSettingShowDataFlows = settingShowDataFlows;
   stashedSettingShowVariables = settingShowVariables;
   stashedSettingShowMemoryAccess = settingShowMemoryAccess;
-  stashedSettingSwitchToCAIE = settingSwitchToCAIE;
 
   let speedValue = 0;
   let newText = "some new text";
@@ -3053,7 +3050,6 @@ function stashOldSettings() {
   document.getElementById("setting-show-data-flows").checked = settingShowDataFlows;
   document.getElementById("setting-show-variable-values").checked = settingShowVariables;
   document.getElementById("setting-show-memory-access").checked = settingShowMemoryAccess;
-  document.getElementById("setting-switch-to-caie").checked = settingSwitchToCAIE;
 }
 
 function changeSetting(target) {
