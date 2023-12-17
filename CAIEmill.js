@@ -438,7 +438,9 @@ function filltable() {
   });
 
   table1.on("cellEdited", function(data){ // fired if the user edits the table, but not programmatic changes...
-    clearInterval(intervalHandle);
+    if (intervalHandle != null) {
+      clearInterval(intervalHandle);
+    }
     changeState(states.UNASSEMBLED);
   });
 
@@ -1456,7 +1458,7 @@ var memoryAddressRegister = 0;
 var currentInstructionRegister = 0;
 var statusRegister = "00000000";
 
-var intervalHandler;
+var intervalHandle;
 
 function runCode() {
 
@@ -1645,7 +1647,9 @@ function fetchInstruction() {
   // For the moment, just stop when the PC hits 99
   //
   if (programCounter == 99){
-    clearInterval(intervalHandle);
+    if (intervalHandle != null) {
+      clearInterval(intervalHandle);
+    }
   }
   
   formattedPC = programCounter.toString().padStart(4, "0");
@@ -1911,7 +1915,9 @@ function decodeInstruction() {
   // For the moment, just stop when the PC hits 99
   //
   if (programCounter == 99){
-    clearInterval(intervalHandle);
+    if (intervalHandle != null) {
+      clearInterval(intervalHandle);
+    }
   }
 
   if (settingSpeed != speeds.SUPERFAST) {
@@ -2095,7 +2101,9 @@ function executeInstruction() {
     logobj.scrollTop = logobj.scrollHeight;
     let outobj=document.getElementById("input-text");
     outobj.value = "";
-    clearInterval(intervalHandle);
+    if (intervalHandle != null) {
+      clearInterval(intervalHandle);
+    }
     // Save the current state - either running or step-by-step - so that
     // we can restore that state when user input is complete...
     stateBeforeInput = state;
@@ -2130,7 +2138,9 @@ function executeInstruction() {
   // For the moment, just stop when the PC hits 99
   //
   if (programCounter == 99){
-    clearInterval(intervalHandle);
+    if (intervalHandle != null) {
+      clearInterval(intervalHandle);
+    }
   }
 
   var c = document.getElementById("processor-canvas");
@@ -2161,7 +2171,9 @@ function allStop(){
 
 function allHalt(){
   changeState(states.HALTED);
-  clearInterval(intervalHandle);
+  if (intervalHandle != null) {
+    clearInterval(intervalHandle);
+  }
 
   if (previousHighlightRow != -1){
     previousHighlightCell = previousHighlightRow.getCell(previousHighlightCellName);
