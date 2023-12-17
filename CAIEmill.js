@@ -1730,7 +1730,7 @@ function decodeInstruction() {
                 
   if (instructionCode == "LDM"){
     // Load Accumulator (Immediate)
-    currentSubStage = 0;
+    currentSubStage = 1;
     var value = instructionDetails;
     drawRegisterValue("DECODER", "LDM "+value, ctx);
   }
@@ -1990,7 +1990,18 @@ function executeInstruction() {
       accumulator = parseInt(instructionDetails);
     }
   }
-        
+
+  if (instructionCode == "LDR"){
+    // Load IX (Immediate)
+    // Need to add a bus animation from CIR to IX
+    //animateBus(ctx, subStages[currentSubStage]);
+
+    if (currentSubStage == 0 ) {
+      console.log("Loading value into ACC as we do not have an IX register yet!");
+      accumulator = parseInt(instructionDetails);
+    }
+  }
+
   if (instructionCode == "JMP"){
     // JMP
     animateBus(ctx, subStages[currentSubStage]);
