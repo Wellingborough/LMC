@@ -1729,8 +1729,8 @@ function decodeInstruction() {
   }
                 
   if (instructionCode == "LDM"){
-    // LDM
-    currentSubStage = 1;
+    // Load Accumulator (Immediate)
+    currentSubStage = 0;
     var value = instructionDetails;
     drawRegisterValue("DECODER", "LDM "+value, ctx);
   }
@@ -1751,11 +1751,9 @@ function decodeInstruction() {
   }
 
   if (instructionCode == "LDI"){
-    // Load Accumulator (Immediate)
-    // Need to add the bus animation, then we can set currentSubStage to 1
+    // Load Accumulator (Indirect)
     currentSubStage = 0;
-    var value = instructionDetails;
-    drawRegisterValue("DECODER", "LDI [["+value+"]]", ctx);
+    console.log("Not yet implemented");
   }
 
   if (instructionCode == "LDX"){
@@ -1983,7 +1981,7 @@ function executeInstruction() {
     }
   }
 
-  if (instructionCode == "LDI"){
+  if (instructionCode == "LDM"){
     // Load Accumulator (Immediate)
     // Need to add a bus animation from CIR to ACC
     //animateBus(ctx, subStages[currentSubStage]);
