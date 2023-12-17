@@ -1388,9 +1388,12 @@ const opcodesCAIE = [{mnemonic: "END", mc:"00", name: "End program",
                      substages: []},
                    ];
 
+//
+// Given a string representing the hex instruction, return the addressing mode
+//
 function getAddressMode(mc) {
-  let hexValue = parseInt(mc, 16);
-  let binaryString = hexValue.toString(2).padStart(8,'0');
+  let denaryValue = parseInt(mc, 16);
+  let binaryString = denaryValue.toString(2).padStart(8,'0');
   let addressMode = binaryString.slice(4,6);
 
   let retval = "Undefined";
@@ -1402,14 +1405,41 @@ function getAddressMode(mc) {
     case "01":
       retval = "Direct";
       break;
-    case "00":
+    case "10":
       retval = "Indirect";
       break;
-    case "01":
+    case "11":
       retval = "Indexed";
       break;
   }
   return retval
+}
+
+//
+// Given a string representing the hex instruction and an addressing mode, set the addressing mode bits
+//
+function setAddressMode(mc, mode) {
+  let denaryValue = parseInt(mc, 16);
+  let binaryString = denaryValue.toString(2).padStart(8,'0');
+
+  let retval = "00000000";
+  
+  switch (mode) {
+    case "Immediate":
+      retval = binaryString.substring(0,4)+"00"+binaryString.substring(6,8);
+      break;
+    case "Direct":
+      retval = binaryString.substring(0,4)+"01"+binaryString.substring(6,8);
+      break;
+    case "Indirect":
+      retval = binaryString.substring(0,4)+"10"+binaryString.substring(6,8);
+      break;
+    case "Indexed":
+      retval = binaryString.substring(0,4)+"11"+binaryString.substring(6,8);
+      break;
+  }
+  //convert back to two hex digits
+  return parseInt(retval,2).toString(16)
 }
 
 const symbolTable = [];
@@ -1680,12 +1710,20 @@ function decodeInstruction() {
   // The code should then be further refactored to use metadata rather than
   // hard-coding instruction details
   //
-  if (instructionCode == "ADD"){
-    // ADD
+  if (instructionCode == "ADD" && (getAddressMode(operator) == "Direct")){
+    // ADD (Direct)
     var address = instructionDetails;
     memoryAddressRegister = address;
     currentSubStage = 5;
     drawRegisterValue("DECODER", "ADD ["+address+"]", ctx);
+    drawRegisterValue("ALU", "ADD", ctx);
+  }
+
+  if (instructionCode == "ADD" && (getAddressMode(operator) == "Immediate")){
+    // ADD (Immediate)
+    var value = instructionDetails;
+    currentSubStage = 1;
+    drawRegisterValue("DECODER", "ADD "+value, ctx);
     drawRegisterValue("ALU", "ADD", ctx);
   }
 
@@ -1900,9 +1938,8 @@ function executeInstruction() {
     }
   }
 
-  
-  if (instructionCode == "ADD"){
-    // ADD
+  if (instructionCode == "ADD" && (getAddressMode(operator) == "Direct")){
+    // ADD (Direct)
     if (currentSubStage == 4) {
       animateBus(ctx, 5);
     } else if (currentSubStage == 3) {
@@ -1916,6 +1953,16 @@ function executeInstruction() {
     } else {
       animateBus(ctx, 7);
       accumulator += parseInt(memoryDataRegister);
+      updateStatusRegister();
+    }
+  }
+
+  if (instructionCode == "ADD" && (getAddressMode(operator) == "Immediate")){
+    // ADD (Immediate)
+    // These bus animations probably need to change in the definition
+    // animateBus(ctx, subStages[currentSubStage]);
+    if (currentSubStage == 0) {
+      accumulator += parseInt(instructionDetails);
       updateStatusRegister();
     }
   }
@@ -2473,15 +2520,49 @@ function assembleCode() {
                 // and we haven't got a matching entry in the symbol table, then 
                 // just use the value.
                 //
-                var operandValue = parseInt(currentLine['operand']);
-                if ((operandValue >= 0) && (operandValue <= 99)) {
-                  target = operandValue;
-                } else {
-                  //let errString = "> Error, line " + i + ": symbol not found: " + currentLine['operand'] + "\n";
-                  let errString = "> Error, line " + i + ": symbol not found: " + currentLine['operand'] + " " + operand + "\n";
-                  reportAssemblyError(i+1, errString);
-                  return;
+                // This needs to be updated to deal with numeric values for immediate
+                // addressing mode.
+                //
+                // Set the numberIndicator and numberBase 'optimistically'
+                let currentOperand = currentLine['operand'];
+                let numberIndicator = 0;
+                let numberBase = 0;
+                
+                if (currentOperand.length) > 1 {
+                  numberIndicator = currentOperand.substring(0,1);
+                  numberBase = currentOperand.substring(1,2);
                 }
+                
+                if (numberIndicator == '#') {
+                  if (numberBase == 'B' || numberBase == 'b') {
+                    console.log("Binary value", currentOperand.substring(2));
+                    found = true;
+                  }
+                  else if (numberBase == '&') {
+                    console.log("Hexadecimal value", currentOperand.substring(2));
+                    found = true;
+                  }
+                  else {
+                    console.log("Decimal value", currentOperand.substring(1));
+                    found = true;
+                  }
+                }
+                else {
+                  console.log("Could be an ASCII char, who knows?", currentOperand);
+                  found = true;
+                }
+
+                // Original LMC Code from here...
+//                var operandValue = parseInt(currentLine['operand']);
+//                if ((operandValue >= 0) && (operandValue <= 99)) {
+//                  target = operandValue;
+//                } else {
+//                  //let errString = "> Error, line " + i + ": symbol not found: " + currentLine['operand'] + "\n";
+//                  let errString = "> Error, line " + i + ": symbol not found: " + currentLine['operand'] + " " + operand + "\n";
+//                  reportAssemblyError(i+1, errString);
+//                  return;
+//                }
+                // ... to here plus the 'pad a leading zero' below.
               }
 
               target = target.toString();
