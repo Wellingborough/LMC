@@ -1751,11 +1751,11 @@ function decodeInstruction() {
   }
 
   if (instructionCode == "LDI"){
-    // LDI
-    currentSubStage = 6;
-    var address = instructionDetails;
-    memoryAddressRegister = address;
-    drawRegisterValue("DECODER", "LDI [["+address+"]]", ctx);
+    // Load Accumulator (Immediate)
+    // Need to add the bus animation, then we can set currentSubStage to 1
+    currentSubStage = 0;
+    var value = instructionDetails;
+    drawRegisterValue("DECODER", "LDI [["+value+"]]", ctx);
   }
 
   if (instructionCode == "LDX"){
@@ -1970,9 +1970,9 @@ function executeInstruction() {
       writeMemory(address, accumulator);
     }
   }
-        
+  
   if (instructionCode == "LDD"){
-    // LDD
+    // Load Accumulator (Direct)
     animateBus(ctx, subStages[currentSubStage]);
 
     if (currentSubStage == 1 ) {
@@ -1980,6 +1980,16 @@ function executeInstruction() {
       memoryDataRegister = value;
     } else if (currentSubStage == 0 ) {
       accumulator = parseInt(memoryDataRegister);
+    }
+  }
+
+  if (instructionCode == "LDI"){
+    // Load Accumulator (Immediate)
+    // Need to add a bus animation from CIR to ACC
+    //animateBus(ctx, subStages[currentSubStage]);
+
+    if (currentSubStage == 0 ) {
+      accumulator = parseInt(instructionDetails);
     }
   }
         
