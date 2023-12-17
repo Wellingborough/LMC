@@ -2528,7 +2528,7 @@ function assembleCode() {
                 let numberIndicator = 0;
                 let numberBase = 0;
                 
-                if (currentOperand.length) > 1 {
+                if (currentOperand.length > 1) {
                   numberIndicator = currentOperand.substring(0,1);
                   numberBase = currentOperand.substring(1,2);
                 }
