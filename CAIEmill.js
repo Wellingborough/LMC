@@ -1355,7 +1355,7 @@ const opcodesCAIE = [{mnemonic: "END", mc:"00", name: "End program",
                      {mnemonic: "JPE", mc:"A2", name: "Jump if equal", 
                      description: "Jump to the given memory location if the previous Compare operation was True",
                      substages: [11]},
-                     {mnemonic: "JPN", mc:"A3", name: "Jump if not equal", 
+                     {mnemonic: "JNE", mc:"A3", name: "Jump if not equal", 
                      description: "Jump to the given memory location if the previous compare operation was False",
                      substages: [11]},
                      {mnemonic: "OUT", mc:"B2", name: "Output", 
@@ -2476,6 +2476,18 @@ function assembleCode() {
         // 
         // Everything requires an operand with the exception of IN, OUT, END and DAT
         // 
+        //
+        // A further change required for CAIE here, as we have the same instruction code
+        // with different addressing modes, e.g. ADD [label] and ADD [value], but perhaps
+        // we have already considered this?  We have the same first 4 bits, then we can
+        // override the AMC (and RMC and OPMC) bits according to the operand.
+        // but then we should take the 'repeats' out of the instruction definitions...
+        // Nope - we need the repeated entries for different animations.
+        // There is a choice here, we could either keep searching or we could override
+        // the AMC/OPMC/RMC bits in the machinecode.  Either would work.
+        // I think maybe just keep searching - this is the lowest impact in terms of the
+        // code base
+        //
         if (operand.trim().length != 0) {
           if (opcodesCAIE[j]['mnemonic']!="IN" && opcodesCAIE[j]['mnemonic']!="OUT" && opcodesCAIE[j]['mnemonic']!="END") {
             //
