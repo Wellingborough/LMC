@@ -2479,18 +2479,31 @@ function assembleCode() {
         // 
         // Everything requires an operand with the exception of IN, OUT, END and DAT
         // 
-        //
         // A further change required for CAIE here, as we have the same instruction code
-        // with different addressing modes, e.g. ADD [label] and ADD [value], but perhaps
-        // we have already considered this?  We have the same first 4 bits, then we can
-        // override the AMC (and RMC and OPMC) bits according to the operand.
-        // but then we should take the 'repeats' out of the instruction definitions...
-        // Nope - we need the repeated entries for different animations.
-        // There is a choice here, we could either keep searching or we could override
-        // the AMC/OPMC/RMC bits in the machinecode.  Either would work.
-        // I think maybe just keep searching - this is the lowest impact in terms of the
-        // code base
+        // with different addressing modes, e.g. ADD [label] and ADD [value]
         //
+        // This is a non-trivial change, as we have some instructions which already have
+        // the AMC, RMC, and OPMC bits set uniquely, and some which exist in several
+        // modes.  The former are fine left as they are, but for the latter, we need to 
+        // either check whether we have the 'right' one and break/continue OR we need to
+        // just take the first match and override the AMC/RMC/OPMC as necessary.
+        //
+        // Instructions in this second group are:
+        // ADD, SUB, INC, DEC, CMP, AND, XOR, OR
+        //
+        // I've looked at clouds from both sides now, and I think it is best/easiest to
+        // check whether we have the 'right' one and continue if not...
+        // So, we should grab the AMC, OPMC and RMC bits from the original code, and then
+        // override these values if necessary during processing, and then check whether they
+        // have been changed in processing of the line.  If they have, then we need to
+        // continue the for loop which iterates the opcodesCAIE array.
+        //
+        
+        let tablemc = opcodesCAIE[j]['mc'];
+        let originalAMC = tablemc.substring(4,6);
+        let originalRMC = tablemc.substring(6,7);
+        let originalOPMC = tablemc.substring(7,8)
+
         if (operand.trim().length != 0) {
           if (opcodesCAIE[j]['mnemonic']!="IN" && opcodesCAIE[j]['mnemonic']!="OUT" && opcodesCAIE[j]['mnemonic']!="END") {
             //
@@ -2530,6 +2543,7 @@ function assembleCode() {
               if (!found && currentLine['operand'] == "ACC") {
                 if (opcodesCAIE[j]['mnemonic'] == "INC" || opcodesCAIE[j]['mnemonic'] == "DEC"){
                   console.log("Found DEC or INC with ACC");
+                  originalRMC = "1"
                   found = true
                 }
                 else {
@@ -2542,10 +2556,12 @@ function assembleCode() {
               if (!found && currentLine['operand'] == "IX") {
                 if (opcodesCAIE[j]['mnemonic'] == "INC" || opcodesCAIE[j]['mnemonic'] == "DEC"){
                   console.log("Found INC/DEC with IX");
+                  originalRMC = "0"
                   found = true
                 }
                 else if (opcodesCAIE[j]['mnemonic'] == "MOV"){
                   console.log("Found MOV with IX");
+                  originalRMC = "0"
                   found = true
                 }
                 else {
@@ -2584,8 +2600,6 @@ function assembleCode() {
                 if (numberIndicator == '#') {
                   if (numberBase == 'B' || numberBase == 'b') {
                     let binaryValue = currentOperand.substring(2);
-                    console.log("Binary value", binaryValue);
-                    found = true;
 
                     // Check that the binary value contains only '1' and '0' characters
                     // and that it is no more than 16 bits in length
@@ -2599,11 +2613,14 @@ function assembleCode() {
                       reportAssemblyError(i+1, errString);
                       return;
                     }
+                    // Set the AMC to Immediate (00)
+                    originalAMC = "00";
+                    console.log("Binary value", binaryValue);
+                    found = true;
+                    
                   }
                   else if (numberBase == '&') {
                     let hexValue = currentOperand.substring(2);
-                    console.log("Hexadecimal value", hexValue);
-                    found = true;
 
                     // Check that the hexadecimal value contains only valid characters
                     // and that it is no more than 4 digits in length
@@ -2615,11 +2632,13 @@ function assembleCode() {
                       reportAssemblyError(i+1, errString);
                       return;
                     }
+                    // Set the AMC to Immediate (00)
+                    originalAMC = "00";
+                    console.log("Hexadecimal value", hexValue);
+                    found = true;
                   }
                   else {
                     let denaryValue = currentOperand.substring(1);
-                    console.log("Denary value", denaryValue);
-                    found = true;
 
                     // Check that the denary value contains only valid characters
                     // and that it is  between -32768 and +32767
@@ -2632,24 +2651,15 @@ function assembleCode() {
                       reportAssemblyError(i+1, errString);
                       return;
                     }
+                    originalAMC = "00";
+                    console.log("Denary value", denaryValue);
+                    found = true;
                   }
                 }
                 else {
                   console.log("Could be an ASCII char, who knows?", currentOperand);
                   found = true;
                 }
-
-                // Original LMC Code from here...
-//                var operandValue = parseInt(currentLine['operand']);
-//                if ((operandValue >= 0) && (operandValue <= 99)) {
-//                  target = operandValue;
-//                } else {
-//                  //let errString = "> Error, line " + i + ": symbol not found: " + currentLine['operand'] + "\n";
-//                  let errString = "> Error, line " + i + ": symbol not found: " + currentLine['operand'] + " " + operand + "\n";
-//                  reportAssemblyError(i+1, errString);
-//                  return;
-//                }
-                // ... to here plus the 'pad a leading zero' below.
               }
 
               target = target.toString();
