@@ -2702,7 +2702,7 @@ function assembleCode() {
                   }
                 }
                 else {
-                  console.log("Could be an ASCII char, who knows?", currentOperand);
+                  console.log("Could be an ASCII char, who knows?", opcodesCAIE[j]['mnemonic']);
                   found = true;
                 }
               }
