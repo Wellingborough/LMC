@@ -3206,7 +3206,8 @@ function handleFile() {
 //
 // This fails with the CAIE instructions set because of characters
 // such as '#' and '&'.
-// <![CDATA[www.example.com?var=1&a=3]]>
+//
+// Try using <![CDATA[content]]>
 //
 function saveCode() {
   let resString = "data:text/plain;charset=UTF-8,<![CDATA[";
