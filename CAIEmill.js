@@ -1418,33 +1418,6 @@ function getAddressMode(mc) {
 }
 
 //
-// Given a string representing the hex instruction and an addressing mode, set the addressing mode bits
-// COMMENTED OUT AS I BELIEVE IT IS UNUSED, DELETE ON NEXT EDIT
-//function setAddressMode(mc, mode) {
-//  let denaryValue = parseInt(mc, 16);
-//  let binaryString = denaryValue.toString(2).padStart(8,'0');
-//
-//  let retval = "00000000";
-//  
-//  switch (mode) {
-//    case "Immediate":
-//      retval = binaryString.substring(0,4)+"00"+binaryString.substring(6,8);
-//      break;
-//    case "Direct":
-//      retval = binaryString.substring(0,4)+"01"+binaryString.substring(6,8);
-//      break;
-//    case "Indirect":
-//      retval = binaryString.substring(0,4)+"10"+binaryString.substring(6,8);
-//      break;
-//    case "Indexed":
-//      retval = binaryString.substring(0,4)+"11"+binaryString.substring(6,8);
-//      break;
-//  }
-//  //convert back to two hex digits
-//  return parseInt(retval,2).toString(16)
-//}
-
-//
 // Given a string representing the hex instruction, return the register mode
 //
 function getRegisterMode(mc) {
@@ -1493,8 +1466,10 @@ function getOperatingMode(mc) {
     case "0":
       if (instructionMode == "0011") {
         retval = "MOV";
+      }
       else if (instructionMode == "1010") {
         retval = "JPE";
+      }
       else {
         retval = "LSL";
       }
@@ -1502,8 +1477,10 @@ function getOperatingMode(mc) {
     case "1":
       if (instructionMode == "0011") {
         retval = "STO";
+      }
       else if (instructionMode == "1010") {
         retval = "JNE";
+      }
       else {
         retval = "LSR";
       }
@@ -2733,14 +2710,7 @@ function assembleCode() {
               //
               // Check whether we matched the AMC/OPMC/RMC:
               if ((originalAMC != modifiedAMC) || (originalOPMC != modifiedOPMC) || (originalRMC != modifiedRMC)) {
-                console.log("Matched on IMC, but not on other parts");
-                console.log("OPCODE: ", opcodesCAIE[j]['mc']);
-                console.log("OriginalAMC: ", originalAMC);
-                console.log("ModifiedAMC: ", modifiedAMC);
-                console.log("OriginalRMC: ", originalRMC);
-                console.log("ModifiedRMC: ", modifiedRMC);
-                console.log("OriginalOPMC: ", originalOPMC);
-                console.log("ModifiedOPMC: ", modifiedOPMC);
+                console.log("Failed to match: ", currentOperand);
                 continue;
               }
               target = target.toString().padStart(4, '0');
@@ -2771,6 +2741,7 @@ function assembleCode() {
               mc = "000";
             } else {
               mc = opcodesCAIE[j]['mc'];
+              target = "0000";
             }
           }
         }
