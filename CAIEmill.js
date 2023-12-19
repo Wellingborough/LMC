@@ -2499,8 +2499,8 @@ function assembleCode() {
         // continue the for loop which iterates the opcodesCAIE array.
         //
         
-        let denarymc = opcodesCAIE[j]['mc'];
-        let tablemc = parseInt(denarymc,10).toString(2).padStart(8);
+        let hexmc = opcodesCAIE[j]['mc'];
+        let tablemc = parseInt(hexmc,16).toString(2).padStart(8);
         
         let originalAMC = tablemc.substring(4,6);
         let modifiedAMC = tablemc.substring(4,6);
