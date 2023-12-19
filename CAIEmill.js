@@ -2710,7 +2710,7 @@ function assembleCode() {
               //
               // Check whether we matched the AMC/OPMC/RMC:
               if ((originalAMC != modifiedAMC) || (originalOPMC != modifiedOPMC) || (originalRMC != modifiedRMC)) {
-                console.log("Failed to match: ", opcodesCAIE[j]['menmonic']);
+                console.log("Failed to match: ", opcodesCAIE[j]['mnemonic']);
                 continue;
               }
               target = target.toString().padStart(4, '0');
