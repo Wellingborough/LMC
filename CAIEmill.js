@@ -3222,10 +3222,11 @@ function saveCode() {
     // are not present.  Current hacky solution is to detect the last line
     // and omit the CR.
     //
+    let sanitise = currentLine['operand'];
+    sanitise = sanitise.replace("#", "&#35;");
+    sanitise = sanitise.replace("&", "&#38;");
+
     if (i==code.length-1) {
-      let sanitise = currentLine['operand'];
-      sanitise = santise.replace("#", "&#35;");
-      sanitise = santise.replace("&", "&#38;");
       resString += currentLine['line'] + "%09" + currentLine['label'] + "%09" + currentLine['operator'] + "%09" + sanitise;
     } else {
       resString += currentLine['line'] + "%09" + currentLine['label'] + "%09" + currentLine['operator'] + "%09" + sanitise +"%0A";
