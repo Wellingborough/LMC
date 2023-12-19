@@ -2675,7 +2675,7 @@ function assembleCode() {
 
               //
               // Check whether we matched the AMC/OPMC/RMC:
-              if ((originalAMC != modifiedAMC) || (originalOPMC != modifiedOPMC) || (originalRMC |= modifiedRMC)) {
+              if ((originalAMC != modifiedAMC) || (originalOPMC != modifiedOPMC) || (originalRMC != modifiedRMC)) {
                 console.log("Matched on IMC, but not on other parts");
                 console.log("OPCODE: ", opcodesCAIE[j]['mc']);
                 console.log("OriginalAMC: ", originalAMC);
