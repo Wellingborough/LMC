@@ -3207,10 +3207,11 @@ function handleFile() {
 // This fails with the CAIE instructions set because of characters
 // such as '#' and '&'.
 //
-// Try using <![CDATA[content]]>
+// Try escaping these characters.  While a point solution is not
+// ideal, there are just two problematic cases in the CAIE set.
 //
 function saveCode() {
-  let resString = "data:text/plain;charset=UTF-8,<![CDATA[";
+  let resString = "data:text/plain;charset=UTF-8,";
   let code = table1.getData();
 
   for (let i=0; i < code.length; i++) {
@@ -3222,13 +3223,14 @@ function saveCode() {
     // and omit the CR.
     //
     if (i==code.length-1) {
-        resString += currentLine['line'] + "%09" + currentLine['label'] + "%09" + currentLine['operator'] + "%09" + currentLine['operand'];
+      let sanitise = currentLine['operand'];
+      sanitise = santise.replace("#", "&#35;");
+      sanitise = santise.replace("&", "&#38;");
+      resString += currentLine['line'] + "%09" + currentLine['label'] + "%09" + currentLine['operator'] + "%09" + sanitise;
     } else {
-      resString += currentLine['line'] + "%09" + currentLine['label'] + "%09" + currentLine['operator'] + "%09" + currentLine['operand'] +"%0A";
+      resString += currentLine['line'] + "%09" + currentLine['label'] + "%09" + currentLine['operator'] + "%09" + sanitise +"%0A";
     }
   }
-
-  resString +="]]>";
 
   let element = document.createElement('a');
   element.setAttribute('href', resString);
