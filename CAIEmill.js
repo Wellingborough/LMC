@@ -2589,10 +2589,12 @@ function assembleCode() {
 
                     // Check that the binary value contains only '1' and '0' characters
                     // and that it is no more than 16 bits in length
+                    // Easier to do this as a negative check for anything other than
+                    // the desired chars.
                     let pattern = /[^0-1]/
-                    let formatCorrect = binaryValue.match(pattern);
-                    let lengthCorrect = binaryValue.length <= 16;
-                    if (!formatCorrect || !lengthCorrect) {
+                    let formatIncorrect = binaryValue.match(pattern);
+                    let lengthIncorrect = (binaryValue.length > 16) || (binaryValue.length < 1);
+                    if (formatIncorrect || lengthIncorrect) {
                       let errString = "> Error, line " + i + ": Malformed binary value: " + binaryValue + "\n";
                       reportAssemblyError(i+1, errString);
                       return;
@@ -2606,9 +2608,9 @@ function assembleCode() {
                     // Check that the hexadecimal value contains only valid characters
                     // and that it is no more than 4 digits in length
                     let pattern = /[^0-1,^a-f]/i;
-                    let formatCorrect = hexValue.match(pattern);
-                    let lengthCorrect = hexValue.length <= 4;
-                    if (!formatCorrect || !lengthCorrect) {
+                    let formatIncorrect = hexValue.match(pattern);
+                    let lengthIncorrect = (hexValue.length > 4) || (hexValue.length < 1);
+                    if (formatIncorrect || lengthIncorrect) {
                       let errString = "> Error, line " + i + ": Malformed hexadecimal value: " + hexValue + "\n";
                       reportAssemblyError(i+1, errString);
                       return;
@@ -2620,11 +2622,12 @@ function assembleCode() {
                     found = true;
 
                     // Check that the denary value contains only valid characters
-                    // and that it is no more than 65535
-                    let pattern = /[^0-9]/;
-                    let formatCorrect = denaryValue.match(pattern);
-                    let lengthCorrect = parseInt(denaryValue) <= 65535;
-                    if (!formatCorrect || !lengthCorrect) {
+                    // and that it is  between -32768 and +32767
+                    // Being the limits for 16 bits using twos complement
+                    let pattern = /[^0-9, ^-]/;
+                    let formatIncorrect = denaryValue.match(pattern);
+                    let lengthIncorrect = (parseInt(denaryValue) < -32768) || (parseInt(denaryValue) > 32767);
+                    if (!formatCorrect || lengthIncorrect) {
                       let errString = "> Error, line " + i + ": Malformed denary value: " + denaryValue + "\n";
                       reportAssemblyError(i+1, errString);
                       return;
