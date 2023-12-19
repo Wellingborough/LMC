@@ -2621,7 +2621,7 @@ function assembleCode() {
                     }
                     // Set the AMC to Immediate (00)
                     modifiedAMC = "00";
-                    target=parseInt(binaryValue,2).tostring(16);
+                    target=parseInt(binaryValue,2).toString(16);
                     console.log("Binary value", binaryValue);
                     found = true;
                     
@@ -2660,7 +2660,7 @@ function assembleCode() {
                       return;
                     }
                     modifiedAMC = "00";
-                    target = parseInt(denaryValue, 10).tostring(16);
+                    target = parseInt(denaryValue, 10).toString(16);
                     console.log("Denary value", denaryValue);
                     found = true;
                   }
@@ -2675,6 +2675,13 @@ function assembleCode() {
               // Check whether we matched the AMC/OPMC/RMC:
               if ((originalAMC != modifiedAMC) || (originalOPMC != modifiedOPMC) || (originalRMC |= modifiedRMC)) {
                 console.log("Matched on IMC, but not on other parts");
+                console.log("OPCODE: ", opcodesCAIE[j]['mc']);
+                console.log("OriginalAMC: ", originalAMC);
+                console.log("ModifiedAMC: ", modifiedAMC);
+                console.log("OriginalRMC: ", originalRMC);
+                console.log("ModifiedRMC: ", modifiedRMC);
+                console.log("OriginalOPMC: ", originalOPMC);
+                console.log("ModifiedOPMC: ", modifiedOPMC);
                 continue;
               }
               target = target.toString().padStart(4, '0');
