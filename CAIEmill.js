@@ -3076,7 +3076,7 @@ function handleFile() {
       
       for (var j=0; j<elements.length; j++) {
 
-        for (var k=0; k < opcodesLMC.length; k++) {
+        for (var k=0; k < opcodesCAIE.length; k++) {
           if (opcodesLMC[k]['mnemonic'] == elements[j]) {
             foundOperator = true;
             operatorIndex = j;
@@ -3204,8 +3204,12 @@ function handleFile() {
 // click it
 // remove it...
 //
+// This fails with the CAIE instructions set because of characters
+// such as '#' and '&'.
+// <![CDATA[www.example.com?var=1&a=3]]>
+//
 function saveCode() {
-  let resString = "data:text/plain;charset=UTF-8,";
+  let resString = "data:text/plain;charset=UTF-8,<![CDATA[";
   let code = table1.getData();
 
   for (let i=0; i < code.length; i++) {
@@ -3222,6 +3226,8 @@ function saveCode() {
       resString += currentLine['line'] + "%09" + currentLine['label'] + "%09" + currentLine['operator'] + "%09" + currentLine['operand'] +"%0A";
     }
   }
+
+  resString + ="]]>";
 
   let element = document.createElement('a');
   element.setAttribute('href', resString);
