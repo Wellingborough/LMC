@@ -2690,7 +2690,7 @@ function assembleCode() {
                     let pattern = /[^0-9, ^-]/;
                     let formatIncorrect = denaryValue.match(pattern);
                     let lengthIncorrect = (parseInt(denaryValue) < -32768) || (parseInt(denaryValue) > 32767);
-                    if (!formatIncorrect || lengthIncorrect) {
+                    if (formatIncorrect || lengthIncorrect) {
                       let errString = "> Error, line " + i + ": Malformed denary value: " + denaryValue + "\n";
                       reportAssemblyError(i+1, errString);
                       return;
