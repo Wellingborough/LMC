@@ -2597,8 +2597,6 @@ function assembleCode() {
                       reportAssemblyError(i+1, errString);
                       return;
                     }
-                }
-
                   }
                   else if (numberBase == '&') {
                     let hexValue = currentOperand.substring(2);
@@ -2631,7 +2629,6 @@ function assembleCode() {
                       reportAssemblyError(i+1, errString);
                       return;
                     }
-
                   }
                 }
                 else {
