@@ -1419,29 +1419,97 @@ function getAddressMode(mc) {
 
 //
 // Given a string representing the hex instruction and an addressing mode, set the addressing mode bits
+// COMMENTED OUT AS I BELIEVE IT IS UNUSED, DELETE ON NEXT EDIT
+//function setAddressMode(mc, mode) {
+//  let denaryValue = parseInt(mc, 16);
+//  let binaryString = denaryValue.toString(2).padStart(8,'0');
 //
-function setAddressMode(mc, mode) {
+//  let retval = "00000000";
+//  
+//  switch (mode) {
+//    case "Immediate":
+//      retval = binaryString.substring(0,4)+"00"+binaryString.substring(6,8);
+//      break;
+//    case "Direct":
+//      retval = binaryString.substring(0,4)+"01"+binaryString.substring(6,8);
+//      break;
+//    case "Indirect":
+//      retval = binaryString.substring(0,4)+"10"+binaryString.substring(6,8);
+//      break;
+//    case "Indexed":
+//      retval = binaryString.substring(0,4)+"11"+binaryString.substring(6,8);
+//      break;
+//  }
+//  //convert back to two hex digits
+//  return parseInt(retval,2).toString(16)
+//}
+
+//
+// Given a string representing the hex instruction, return the register mode
+//
+function getRegisterMode(mc) {
   let denaryValue = parseInt(mc, 16);
   let binaryString = denaryValue.toString(2).padStart(8,'0');
+  let registerMode = binaryString.slice(6,7);
 
-  let retval = "00000000";
+  let retval = "Undefined";
   
-  switch (mode) {
-    case "Immediate":
-      retval = binaryString.substring(0,4)+"00"+binaryString.substring(6,8);
+  switch (registerMode) {
+    case "0":
+      retval = "IX";
       break;
-    case "Direct":
-      retval = binaryString.substring(0,4)+"01"+binaryString.substring(6,8);
-      break;
-    case "Indirect":
-      retval = binaryString.substring(0,4)+"10"+binaryString.substring(6,8);
-      break;
-    case "Indexed":
-      retval = binaryString.substring(0,4)+"11"+binaryString.substring(6,8);
+    case "1":
+      retval = "ACC";
       break;
   }
-  //convert back to two hex digits
-  return parseInt(retval,2).toString(16)
+  return retval
+}
+
+//
+// Given a string representing the hex instruction, return the operating mode
+// This is a bit nasty as the operating mode depends on the operation
+// For Logical Shifts (IMC=1111)
+//   0 = Left
+//   1 = Right
+//
+// For Conditional Jumps (IMC=1010)
+//   0 = EQ
+//   1 = NE
+//
+// For Move/Store (IMC=0011)
+//   0 = MOV (Acc -> IX)
+//   1 = STO (Acc -> Memory)
+// 
+//
+function getOperatingMode(mc) {
+  let denaryValue = parseInt(mc, 16);
+  let binaryString = denaryValue.toString(2).padStart(8,'0');
+  let operatingMode = binaryString.slice(7,8);
+  let instructionMode = binaryString.slice(0,4);
+
+  let retval = "Undefined";
+  
+  switch (registerMode) {
+    case "0":
+      if (instructionMode == "0011") {
+        retval = "MOV";
+      else if (instructionMode == "1010") {
+        retval = "JPE";
+      else {
+        retval = "LSL";
+      }
+      break;
+    case "1":
+      if (instructionMode == "0011") {
+        retval = "STO";
+      else if (instructionMode == "1010") {
+        retval = "JNE";
+      else {
+        retval = "LSR";
+      }
+      break;
+  }
+  return retval
 }
 
 const symbolTable = [];
@@ -1747,20 +1815,6 @@ function decodeInstruction() {
     drawRegisterValue("ALU", "SUB", ctx);
   }
 
-    if (instructionCode == "INC"){
-    // INC - could be IX or ACC, depending on RMC
-    currentSubStage = 0;
-    drawRegisterValue("DECODER", "INC", ctx);
-    drawRegisterValue("ALU", "+1", ctx);
-  }
-
-    if (instructionCode == "DEC"){
-    // DEC
-    currentSubStage = 0;
-    drawRegisterValue("DECODER", "DEC", ctx);
-    drawRegisterValue("ALU", "-1", ctx);
-  }
-
   if (instructionCode == "STO"){
     // STO
     var address = instructionDetails;
@@ -1811,16 +1865,19 @@ function decodeInstruction() {
     currentSubStage = 1;
     drawRegisterValue("DECODER", "MOV ACC to IX", ctx);
   }
-  
+
   if (instructionCode == "INC"){
     // INC
+    let mode = getOperatingMode(operator);
     currentSubStage = 1;
-    drawRegisterValue("DECODER", "INC ACC or IX", ctx);
+    drawRegisterValue("DECODER", "INC "+mode, ctx);
   }
+  
   if (instructionCode == "DEC"){
     // DEC
+    let mode = getOperatingMode(operator);
     currentSubStage = 1;
-    drawRegisterValue("DECODER", "DEC ACC or IX", ctx);
+    drawRegisterValue("DECODER", "DEC "+mode, ctx);
   }
 
   if (instructionCode == "JMP"){
