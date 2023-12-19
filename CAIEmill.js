@@ -1382,7 +1382,7 @@ const opcodesCAIE = [{mnemonic: "END", mc:"00", name: "End program",
                      {mnemonic: "LSL", mc:"F2", name: "Logical Shift Left", 
                      description: "Shift the value in the Accumulator to the left n places",
                      substages: []},
-                     {mnemonic: "LSR", mc:"F6", name: "Logical Shift Right", 
+                     {mnemonic: "LSR", mc:"F3", name: "Logical Shift Right", 
                      description: "Shift the value in the Accumulator to the right n places",
                      substages: []},
                      {mnemonic: "DAT", mc:"None", name: "Data", 
@@ -2738,10 +2738,9 @@ function assembleCode() {
             // We have an operand-less instruction, so just use the machine code
             //
             if (opcodesCAIE[j]['mnemonic'] == "DAT") {
-              mc = "000";
+              mc = "000000";
             } else {
-              mc = opcodesCAIE[j]['mc'];
-              target = "0000";
+              mc = opcodesCAIE[j]['mc']+"0000";
             }
           }
         }
