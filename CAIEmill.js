@@ -2501,8 +2501,11 @@ function assembleCode() {
         
         let tablemc = opcodesCAIE[j]['mc'];
         let originalAMC = tablemc.substring(4,6);
+        let modifiedAMC = tablemc.substring(4,6);
         let originalRMC = tablemc.substring(6,7);
+        let modifiedRMC = tablemc.substring(6,7);
         let originalOPMC = tablemc.substring(7,8)
+        let modifiedOPMC = tablemc.substring(7,8)
 
         if (operand.trim().length != 0) {
           if (opcodesCAIE[j]['mnemonic']!="IN" && opcodesCAIE[j]['mnemonic']!="OUT" && opcodesCAIE[j]['mnemonic']!="END") {
@@ -2515,7 +2518,7 @@ function assembleCode() {
             if (opcodesCAIE[j]['mnemonic'] == "DAT") {
               var datum = operand;
               var datumValue = parseInt(datum);
-              if ((datumValue < -999) || (datumValue > 999)) {
+              if ((datumValue < -32768) || (datumValue > 32767)) {
                 let errString = "> Error, line " + i + ": value out of range: " + currentLine['operand'] + "\n";
                 reportAssemblyError(i+1, errString);
                 return;
@@ -2543,7 +2546,8 @@ function assembleCode() {
               if (!found && currentLine['operand'] == "ACC") {
                 if (opcodesCAIE[j]['mnemonic'] == "INC" || opcodesCAIE[j]['mnemonic'] == "DEC"){
                   console.log("Found DEC or INC with ACC");
-                  originalRMC = "1"
+                  modifiedRMC = "1"
+                  target="0000";
                   found = true
                 }
                 else {
@@ -2556,12 +2560,14 @@ function assembleCode() {
               if (!found && currentLine['operand'] == "IX") {
                 if (opcodesCAIE[j]['mnemonic'] == "INC" || opcodesCAIE[j]['mnemonic'] == "DEC"){
                   console.log("Found INC/DEC with IX");
-                  originalRMC = "0"
+                  modifiedRMC = "0"
+                  target="0000";
                   found = true
                 }
                 else if (opcodesCAIE[j]['mnemonic'] == "MOV"){
                   console.log("Found MOV with IX");
-                  originalRMC = "0"
+                  modifiedRMC = "0"
+                  target="0000";
                   found = true
                 }
                 else {
@@ -2614,7 +2620,8 @@ function assembleCode() {
                       return;
                     }
                     // Set the AMC to Immediate (00)
-                    originalAMC = "00";
+                    modifiedAMC = "00";
+                    target=parseInt(binaryValue,2).tostring(16);
                     console.log("Binary value", binaryValue);
                     found = true;
                     
@@ -2633,7 +2640,8 @@ function assembleCode() {
                       return;
                     }
                     // Set the AMC to Immediate (00)
-                    originalAMC = "00";
+                    modifiedAMC = "00";
+                    target = hexValue;
                     console.log("Hexadecimal value", hexValue);
                     found = true;
                   }
@@ -2651,7 +2659,8 @@ function assembleCode() {
                       reportAssemblyError(i+1, errString);
                       return;
                     }
-                    originalAMC = "00";
+                    modifiedAMC = "00";
+                    target = parseInt(denaryValue, 10).tostring(16);
                     console.log("Denary value", denaryValue);
                     found = true;
                   }
@@ -2662,11 +2671,14 @@ function assembleCode() {
                 }
               }
 
-              target = target.toString();
-
-              if (target.length == 1) {
-                target = "0"+target;
+              //
+              // Check whether we matched the AMC/OPMC/RMC:
+              if ((originalAMC != modifiedAMC) || (originalOPMC != modifiedOPMC) || (originalRMC |= modifiedRMC)) {
+                console.log("Matched on IMC, but not on other parts");
+                continue;
               }
+              target = target.toString().padStart(4, '0');
+
               originalmc = opcodesCAIE[j]['mc'];
               mc = originalmc + target;
             }
