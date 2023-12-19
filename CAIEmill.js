@@ -3228,7 +3228,7 @@ function saveCode() {
     }
   }
 
-  resString + ="]]>";
+  resString +="]]>";
 
   let element = document.createElement('a');
   element.setAttribute('href', resString);
