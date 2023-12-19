@@ -2667,7 +2667,7 @@ function assembleCode() {
 
                     // Check that the hexadecimal value contains only valid characters
                     // and that it is no more than 4 digits in length
-                    let pattern = /[^0-1,^a-f]/i;
+                    let pattern = /[^0-9a-f]/i;
                     let formatIncorrect = hexValue.match(pattern);
                     let lengthIncorrect = (hexValue.length > 4) || (hexValue.length < 1);
                     if (formatIncorrect || lengthIncorrect) {
