@@ -3223,8 +3223,8 @@ function saveCode() {
     // and omit the CR.
     //
     let sanitise = currentLine['operand'];
+    sanitise = sanitise.replace("&", "&amp;");
     sanitise = sanitise.replace("#", "&#35;");
-    sanitise = sanitise.replace("&", "&#38;");
 
     if (i==code.length-1) {
       resString += currentLine['line'] + "%09" + currentLine['label'] + "%09" + currentLine['operator'] + "%09" + sanitise;
