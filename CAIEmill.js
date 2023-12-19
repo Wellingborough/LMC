@@ -2362,7 +2362,6 @@ function readMemory(addressString){
 
 //
 // Function to 'assemble' the assembler code
-// Call either the LMC or the CAIE assembler...
 //
 function assembleCode() {
   let code = table1.getData();
@@ -2421,6 +2420,10 @@ function assembleCode() {
 
     var foundOpcode = false;
 
+    //
+    // In the first pass, we just need to match the opcode mnemonic, without worrying about the addressing
+    // mode, register mode or operation mode.  These are matters for the second pass.
+    //
     for (let j=0; j < opcodesCAIE.length; j++) {
       if (opcodesCAIE[j]['mnemonic'] == operator) {
         foundOpcode = true;
@@ -2522,12 +2525,17 @@ function assembleCode() {
 
               //
               // Check for IX/ACC for the INC/DEC instructions
+              // Check for IX for the MOV instruction
               //
-
               if (!found && currentLine['operand'] == "ACC") {
                 if (opcodesCAIE[j]['mnemonic'] == "INC" || opcodesCAIE[j]['mnemonic'] == "DEC"){
                   console.log("Found DEC or INC with ACC");
                   found = true
+                }
+                else {
+                  let errString = "> Error, line " + i + ": ACC is not a target for: " + currentLine['operand'] + "\n";
+                  reportAssemblyError(i+1, errString);
+                  return;
                 }
               }
 
@@ -2536,16 +2544,32 @@ function assembleCode() {
                   console.log("Found INC/DEC with IX");
                   found = true
                 }
+                else if (opcodesCAIE[j]['mnemonic'] == "MOV"){
+                  console.log("Found MOV with IX");
+                  found = true
+                }
+                else {
+                  let errString = "> Error, line " + i + ": IX is not a target for: " + currentLine['operand'] + "\n";
+                  reportAssemblyError(i+1, errString);
+                  return;
+                }
               }
 
               if (!found) {
+                //
+                // We now know that we have an operand which is not a symbolic label.
+                // Nor is it 'IX' or 'ACC' for the INC/DEC/MOV instructions.
+                //
+                // The remaining possibilities are:
                 // 
-                // If the operand looks like a numeric memory address (0 to 99),
+                // #B plus 16 'bits' (1 or 0 characters)
+                // #& plus 4 hexadecimal characters (0-9 and a-f or A-F)
+                // # plus 1-5 decimal digits up to 65535
+                // (If we do not require leading zeroes for denary, should we require it for binary and hex?)
+                //
+                // Finally, if the operand looks like a numeric memory address (0 to 65535),
                 // and we haven't got a matching entry in the symbol table, then 
                 // just use the value.
-                //
-                // This needs to be updated to deal with numeric values for immediate
-                // addressing mode.
                 //
                 // Set the numberIndicator and numberBase 'optimistically'
                 let currentOperand = currentLine['operand'];
@@ -2559,16 +2583,55 @@ function assembleCode() {
                 
                 if (numberIndicator == '#') {
                   if (numberBase == 'B' || numberBase == 'b') {
-                    console.log("Binary value", currentOperand.substring(2));
+                    let binaryValue = currentOperand.substring(2);
+                    console.log("Binary value", binaryValue);
                     found = true;
+
+                    // Check that the binary value contains only '1' and '0' characters
+                    // and that it is no more than 16 bits in length
+                    let pattern = /[^0-1]/
+                    let formatCorrect = binaryValue.match(pattern);
+                    let lengthCorrect = binaryValue.length <= 16;
+                    if (!formatCorrect || !lengthCorrect) {
+                      let errString = "> Error, line " + i + ": Malformed binary value: " + binaryValue + "\n";
+                      reportAssemblyError(i+1, errString);
+                      return;
+                    }
+                }
+
                   }
                   else if (numberBase == '&') {
-                    console.log("Hexadecimal value", currentOperand.substring(2));
+                    let hexValue = currentOperand.substring(2);
+                    console.log("Hexadecimal value", hexValue);
                     found = true;
+
+                    // Check that the hexadecimal value contains only valid characters
+                    // and that it is no more than 4 digits in length
+                    let pattern = /[^0-1,^a-f]/i;
+                    let formatCorrect = hexValue.match(pattern);
+                    let lengthCorrect = hexValue.length <= 4;
+                    if (!formatCorrect || !lengthCorrect) {
+                      let errString = "> Error, line " + i + ": Malformed hexadecimal value: " + hexValue + "\n";
+                      reportAssemblyError(i+1, errString);
+                      return;
+                    }
                   }
                   else {
-                    console.log("Decimal value", currentOperand.substring(1));
+                    let denaryValue = currentOperand.substring(1);
+                    console.log("Denary value", denaryValue);
                     found = true;
+
+                    // Check that the denary value contains only valid characters
+                    // and that it is no more than 65535
+                    let pattern = /[^0-9]/;
+                    let formatCorrect = denaryValue.match(pattern);
+                    let lengthCorrect = parseInt(denaryValue) <= 65535;
+                    if (!formatCorrect || !lengthCorrect) {
+                      let errString = "> Error, line " + i + ": Malformed denary value: " + denaryValue + "\n";
+                      reportAssemblyError(i+1, errString);
+                      return;
+                    }
+
                   }
                 }
                 else {
@@ -2595,7 +2658,6 @@ function assembleCode() {
                 target = "0"+target;
               }
               originalmc = opcodesCAIE[j]['mc'];
-              // mc = originalmc.replace("xx", target);
               mc = originalmc + target;
             }
           } else {
