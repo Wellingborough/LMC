@@ -3222,9 +3222,7 @@ function saveCode() {
     // are not present.  Current hacky solution is to detect the last line
     // and omit the CR.
     //
-    let sanitise = currentLine['operand'];
-    sanitise = sanitise.replace("&", "&amp;");
-    sanitise = sanitise.replace("#", "&#35;");
+    let sanitise = encodeURIComponent(currentLine['operand']);
 
     if (i==code.length-1) {
       resString += currentLine['line'] + "%09" + currentLine['label'] + "%09" + currentLine['operator'] + "%09" + sanitise;
