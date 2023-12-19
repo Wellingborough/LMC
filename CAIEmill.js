@@ -3077,7 +3077,7 @@ function handleFile() {
       for (var j=0; j<elements.length; j++) {
 
         for (var k=0; k < opcodesCAIE.length; k++) {
-          if (opcodesLMC[k]['mnemonic'] == elements[j]) {
+          if (opcodesCAIE[k]['mnemonic'] == elements[j]) {
             foundOperator = true;
             operatorIndex = j;
             break;
