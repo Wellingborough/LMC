@@ -931,7 +931,7 @@ function animateBus2(context, operation, erase) {
     points=[[x0, y0], [x1, y1]];
   }
   else if (operation == 4) {
-    // Not used in LMC - Use for an IX transfer in CAIE
+    // Not used in LMC - Will be MDR-to-MAR for indirect operations
   }
   else if (operation == 5) {
     // CIR-to-MAR (Direct Adddressing?  Use operand in CIR as address)
@@ -1076,7 +1076,7 @@ function animateBus2(context, operation, erase) {
     points=[[x0, y0], [x1, y1], [x2, y2], [x3, y3]];
   }
   else if (operation == 12) {
-    // Not used in LMC - Use for an IX transfer in CAIE
+    // Not used in LMC - Will be CIR-to-ACC in CAIE for Immediate
   }
   else if (operation == 13) {
     // INPUT-to-ACC (Plain old input)
@@ -1097,6 +1097,38 @@ function animateBus2(context, operation, erase) {
     y1 = canvasInfo.y_offset + canvasInfo.y_increment1 + canvasInfo.y_increment2*2 + canvasInfo.regHeight/2;
 
     points=[[x0, y0], [x1, y1]];
+  }
+  else if (operation == 20) {
+    // ACC-to-ALU (Arithmetic operation involving values in ACC and CIR)
+    x0 = canvasInfo.x_offset + canvasInfo.x_increment - os;
+    y0 = canvasInfo.y_offset + canvasInfo.y_increment1 + canvasInfo.y_increment2*2 + canvasInfo.regHeight/2;
+
+    x1 = canvasInfo.x_offset + canvasInfo.x_increment - canvasInfo.regWidth/2;
+    y1 = canvasInfo.y_offset + canvasInfo.y_increment1 + canvasInfo.y_increment2*2 + canvasInfo.regHeight/2;
+
+    x2 = canvasInfo.x_offset + canvasInfo.x_increment - canvasInfo.regWidth/2;
+    y2 = canvasInfo.y_offset + canvasInfo.y_increment1 + canvasInfo.y_increment2 - canvasInfo.regHeight*1.5;
+
+    x3 = canvasInfo.x_offset + canvasInfo.x_increment;
+    y3 = canvasInfo.y_offset + canvasInfo.y_increment1 + canvasInfo.y_increment2 - canvasInfo.regHeight*1.5;
+
+    x4 = canvasInfo.x_offset + canvasInfo.x_increment;
+    y4 = canvasInfo.y_offset + canvasInfo.y_increment1 + canvasInfo.y_increment2 - canvasInfo.regWidth/6 - os;
+
+    points=[[x0, y0], [x1, y1], [x2, y2], [x3, y3], [x4, y4]];
+
+
+    // CIR-to-ALU *
+    x0 = canvasInfo.x_offset + canvasInfo.regWidth + os;
+    y0 = canvasInfo.y_offset + canvasInfo.y_increment1 + canvasInfo.regHeight/2;
+
+    x1 = canvasInfo.x_offset + canvasInfo.x_increment + canvasInfo.regWidth;
+    y1 = canvasInfo.y_offset + canvasInfo.y_increment1 + canvasInfo.regHeight/2;
+
+    x2 = canvasInfo.x_offset + canvasInfo.x_increment + canvasInfo.regWidth;
+    y2 = canvasInfo.y_offset + canvasInfo.y_increment1 + canvasInfo.y_increment2 - canvasInfo.regWidth/6 - os;
+
+    points2=[[x0, y0], [x1, y1], [x2, y2]];
   }
     
   if (points.length != 0) {
@@ -1298,47 +1330,48 @@ function printCode(){
 //
 // The substages array contains the bus animation indices, somewhat confusingly
 // in reverse order (as currentSubStage counts down, it makes it easier to use
-// the currentSubStage value as the index)
+// the currentSubStage value as the index).  All need double-checking.
 //
 const opcodesCAIE = [{mnemonic: "END", mc:"00", name: "End program", 
                      description: "Instructs the processor to stop executing instructions",
                      substages: []},
+                     // Animation performed in processInput(), so no substages here.
                      {mnemonic: "IN", mc:"12", name: "Input", 
                      description: "Copy the value from the 'Input' box into the Accumulator",
                      substages: []},
                      {mnemonic: "LDM", mc:"22", name: "Load Accumulator", 
                      description: "Load the number n to the accumulator.  Immediate addressing",
-                     substages: []}, 
+                     substages: [12]}, 
                      {mnemonic: "LDD", mc:"26", name: "Load Accumulator", 
                      description: "Load the contents of the given memory location to the accumulator.  Direct addressing",
                      substages: [10, 2, 1, 5]},
                      {mnemonic: "LDI", mc:"2A", name: "Load Accumulator", 
                      description: "Use the contents of the given memory location as an addrees.  Load the contents of that address to the accumulator.  Indirect addressing",
-                     substages: [10, 2, 10, 2, 1, 5]},
+                     substages: [10, 2, 1, 4, 2, 1, 5]},
                      {mnemonic: "LDX", mc:"2E", name: "Load Accumulator", 
                      description: "Load the contents of the given memory location + the IX register to the accumulator.  Indexed addressing",
-                     substages: []},
+                     substages: [10, 2, 1, 99, 99]},
                      {mnemonic: "LDR", mc:"20", name: "Load Index Register", 
                      description: "Load the number n to the index register.  Immediate addressing",
-                     substages: []},
+                     substages: [99]},
                      {mnemonic: "MOV", mc:"30", name: "Move Accumulator", 
-                     description: "Copy the contents of the accumulatorto the index register",
-                     substages: []},
+                     description: "Copy the contents of the accumulator to the index register",
+                     substages: [99]},
                      {mnemonic: "STO", mc:"35", name: "Store Accumulator", 
                      description: "Copy the value in the Accumulator to the given memory address",
                      substages: [9, 8]},
                      {mnemonic: "ADD", mc:"42", name: "Add to Accumulator", 
                      description: "Add the number n to the Accumulator.  Immediate addressing",
-                     substages: []},
+                     substages: [7, 20]},
                      {mnemonic: "ADD", mc:"46", name: "Add to Accumulator", 
                      description: "Add the value from the given memory location to the Accumulator.  Direct addressing",
                      substages: [7, 6, 2, 1, 5]},
                      {mnemonic: "SUB", mc:"52", name: "Subtract from Accumulator", 
                      description: "Subtract the number n from the Accumulator.  Immediate addressing",
-                     substages: []},
+                     substages: [7, 20]},
                      {mnemonic: "SUB", mc:"56", name: "Subtract from Accumulator", 
                      description: "Subtract the value at the given memory location from the Accumulator.  Direct addressing",
-                     substages: []},
+                     substages: [7, 6, 2, 1, 5]},
                      {mnemonic: "INC", mc:"60", name: "Add 1 to Accumulator", 
                      description: "Increment the value in the Accumulator",
                      substages: []},
@@ -1356,13 +1389,13 @@ const opcodesCAIE = [{mnemonic: "END", mc:"00", name: "End program",
                      substages: [11]},
                      {mnemonic: "CMP", mc:"92", name: "Compare", 
                      description: "Compare the contents of the Accumulator with the number n.",
-                     substages: []},
+                     substages: [7, 20]},
                      {mnemonic: "CMP", mc:"96", name: "Compare", 
                      description: "Compare the contents of the Accumulator with the contents of the given memory address.",
-                     substages: []},
+                     substages: [10, 2, 1, 5]},
                      {mnemonic: "CMI", mc:"9A", name: "Compare", 
                      description: "Compare the contents of the Accumulator with the contents of the given memory address, twice...",
-                     substages: []},
+                     substages: [10, 2, 1, 4, 2, 1, 5]},
                      {mnemonic: "JPE", mc:"A2", name: "Jump if equal", 
                      description: "Jump to the given memory location if the previous Compare operation was True",
                      substages: [11]},
@@ -1374,28 +1407,28 @@ const opcodesCAIE = [{mnemonic: "END", mc:"00", name: "End program",
                      substages: [14]},
                      {mnemonic: "AND", mc:"C2", name: "Bitwise AND", 
                      description: "Bitwise AND the value in the Accumulator with the value supplied",
-                     substages: []},
+                     substages: [7, 20]},
                      {mnemonic: "AND", mc:"C6", name: "Bitwise AND", 
                      description: "Bitwise AND the value in the Accumulator with the contents of the memory address supplied",
-                     substages: []},
+                     substages: [7, 6, 2, 1]},
                      {mnemonic: "XOR", mc:"D2", name: "Bitwise XOR", 
                      description: "Bitwise XOR the value in the Accumulator with the value supplied",
-                     substages: []},
+                     substages: [7, 20]},
                      {mnemonic: "XOR", mc:"D6", name: "Bitwise XOR", 
                      description: "Bitwise XOR the value in the Accumulator with the contents of the memory address supplied",
-                     substages: []},
+                     substages: [7, 6, 2, 1]},
                      {mnemonic: "OR", mc:"E2", name: "Bitwise OR", 
                      description: "Bitwise OR the value in the Accumulator with the value supplied",
-                     substages: []},
+                     substages: [7, 20]},
                      {mnemonic: "OR", mc:"E6", name: "Bitwise OR", 
                      description: "Bitwise OR the value in the Accumulator with the contents of the memory address  supplied",
-                     substages: []},
+                     substages: [7, 6, 2, 1]},
                      {mnemonic: "LSL", mc:"F2", name: "Logical Shift Left", 
                      description: "Shift the value in the Accumulator to the left n places",
-                     substages: []},
+                     substages: [7, 20]},
                      {mnemonic: "LSR", mc:"F3", name: "Logical Shift Right", 
                      description: "Shift the value in the Accumulator to the right n places",
-                     substages: []},
+                     substages: [7, 20]},
                      {mnemonic: "DAT", mc:"None", name: "Data", 
                      description: "Indicates a memory location holding data",
                      substages: []},
@@ -1801,7 +1834,7 @@ function decodeInstruction() {
     // SUB (Direct)
     var address = instructionDetails;
     memoryAddressRegister = address;
-    currentSubStage = 5;
+    currentSubStage = subStages.length;
     drawRegisterValue("DECODER", "SUB ["+address+"]", ctx);
     drawRegisterValue("ALU", "SUB", ctx);
   }
@@ -1809,7 +1842,7 @@ function decodeInstruction() {
   if (instructionCode == "SUB" && (getAddressMode(operator) == "Immediate")){
     // SUB (Immediate)
     var value = instructionDetails;
-    currentSubStage = 1;
+    currentSubStage = subStages.length;
     drawRegisterValue("DECODER", "SUB "+value, ctx);
     drawRegisterValue("ALU", "SUB", ctx);
   }
@@ -1818,21 +1851,21 @@ function decodeInstruction() {
     // STO
     var address = instructionDetails;
     memoryAddressRegister = address;
-    currentSubStage = 2;
+    currentSubStage = subStages.length;
     instructionCode = "STO";
     drawRegisterValue("DECODER", "STO ["+address+"]", ctx);
   }
                 
   if (instructionCode == "LDM"){
     // Load Accumulator (Immediate)
-    currentSubStage = 1;
+    currentSubStage = subStages.length;
     var value = instructionDetails;
     drawRegisterValue("DECODER", "LDM "+value, ctx);
   }
 
   if (instructionCode == "LDR"){
     // LDR
-    currentSubStage = 1;
+    currentSubStage = subStages.length;
     var value = instructionDetails;
     drawRegisterValue("DECODER", "LDR "+value, ctx);
   }
@@ -1863,7 +1896,7 @@ function decodeInstruction() {
 
   if (instructionCode == "MOV"){
     // MOV
-    currentSubStage = 1;
+    currentSubStage = subStages.length;
     drawRegisterValue("DECODER", "MOV ACC to IX", ctx);
   }
 
@@ -1913,7 +1946,7 @@ function decodeInstruction() {
     // CMP
     var address = instructionDetails;
     memoryAddressRegister = address;
-    currentSubStage = 3;
+    currentSubStage = subStages.length;
     drawRegisterValue("DECODER", "CMP ["+address+"]", ctx);
   }
 
@@ -1921,49 +1954,49 @@ function decodeInstruction() {
     // CPI
     var address = instructionDetails;
     memoryAddressRegister = address;
-    currentSubStage = 5;
+    currentSubStage = subStages.length;
     drawRegisterValue("DECODER", "CPI [["+address+"]]", ctx);
   }
 
   if (instructionCode == "AND" && (getAddressMode(operator) == "Immediate")){
     // AND (Immediate)
     var value = InstructionDetails
-    currentSubStage = 1;
+    currentSubStage = subStages.length;
     drawRegisterValue("DECODER", "AND "+value, ctx);
   }
   
   if (instructionCode == "AND" && (getAddressMode(operator) == "Direct")){
     // AND (Direct)
     var address = InstructionDetails;
-    currentSubStage = 1;
+    currentSubStage = subStages.length;
     drawRegisterValue("DECODER", "AND ["+address+"]", ctx);
   }
 
   if (instructionCode == "XOR" && (getAddressMode(operator) == "Immediate")){
     // XOR (Immediate)
     var value = InstructionDetails;
-    currentSubStage = 1;
+    currentSubStage = subStages.length;
     drawRegisterValue("DECODER", "XOR "+value, ctx);
   }
 
   if (instructionCode == "XOR" && (getAddressMode(operator) == "Direct")){
     // XOR (Direct)
     var address = InstructionDetails;
-    currentSubStage = 1;
+    currentSubStage = subStages.length;
     drawRegisterValue("DECODER", "XOR ["+address+"]", ctx);
   }
 
   if (instructionCode == "OR" && (getAddressMode(operator) == "Immediate")){
     // OR (Immediate)
     var value = InstructionDetails;
-    currentSubStage = 1;
+    currentSubStage = subStages.length;
     drawRegisterValue("DECODER", "OR "+value, ctx);
   }
 
   if (instructionCode == "OR" && (getAddressMode(operator) == "Direct")){
     // OR (Direct)
     var address = InstructionDetails;
-    currentSubStage = 1;
+    currentSubStage = subStages.length;
     drawRegisterValue("DECODER", "OR ["+address+"]", ctx);
   }
 
@@ -2044,28 +2077,20 @@ function executeInstruction() {
 
   if (instructionCode == "ADD" && (getAddressMode(operator) == "Immediate")){
     // ADD (Immediate)
-    // These bus animations probably need to change in the definition
-    // animateBus(ctx, subStages[currentSubStage]);
+    animateBus(ctx, subStages[currentSubStage]);
     if (currentSubStage == 0) {
       accumulator += parseInt(instructionDetails);
       updateStatusRegister();
     }
   }
 
-  if (instructionCode == "SUB"){
+  if (instructionCode == "SUB" && (getAddressMode(operator) == "Direct")){
     // SUB
-    if (currentSubStage ==4) {
-      animateBus(ctx, 5);
-    } else if (currentSubStage == 3) {
-      animateBus(ctx, 1);
-    } else if (currentSubStage == 2) {
-      animateBus(ctx, 2);
+    animateBus(ctx, subStages[currentSubStage]);
+    if (currentSubStage == 2) {
       var value = readMemory(memoryAddressRegister);
       memoryDataRegister = value;
-    } else if (currentSubStage == 1) {
-      animateBus(ctx, 6);
-    } else {
-      animateBus(ctx, 7);
+    } else if (currentSubStage == 0) {
       accumulator -= parseInt(memoryDataRegister);
       updateStatusRegister();
     }
@@ -2109,7 +2134,7 @@ function executeInstruction() {
     
     if (currentSubStage == 1) {
       memoryDataRegister = accumulator;
-    } else {
+    } else (currentSubStage == 0) {
       var address = memoryAddressRegister;
       writeMemory(address, accumulator);
     }
