@@ -1536,6 +1536,7 @@ function runCode() {
   memoryDataRegister = 0;
   memoryAddressRegister = 0;
   currentInstructionRegister = 0;
+  ix = 0;
   execStage = executionStages.FETCH;
   numSubStages = 4;
 
@@ -1720,6 +1721,7 @@ function fetchInstruction() {
   drawRegisterValue("PC", formattedPC, ctx);
   drawRegisterValue("SR", statusRegister, ctx);
   drawRegisterValue("ACC", accumulator, ctx);
+  drawRegisterValue("IX", ix, ctx);
 
   if (settingSpeed != speeds.SUPERFAST) {
     let dummy = 1.0;
@@ -1795,12 +1797,20 @@ function decodeInstruction() {
     drawRegisterValue("DECODER", "INPUT", ctx);
   }
 
-  if (instructionCode == "SUB"){
-    // SUB
+  if (instructionCode == "SUB" && (getAddressMode(operator) == "Direct")){
+    // SUB (Direct)
     var address = instructionDetails;
     memoryAddressRegister = address;
     currentSubStage = 5;
     drawRegisterValue("DECODER", "SUB ["+address+"]", ctx);
+    drawRegisterValue("ALU", "SUB", ctx);
+  }
+
+  if (instructionCode == "SUB" && (getAddressMode(operator) == "Immediate")){
+    // SUB (Immediate)
+    var value = instructionDetails;
+    currentSubStage = 1;
+    drawRegisterValue("DECODER", "SUB "+value, ctx);
     drawRegisterValue("ALU", "SUB", ctx);
   }
 
@@ -1890,7 +1900,14 @@ function decodeInstruction() {
     drawRegisterValue("DECODER", "JPN ["+address+"]", ctx);
   }
         
-  if (instructionCode == "CMP"){
+  if (instructionCode == "CMP" && (getAddressMode(operator) == "Immediate")){
+    // CMP
+    var value = instructionDetails;
+    currentSubStage = 1;
+    drawRegisterValue("DECODER", "CMP "+value, ctx);
+  }
+
+  if (instructionCode == "CMP" && (getAddressMode(operator) == "Direct")){
     // CMP
     var address = instructionDetails;
     memoryAddressRegister = address;
@@ -1906,25 +1923,46 @@ function decodeInstruction() {
     drawRegisterValue("DECODER", "CPI [["+address+"]]", ctx);
   }
 
-  if (instructionCode == "AND"){
-    // AND
+  if (instructionCode == "AND" && (getAddressMode(operator) == "Immediate")){
+    // AND (Immediate)
+    var value = InstructionDetails
     currentSubStage = 1;
-    drawRegisterValue("DECODER", "AND value", ctx);
-//    drawRegisterValue("DECODER", "AND [address]", ctx);
+    drawRegisterValue("DECODER", "AND "+value, ctx);
+  }
+  
+  if (instructionCode == "AND" && (getAddressMode(operator) == "Direct")){
+    // AND (Direct)
+    var address = InstructionDetails;
+    currentSubStage = 1;
+    drawRegisterValue("DECODER", "AND ["+address+"]", ctx);
   }
 
-  if (instructionCode == "XOR"){
-    // XOR
+  if (instructionCode == "XOR" && (getAddressMode(operator) == "Immediate")){
+    // XOR (Immediate)
+    var value = InstructionDetails;
     currentSubStage = 1;
-    drawRegisterValue("DECODER", "XOR value", ctx);
-//    drawRegisterValue("DECODER", "XOR [address]", ctx);
+    drawRegisterValue("DECODER", "XOR "+value, ctx);
   }
 
-  if (instructionCode == "OR"){
-    // OR
+  if (instructionCode == "XOR" && (getAddressMode(operator) == "Direct")){
+    // XOR (Direct)
+    var address = InstructionDetails;
     currentSubStage = 1;
-    drawRegisterValue("DECODER", "OR value", ctx);
-//    drawRegisterValue("DECODER", "OR [address]", ctx);
+    drawRegisterValue("DECODER", "XOR ["+address+"]", ctx);
+  }
+
+  if (instructionCode == "OR" && (getAddressMode(operator) == "Immediate")){
+    // OR (Immediate)
+    var value = InstructionDetails;
+    currentSubStage = 1;
+    drawRegisterValue("DECODER", "OR "+value, ctx);
+  }
+
+  if (instructionCode == "OR" && (getAddressMode(operator) == "Direct")){
+    // OR (Direct)
+    var address = InstructionDetails;
+    currentSubStage = 1;
+    drawRegisterValue("DECODER", "OR ["+address+"]", ctx);
   }
 
   if (instructionCode == "LSL"){
@@ -2038,8 +2076,7 @@ function executeInstruction() {
     }
   }
         
-  if (instructionCode == "INC"){
-    // INC - could be IX or ACC
+  if (instructionCode == "INC" && getRegisterMode(operator) == "ACC"){
     // animateBus(ctx, subStages[currentSubStage]);
 
     if (currentSubStage == 0 ) {
@@ -2047,12 +2084,27 @@ function executeInstruction() {
     }
   }
 
-  if (instructionCode == "DEC"){
-    // DEC - could be IX or ACC
+  if (instructionCode == "INC" && getRegisterMode(operator) == "IX"){
+    // animateBus(ctx, subStages[currentSubStage]);
+
+    if (currentSubStage == 0 ) {
+      ix = ix + 1;
+    }
+  }
+
+  if (instructionCode == "DEC" && getRegisterMode(operator) == "ACC"){
     // animateBus(ctx, subStages[currentSubStage]);
 
     if (currentSubStage == 0 ) {
       accumulator = accumulator - 1;
+    }
+  }
+
+  if (instructionCode == "DEC" && getRegisterMode(operator) == "IX"){
+    // animateBus(ctx, subStages[currentSubStage]);
+
+    if (currentSubStage == 0 ) {
+      ix = ix - 1;
     }
   }
 
@@ -2080,6 +2132,28 @@ function executeInstruction() {
     }
   }
 
+  if (instructionCode == "LDI"){
+    // Load Accumulator (Indirect)
+    animateBus(ctx, subStages[currentSubStage]);
+
+    if (currentSubStage == 4 ) {
+      var address = InstructionDetails;
+      memoryAddressRegister = address;
+    } else if (currentSubStage == 3 ) {
+      let value = readMemory(memoryAddressRegister);
+      memoryDataRegister = value;
+    }
+    } else if (currentSubStage == 2 ) {
+      memoryAddressRegister = memoryDataRegister;
+    }
+    else if (currentSubStage == 1 ) {
+      var value = readMemory(memoryAddressRegister);
+      memoryDataRegister = value;
+    } else if (currentSubStage == 0 ) {
+      accumulator = parseInt(memoryDataRegister);
+    }
+  }
+
   if (instructionCode == "LDM"){
     // Load Accumulator (Immediate)
     // Need to add a bus animation from CIR to ACC
@@ -2096,8 +2170,7 @@ function executeInstruction() {
     //animateBus(ctx, subStages[currentSubStage]);
 
     if (currentSubStage == 0 ) {
-      console.log("Loading value into ACC as we do not have an IX register yet!");
-      accumulator = parseInt(instructionDetails);
+      ix = parseInt(instructionDetails);
     }
   }
 
@@ -2122,7 +2195,7 @@ function executeInstruction() {
     // JPE
     var address = instructionDetails;
 
-    if (accumulator >= 0){
+    if (accumulator == 0){
       programCounter = parseInt(address);
       if (settingSpeed != speeds.SUPERFAST) {
         animateBus(ctx, subStages[currentSubStage]);
