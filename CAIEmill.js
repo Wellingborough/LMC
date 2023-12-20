@@ -2172,13 +2172,87 @@ function executeInstruction() {
     }
   }
 
+  if ((instructionCode == "AND") && (getAddressMode(operator) == "Immediate")) {
+    // AND value in Accumulator with given value (Immediate)
+    animateBus(ctx, subStages[currentSubStage]);
+
+    if ( currentSubStage == 0 ) {
+      let mask = InstructionDetails;
+      let maskDenary = parseInt(mask, 16);
+      accumulator = accumulator & maskDenary;
+    }
+  }
+
+  if ((instructionCode == "AND") && (getAddressMode(operator) == "Direct")) {
+    // AND value in Accumulator with value at address (Direct)
+    animateBus(ctx, subStages[currentSubStage]);
+
+    if ( currentSubStage == 0 ) {
+      let mask = memoryDataRegister;
+      let maskDenary = parseInt(mask, 16);
+      accumulator = accumulator & maskDenary;
+    }
+  }
+
+  if ((instructionCode == "XOR") && (getAddressMode(operator) == "Immediate")) {
+    // XOR value in Accumulator with given value (Immediate)
+    animateBus(ctx, subStages[currentSubStage]);
+
+    if ( currentSubStage == 0 ) {
+      let mask = InstructionDetails;
+      let maskDenary = parseInt(mask, 16);
+      accumulator = accumulator ^ maskDenary;
+    }
+  }
+
+  if ((instructionCode == "XOR") && (getAddressMode(operator) == "Direct")) {
+    // XOR value in Accumulator with value at address (Direct)
+    animateBus(ctx, subStages[currentSubStage]);
+
+    if ( currentSubStage == 0 ) {
+      let mask = memoryDataRegister;
+      let maskDenary = parseInt(mask, 16);
+      accumulator = accumulator ^ maskDenary;
+    }
+  }
+
+  if ((instructionCode == "OR") && (getAddressMode(operator) == "Immediate")) {
+    // OR value in Accumulator with given value (Immediate)
+    animateBus(ctx, subStages[currentSubStage]);
+
+    if ( currentSubStage == 0 ) {
+      let mask = InstructionDetails;
+      let maskDenary = parseInt(mask, 16);
+      accumulator = accumulator | maskDenary;
+    }
+  }
+
+  if ((instructionCode == "OR") && (getAddressMode(operator) == "Direct")) {
+    // OR value in Accumulator with value at address (Direct)
+    animateBus(ctx, subStages[currentSubStage]);
+
+    if ( currentSubStage == 0 ) {
+      let mask = memoryDataRegister;
+      let maskDenary = parseInt(mask, 16);
+      accumulator = accumulator | maskDenary;
+    }
+  }
+
+  //
+  // Need to think about how these should work for immediate values.
+  // The LMC code did a parseInt(), which was fine as all values and
+  // addresses were denary.  Now we have a mixture of denary and hex
+  // with the intention of moving to all hex.  For the moment I have
+  // used a parseInt(x,16) so that we see a true value for x, even
+  // if it is currently in denary...
+  //
   if (instructionCode == "LDM"){
     // Load Accumulator (Immediate)
     // Need to add a bus animation from CIR to ACC
     //animateBus(ctx, subStages[currentSubStage]);
 
     if (currentSubStage == 0 ) {
-      accumulator = parseInt(instructionDetails);
+      accumulator = parseInt(instructionDetails, 16);
     }
   }
 
@@ -2188,7 +2262,7 @@ function executeInstruction() {
     //animateBus(ctx, subStages[currentSubStage]);
 
     if (currentSubStage == 0 ) {
-      ix = parseInt(instructionDetails);
+      ix = parseInt(instructionDetails, 16);
     }
   }
 
@@ -2900,6 +2974,7 @@ function assembleCode() {
   memoryAddressRegister = 0;
   currentInstructionRegister = 0;
   statusRegister = "00000000";
+  ix = 0;
   
   //
   // Refresh the CPU diagram
