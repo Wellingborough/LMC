@@ -1506,7 +1506,7 @@ function getOperatingMode(mc) {
 
   let retval = "Undefined";
   
-  switch (registerMode) {
+  switch (operatingMode) {
     case "0":
       if (instructionMode == "0011") {
         retval = "MOV";
