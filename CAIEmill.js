@@ -598,6 +598,10 @@ function drawCPU(context) {
   xpos += 2*canvasInfo.x_increment;
   drawRegister(context, "MAR",     xpos, ypos, canvasInfo.regWidth, canvasInfo.regHeight, '#FB8738');
 
+  xpos = canvasInfo.x_offset + canvasInfo.x_increment;
+  ypos = canvasInfo.y_offset + canvasInfo.y_increment/2;
+  drawRegister(context, "IX",     xpos, ypos, canvasInfo.regWidth, canvasInfo.regHeight, '#FB8738');
+
   xpos = canvasInfo.x_offset;
   ypos = canvasInfo.y_offset + canvasInfo.y_increment1;
   drawRegister(context, "CIR",     xpos, ypos, canvasInfo.regWidth, canvasInfo.regHeight, '#FB8738');
@@ -622,6 +626,8 @@ function drawCPU(context) {
   xpos += canvasInfo.x_increment;
   drawRegister(context, "OUTPUT",  xpos, ypos, canvasInfo.regWidth, canvasInfo.regHeight, '#C0D4F5');
 
+  
+
   xpos = canvasInfo.x_offset + canvasInfo.x_increment;
   ypos = canvasInfo.y_offset + canvasInfo.y_increment1 + canvasInfo.y_increment2;
   drawALU(context,      "ALU",     xpos, ypos, canvasInfo.regWidth, canvasInfo.regHeight, '#79B94F');
@@ -640,6 +646,7 @@ function drawCPU(context) {
   drawRegisterValue("PC", formattedPC, context);
   drawRegisterValue("SR", statusRegister, context);
   drawRegisterValue("ACC", accumulator, context);
+  drawRegisterValue("IX", ix, context);
 
   drawRegisterValue("ALU", "", context);
   drawRegisterValue("INP", "", context);
@@ -758,6 +765,10 @@ function drawRegisterValue(register, value, context) {
   } else if (register == "DECODER"){
     x = canvasInfo.x_offset;
     y = canvasInfo.y_offset + canvasInfo.y_increment1 + canvasInfo.y_increment2;
+    mainColour = "#FB8738";
+  } else if (register == "IX"){
+    x = canvasInfo.x_offset + canvasInfo.x_increment;
+    y = canvasInfo.y_offset;
     mainColour = "#FB8738";
   }
     
@@ -1502,6 +1513,7 @@ var memoryDataRegister = 0;
 var memoryAddressRegister = 0;
 var currentInstructionRegister = 0;
 var statusRegister = "00000000";
+var ix = 0;
 
 var intervalHandle;
 
