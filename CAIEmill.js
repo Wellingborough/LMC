@@ -2134,7 +2134,7 @@ function executeInstruction() {
     
     if (currentSubStage == 1) {
       memoryDataRegister = accumulator;
-    } else (currentSubStage == 0) {
+    } else if (currentSubStage == 0) {
       var address = memoryAddressRegister;
       writeMemory(address, accumulator);
     }
@@ -2164,8 +2164,7 @@ function executeInstruction() {
       memoryDataRegister = value;
     } else if (currentSubStage == 2 ) {
       memoryAddressRegister = memoryDataRegister;
-    }
-    else if (currentSubStage == 1 ) {
+    } else if (currentSubStage == 1 ) {
       var value = readMemory(memoryAddressRegister);
       memoryDataRegister = value;
     } else if (currentSubStage == 0 ) {
@@ -2232,8 +2231,6 @@ function executeInstruction() {
   }
         
   if (instructionCode == "IN"){
-        
-//      animateBus(ctx, 4);
     let logobj=document.getElementById("log-text");
     logobj.value += "> EXECUTE:  Waiting for input (to accumulator)\n";
     logobj.scrollTop = logobj.scrollHeight;
