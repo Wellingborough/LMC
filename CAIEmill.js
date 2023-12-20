@@ -2157,7 +2157,7 @@ function executeInstruction() {
     animateBus(ctx, subStages[currentSubStage]);
 
     if (currentSubStage == 4 ) {
-      var address = InstructionDetails;
+      var address = instructionDetails;
       memoryAddressRegister = address;
     } else if (currentSubStage == 3 ) {
       let value = readMemory(memoryAddressRegister);
@@ -2177,7 +2177,7 @@ function executeInstruction() {
     animateBus(ctx, subStages[currentSubStage]);
 
     if ( currentSubStage == 0 ) {
-      let mask = InstructionDetails;
+      let mask = instructionDetails;
       let maskDenary = parseInt(mask, 16);
       accumulator = accumulator & maskDenary;
     }
@@ -2199,7 +2199,7 @@ function executeInstruction() {
     animateBus(ctx, subStages[currentSubStage]);
 
     if ( currentSubStage == 0 ) {
-      let mask = InstructionDetails;
+      let mask = instructionDetails;
       let maskDenary = parseInt(mask, 16);
       accumulator = accumulator ^ maskDenary;
     }
@@ -2221,7 +2221,7 @@ function executeInstruction() {
     animateBus(ctx, subStages[currentSubStage]);
 
     if ( currentSubStage == 0 ) {
-      let mask = InstructionDetails;
+      let mask = instructionDetails;
       let maskDenary = parseInt(mask, 16);
       accumulator = accumulator | maskDenary;
     }
