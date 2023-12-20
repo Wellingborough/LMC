@@ -1314,7 +1314,7 @@ const opcodesCAIE = [{mnemonic: "END", mc:"00", name: "End program",
                      substages: [10, 2, 1, 5]},
                      {mnemonic: "LDI", mc:"2A", name: "Load Accumulator", 
                      description: "Use the contents of the given memory location as an addrees.  Load the contents of that address to the accumulator.  Indirect addressing",
-                     substages: []},
+                     substages: [10, 2, 1, 5, 1,5]},
                      {mnemonic: "LDX", mc:"2E", name: "Load Accumulator", 
                      description: "Load the contents of the given memory location + the IX register to the accumulator.  Indexed addressing",
                      substages: []},
@@ -1847,8 +1847,8 @@ function decodeInstruction() {
 
   if (instructionCode == "LDI"){
     // Load Accumulator (Indirect)
-    currentSubStage = 0;
-    console.log("Not yet implemented");
+    currentSubStage = subStages.length;
+    drawRegisterValue("DECODER", "LDI [["+address+"]]", ctx);
   }
 
   if (instructionCode == "LDX"){
