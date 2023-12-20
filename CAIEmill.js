@@ -2076,7 +2076,7 @@ function executeInstruction() {
     }
   }
         
-  if (instructionCode == "INC" && getRegisterMode(operator) == "ACC"){
+  if ((instructionCode == "INC") && (getRegisterMode(operator) == "ACC")){
     // animateBus(ctx, subStages[currentSubStage]);
 
     if (currentSubStage == 0 ) {
@@ -2084,7 +2084,7 @@ function executeInstruction() {
     }
   }
 
-  if (instructionCode == "INC" && getRegisterMode(operator) == "IX"){
+  if ((instructionCode == "INC") && (getRegisterMode(operator) == "IX")){
     // animateBus(ctx, subStages[currentSubStage]);
 
     if (currentSubStage == 0 ) {
@@ -2092,7 +2092,7 @@ function executeInstruction() {
     }
   }
 
-  if (instructionCode == "DEC" && getRegisterMode(operator) == "ACC"){
+  if ((instructionCode == "DEC") && (getRegisterMode(operator) == "ACC")){
     // animateBus(ctx, subStages[currentSubStage]);
 
     if (currentSubStage == 0 ) {
@@ -2100,10 +2100,10 @@ function executeInstruction() {
     }
   }
 
-  if (instructionCode == "DEC" && getRegisterMode(operator) == "IX"){
+  if ((instructionCode == "DEC") && (getRegisterMode(operator) == "IX")){
     // animateBus(ctx, subStages[currentSubStage]);
 
-    if (currentSubStage == 0 ) {
+    if (currentSubStage == 0) {
       ix = ix - 1;
     }
   }
@@ -2142,7 +2142,6 @@ function executeInstruction() {
     } else if (currentSubStage == 3 ) {
       let value = readMemory(memoryAddressRegister);
       memoryDataRegister = value;
-    }
     } else if (currentSubStage == 2 ) {
       memoryAddressRegister = memoryDataRegister;
     }
@@ -2271,6 +2270,7 @@ function executeInstruction() {
   drawRegisterValue("PC", formattedPC, ctx);
   drawRegisterValue("SR", statusRegister, ctx);
   drawRegisterValue("ACC", accumulator, ctx);
+  drawRegisterValue("IX", ix, ctx);
 
   if (settingSpeed != speeds.SUPERFAST) {
     let dummy = 1.0;
