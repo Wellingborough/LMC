@@ -1314,7 +1314,7 @@ const opcodesCAIE = [{mnemonic: "END", mc:"00", name: "End program",
                      substages: [10, 2, 1, 5]},
                      {mnemonic: "LDI", mc:"2A", name: "Load Accumulator", 
                      description: "Use the contents of the given memory location as an addrees.  Load the contents of that address to the accumulator.  Indirect addressing",
-                     substages: [10, 2, 1, 5, 1,5]},
+                     substages: [10, 2, 10, 2, 1, 5]},
                      {mnemonic: "LDX", mc:"2E", name: "Load Accumulator", 
                      description: "Load the contents of the given memory location + the IX register to the accumulator.  Indexed addressing",
                      substages: []},
@@ -1326,13 +1326,13 @@ const opcodesCAIE = [{mnemonic: "END", mc:"00", name: "End program",
                      substages: []},
                      {mnemonic: "STO", mc:"35", name: "Store Accumulator", 
                      description: "Copy the value in the Accumulator to the given memory address",
-                     substages: [9,8]},
+                     substages: [9, 8]},
                      {mnemonic: "ADD", mc:"42", name: "Add to Accumulator", 
                      description: "Add the number n to the Accumulator.  Immediate addressing",
                      substages: []},
                      {mnemonic: "ADD", mc:"46", name: "Add to Accumulator", 
                      description: "Add the value from the given memory location to the Accumulator.  Direct addressing",
-                     substages: []},
+                     substages: [7, 6, 2, 1, 5]},
                      {mnemonic: "SUB", mc:"52", name: "Subtract from Accumulator", 
                      description: "Subtract the number n from the Accumulator.  Immediate addressing",
                      substages: []},
@@ -1847,6 +1847,8 @@ function decodeInstruction() {
 
   if (instructionCode == "LDI"){
     // Load Accumulator (Indirect)
+    var address = instructionDetails;
+    memoryAddressRegister = address;
     currentSubStage = subStages.length;
     drawRegisterValue("DECODER", "LDI [["+address+"]]", ctx);
   }
@@ -2030,18 +2032,11 @@ function executeInstruction() {
 
   if (instructionCode == "ADD" && (getAddressMode(operator) == "Direct")){
     // ADD (Direct)
-    if (currentSubStage == 4) {
-      animateBus(ctx, 5);
-    } else if (currentSubStage == 3) {
-      animateBus(ctx, 1);
-    } else if (currentSubStage == 2) {
-      animateBus(ctx, 2);
+    animateBus(ctx, subStages[currentSubStage]);
+    if (currentSubStage == 2) {
       var value = readMemory(memoryAddressRegister);
       memoryDataRegister = value;
-    } else if (currentSubStage == 1) {
-      animateBus(ctx, 6);
-    } else {
-      animateBus(ctx, 7);
+    } else if (currentSubStage == 0){
       accumulator += parseInt(memoryDataRegister);
       updateStatusRegister();
     }
