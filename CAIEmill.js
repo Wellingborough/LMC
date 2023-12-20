@@ -1960,42 +1960,42 @@ function decodeInstruction() {
 
   if (instructionCode == "AND" && (getAddressMode(operator) == "Immediate")){
     // AND (Immediate)
-    var value = InstructionDetails
+    var value = instructionDetails
     currentSubStage = subStages.length;
     drawRegisterValue("DECODER", "AND "+value, ctx);
   }
   
   if (instructionCode == "AND" && (getAddressMode(operator) == "Direct")){
     // AND (Direct)
-    var address = InstructionDetails;
+    var address = instructionDetails;
     currentSubStage = subStages.length;
     drawRegisterValue("DECODER", "AND ["+address+"]", ctx);
   }
 
   if (instructionCode == "XOR" && (getAddressMode(operator) == "Immediate")){
     // XOR (Immediate)
-    var value = InstructionDetails;
+    var value = instructionDetails;
     currentSubStage = subStages.length;
     drawRegisterValue("DECODER", "XOR "+value, ctx);
   }
 
   if (instructionCode == "XOR" && (getAddressMode(operator) == "Direct")){
     // XOR (Direct)
-    var address = InstructionDetails;
+    var address = instructionDetails;
     currentSubStage = subStages.length;
     drawRegisterValue("DECODER", "XOR ["+address+"]", ctx);
   }
 
   if (instructionCode == "OR" && (getAddressMode(operator) == "Immediate")){
     // OR (Immediate)
-    var value = InstructionDetails;
+    var value = instructionDetails;
     currentSubStage = subStages.length;
     drawRegisterValue("DECODER", "OR "+value, ctx);
   }
 
   if (instructionCode == "OR" && (getAddressMode(operator) == "Direct")){
     // OR (Direct)
-    var address = InstructionDetails;
+    var address = instructionDetails;
     currentSubStage = subStages.length;
     drawRegisterValue("DECODER", "OR ["+address+"]", ctx);
   }
