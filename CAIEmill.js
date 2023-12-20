@@ -2328,7 +2328,7 @@ function executeInstruction() {
     }
   }
 
-  if ((instructionCode == "CMP" && (getAddressMode(operator) == "Direct")) {
+  if ((instructionCode == "CMP") && (getAddressMode(operator) == "Direct")) {
     // CMP (Direct)
     animateBus(ctx, subStages[currentSubStage]);
 
@@ -2344,7 +2344,7 @@ function executeInstruction() {
     }
   }
 
-  if ((instructionCode == "CMP" && (getAddressMode(operator) == "Indirect")) {
+  if ((instructionCode == "CMP") && (getAddressMode(operator) == "Indirect")) {
     // CMP (Indirect)
     animateBus(ctx, subStages[currentSubStage]);
 
