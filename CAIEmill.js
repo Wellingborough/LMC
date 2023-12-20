@@ -1350,7 +1350,7 @@ const opcodesCAIE = [{mnemonic: "END", mc:"00", name: "End program",
                      substages: [10, 2, 1, 4, 2, 1, 5]},
                      {mnemonic: "LDX", mc:"2E", name: "Load Accumulator", 
                      description: "Load the contents of the given memory location + the IX register to the accumulator.  Indexed addressing",
-                     substages: [10, 2, 1, 99, 99]},
+                     substages: [10, 9, 5]},
                      {mnemonic: "LDR", mc:"20", name: "Load Index Register", 
                      description: "Load the number n to the index register.  Immediate addressing",
                      substages: [99]},
@@ -1888,9 +1888,9 @@ function decodeInstruction() {
 
   if (instructionCode == "LDX"){
     // LDX
-    currentSubStage = 6;
-    var address = instructionDetails;
-    memoryAddressRegister = address;
+    currentSubStage = subStages.length;
+    var address = parseInt(instructionDetails,16) + parseInt(ix, 16);
+    memoryAddressRegister = address.toString(16);
     drawRegisterValue("DECODER", "LDX ["+address+"+IX]", ctx);
   }
 
@@ -2002,14 +2002,16 @@ function decodeInstruction() {
 
   if (instructionCode == "LSL"){
     // LSL
+    let places = instructionDetails;
     currentSubStage = 1;
-    drawRegisterValue("DECODER", "LSL ACC", ctx);
+    drawRegisterValue("DECODER", "LSL "+places, ctx);
   }
 
   if (instructionCode == "LSR"){
     // LSR
+    let places = instructionDetails;
     currentSubStage = 1;
-    drawRegisterValue("DECODER", "LSR ACC", ctx);
+    drawRegisterValue("DECODER", "LSR "+places, ctx);
   }
 
   if (instructionCode == "OUT"){
@@ -2095,7 +2097,17 @@ function executeInstruction() {
       updateStatusRegister();
     }
   }
-        
+
+  if (instructionCode == "SUB" && (getAddressMode(operator) == "Immediate")){
+    // SUB (Immediate)
+    animateBus(ctx, subStages[currentSubStage]);
+    if (currentSubStage == 0) {
+      accumulator -= parseInt(instructionDetails);
+      updateStatusRegister();
+    }
+  }
+
+
   if ((instructionCode == "INC") && (getRegisterMode(operator) == "ACC")){
     // animateBus(ctx, subStages[currentSubStage]);
 
@@ -2238,6 +2250,28 @@ function executeInstruction() {
     }
   }
 
+  if (instructionCode == "LSL") {
+    // Logical Shift Left value in Accumulator by n places
+    animateBus(ctx, subStages[currentSubStage]);
+
+    if ( currentSubStage == 0 ) {
+      let places = instructionDetails;
+      let placesDenary = parseInt(places, 16);
+      accumulator = accumulator << placesDenary;
+    }
+  }
+
+  if (instructionCode == "LSR") {
+    // Logical Shift Right value in Accumulator by n places
+    animateBus(ctx, subStages[currentSubStage]);
+
+    if ( currentSubStage == 0 ) {
+      let places = instructionDetails;
+      let placesDenary = parseInt(places, 16);
+      accumulator = accumulator >> placesDenary;
+    }
+  }
+
   //
   // Need to think about how these should work for immediate values.
   // The LMC code did a parseInt(), which was fine as all values and
@@ -2266,6 +2300,64 @@ function executeInstruction() {
     }
   }
 
+  //
+  // Need to think about hex/denary in the following
+  //  
+  if (instructionCode == "CMI") {
+    // CMI (Immediate)
+    animateBus(ctx, subStages[currentSubStage]);
+
+    if (currentSubStage == 4 ) {
+      var address = instructionDetails;
+      memoryAddressRegister = address;
+    } else if (currentSubStage == 3 ) {
+      let value = readMemory(memoryAddressRegister);
+      memoryDataRegister = value;
+    } else if (currentSubStage == 2 ) {
+      memoryAddressRegister = memoryDataRegister;
+    } else if (currentSubStage == 1 ) {
+      var value = readMemory(memoryAddressRegister);
+      memoryDataRegister = value;
+    } else if (currentSubStage == 0 ) {
+      let value = parseInt(memoryDataRegister,16);
+      if (accumulator == value) {
+        accumulator = 1;
+      } else {
+        accumulator = 0;
+      }
+    }
+  }
+
+  if ((instructionCode == "CMP" && (getAddressMode(operator) == "Direct")) {
+    // CMP (Direct)
+    animateBus(ctx, subStages[currentSubStage]);
+
+    if (currentSubStage == 1 ) {
+      var value = readMemory(memoryAddressRegister);
+      memoryDataRegister = value;
+    } else if (currentSubStage == 0) {
+      if (accumulator == parseInt(memoryDataRegister,16)) {
+        accumulator = 1;
+      } else {
+        accumulator = 0;
+      }
+    }
+  }
+
+  if ((instructionCode == "CMP" && (getAddressMode(operator) == "Indirect")) {
+    // CMP (Indirect)
+    animateBus(ctx, subStages[currentSubStage]);
+
+    if (currentSubStage == 0) {
+      let value = parseInt(memoryDataRegister,16);
+      if (accumulator == value) {
+        accumulator = 1;
+      } else {
+        accumulator = 0;
+      }
+    }
+  }
+
   if (instructionCode == "JMP"){
     // JMP
     animateBus(ctx, subStages[currentSubStage]);
@@ -2275,19 +2367,37 @@ function executeInstruction() {
   }
         
   if (instructionCode == "JPN"){
+    //
     // JPN
+    // Should follow a CMP/CMI instruction which will set the ACC to
+    // 1 if the ACC matched the given value, 0 otherwise
+    //
     var address = instructionDetails;
-    if (accumulator != 0){
+    if (accumulator == 0){
       programCounter = parseInt(address);
-      animateBus(ctx, subStages[currentSubStage]);
+      if (settingSpeed != speeds.SUPERFAST) {
+        animateBus(ctx, subStages[currentSubStage]);
+        let logobj=document.getElementById("log-text");
+        logobj.value += "> EXECUTE:  JPN: Branching as Accumulator is " + accumulator + "\n";
+        logobj.scrollTop = logobj.scrollHeight;
+      }
+    } else {
+      if (settingSpeed != speeds.SUPERFAST) {
+        var logobj=document.getElementById("log-text");
+        logobj.value += "> EXECUTE:  JPN: Not branching as Accumulator is " + accumulator + "\n";
+        logobj.scrollTop = logobj.scrollHeight;
+      }
     }
   }
         
   if (instructionCode == "JPE"){
+    //
     // JPE
+    // Should follow a CMP/CMI instruction which will set the ACC to
+    // 1 if the ACC matched the given value, 0 otherwise
+    //
     var address = instructionDetails;
-
-    if (accumulator == 0){
+    if (accumulator == 1){
       programCounter = parseInt(address);
       if (settingSpeed != speeds.SUPERFAST) {
         animateBus(ctx, subStages[currentSubStage]);
