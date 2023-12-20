@@ -599,7 +599,7 @@ function drawCPU(context) {
   drawRegister(context, "MAR",     xpos, ypos, canvasInfo.regWidth, canvasInfo.regHeight, '#FB8738');
 
   xpos = canvasInfo.x_offset + canvasInfo.x_increment;
-  ypos = canvasInfo.y_offset + canvasInfo.y_increment/2;
+  ypos = canvasInfo.y_offset + canvasInfo.y_increment1/2;
   drawRegister(context, "IX",     xpos, ypos, canvasInfo.regWidth, canvasInfo.regHeight, '#FB8738');
 
   xpos = canvasInfo.x_offset;
@@ -768,7 +768,7 @@ function drawRegisterValue(register, value, context) {
     mainColour = "#FB8738";
   } else if (register == "IX"){
     x = canvasInfo.x_offset + canvasInfo.x_increment;
-    y = canvasInfo.y_offset;
+    y = canvasInfo.y_offset + canvasInfo.y_increment1/2;
     mainColour = "#FB8738";
   }
     
