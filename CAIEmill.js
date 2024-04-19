@@ -1956,6 +1956,21 @@ function decodeInstruction() {
     drawRegisterValue("DECODER", "CMP ["+address+"]", ctx);
   }
 
+  if (instructionCode == "CMR" && (getAddressMode(operator) == "Immediate")){
+    // CMR
+    var value = instructionDetails;
+    currentSubStage = 1;
+    drawRegisterValue("DECODER", "CMR "+value, ctx);
+  }
+
+  if (instructionCode == "CMR" && (getAddressMode(operator) == "Direct")){
+    // CMR
+    var address = instructionDetails;
+    memoryAddressRegister = address;
+    currentSubStage = subStages.length;
+    drawRegisterValue("DECODER", "CMR ["+address+"]", ctx);
+  }
+
   if (instructionCode == "CPI"){
     // CPI
     var address = instructionDetails;
@@ -2334,15 +2349,25 @@ function executeInstruction() {
     }
   }
 
+  if ((instructionCode == "CMP") && (getAddressMode(operator) == "Immediate")) {
+    // CMP (Immediate)
+    animateBus(ctx, subStages[currentSubStage]);
+
+    var value = instructionDetails;
+    if (accumulator == value) {
+      accumulator = 1;
+    } else {
+      accumulator = 0;
+    }
+  }
+
   if ((instructionCode == "CMP") && (getAddressMode(operator) == "Direct")) {
     // CMP (Direct)
     animateBus(ctx, subStages[currentSubStage]);
 
-    if (currentSubStage == 1 ) {
-      var value = readMemory(memoryAddressRegister);
-      memoryDataRegister = value;
-    } else if (currentSubStage == 0) {
-      if (accumulator == parseInt(memoryDataRegister,16)) {
+    if (currentSubStage == 0) {
+      let value = parseInt(memoryDataRegister,16);
+      if (accumulator == value) {
         accumulator = 1;
       } else {
         accumulator = 0;
@@ -2350,13 +2375,25 @@ function executeInstruction() {
     }
   }
 
-  if ((instructionCode == "CMP") && (getAddressMode(operator) == "Indirect")) {
-    // CMP (Indirect)
+  if ((instructionCode == "CMR") && (getAddressMode(operator) == "Immediate")) {
+    // CMR (Immediate)
+    animateBus(ctx, subStages[currentSubStage]);
+
+    var value = instructionDetails;
+    if (ix == value) {
+      accumulator = 1;
+    } else {
+      accumulator = 0;
+    }
+  }
+
+  if ((instructionCode == "CMR") && (getAddressMode(operator) == "Direct")) {
+    // CMR (Direct)
     animateBus(ctx, subStages[currentSubStage]);
 
     if (currentSubStage == 0) {
       let value = parseInt(memoryDataRegister,16);
-      if (accumulator == value) {
+      if (ix == value) {
         accumulator = 1;
       } else {
         accumulator = 0;
