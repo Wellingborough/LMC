@@ -787,7 +787,7 @@ function drawRegisterValue(register, value, context) {
     context.fillRect(x+1, y+1, w-1, h-1);
   } else {
     //w = canvasInfo.regWidth*0.85;
-    w = canvasInfo.regWidth*0.9;
+    w = canvasInfo.regWidth*0.92;
     h = canvasInfo.regHeight*0.8;
     context.fillRect(x+2, y+2, w-2, h-2);
   }
@@ -1897,10 +1897,11 @@ function decodeInstruction() {
     // LDX
     currentSubStage = subStages.length;
     //var address = parseInt(instructionDetails,16) + parseInt(ix, 16);
+    var base = parseInt(instructionDetails,10);
     var address = parseInt(instructionDetails,10) + parseInt(ix, 10);
     //memoryAddressRegister = address.toString(16);
     memoryAddressRegister = address.toString(10);
-    drawRegisterValue("DECODER", "LDX ["+address+"+IX]", ctx);
+    drawRegisterValue("DECODER", "LDX ["+base+"+IX]", ctx);
   }
 
   if (instructionCode == "MOV"){
