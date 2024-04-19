@@ -195,7 +195,7 @@ var codetabledata4 = [
   {id:17, active:"-", line:"16", label:"CHAR",    operator:"DAT", operand:""},
   {id:18, active:"-", line:"17", label:"V1",      operator:"DAT", operand:"65"},
   {id:19, active:"-", line:"18", label:"V2",      operator:"DAT", operand:"69"},
-  {id:20, active:"-", line:"19", label:"V3",      operator:"",    operand:"73"},
+  {id:20, active:"-", line:"19", label:"V3",      operator:"DAT", operand:"73"},
   {id:21, active:"-", line:"20", label:"V4",      operator:"DAT", operand:"79"},
   {id:22, active:"-", line:"21", label:"V5",      operator:"DAT", operand:"85"},
 ];
