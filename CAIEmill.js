@@ -1910,7 +1910,7 @@ function decodeInstruction() {
 
   if (instructionCode == "INC"){
     // INC
-    let mode = getOperatingMode(operator);
+    let mode = getRegisterMode(operator);
     currentSubStage = 1;
     drawRegisterValue("DECODER", "INC "+mode, ctx);
   }
@@ -2372,7 +2372,7 @@ function executeInstruction() {
     // CMP (Immediate)
     animateBus(ctx, subStages[currentSubStage]);
 
-    var value = instructionDetails;
+    var value = parseInt(instructionDetails);
     if (accumulator == value) {
       accumulator = 1;
     } else {
@@ -2399,7 +2399,7 @@ function executeInstruction() {
     // CMR (Immediate)
     animateBus(ctx, subStages[currentSubStage]);
 
-    var value = instructionDetails;
+    var value = parseInt(instructionDetails);
     if (ix == value) {
       accumulator = 1;
     } else {
