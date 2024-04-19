@@ -1895,8 +1895,10 @@ function decodeInstruction() {
   if (instructionCode == "LDX"){
     // LDX
     currentSubStage = subStages.length;
-    var address = parseInt(instructionDetails,16) + parseInt(ix, 16);
-    memoryAddressRegister = address.toString(16);
+    //var address = parseInt(instructionDetails,16) + parseInt(ix, 16);
+    var address = parseInt(instructionDetails,10) + parseInt(ix, 10);
+    //memoryAddressRegister = address.toString(16);
+    memoryAddressRegister = address.toString(10);
     drawRegisterValue("DECODER", "LDX ["+address+"+IX]", ctx);
   }
 
@@ -2179,8 +2181,9 @@ function executeInstruction() {
     }
   }
   
-  if (instructionCode == "LDD"){
+  if (instructionCode == "LDD" || instructionCode == "LDX"){
     // Load Accumulator (Direct)
+    // Load Accumulator (Indexed) and MAR has already been set
     animateBus(ctx, subStages[currentSubStage]);
 
     if (currentSubStage == 1 ) {
