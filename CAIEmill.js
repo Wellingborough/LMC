@@ -3004,7 +3004,9 @@ function assembleCode() {
                     }
                     // Set the AMC to Immediate (00)
                     modifiedAMC = "00";
-                    target=parseInt(binaryValue,2).toString(16);
+                    // Probably should convert to decimal
+                    //target=parseInt(binaryValue,2).toString(16);
+                    target=parseInt(binaryValue,2).toString(10);
                     console.log("Binary value", binaryValue);
                     found = true;
                     
@@ -3024,7 +3026,9 @@ function assembleCode() {
                     }
                     // Set the AMC to Immediate (00)
                     modifiedAMC = "00";
-                    target = hexValue;
+                    // Probably should convert to decimal
+                    //target = hexValue;
+                    target = parseInt(hexValue,16).toString(10);
                     console.log("Hexadecimal value", hexValue);
                     found = true;
                   }
@@ -3043,7 +3047,9 @@ function assembleCode() {
                       return;
                     }
                     modifiedAMC = "00";
-                    target = parseInt(denaryValue, 10).toString(16);
+                    // For the moment, use decimal for memory addresses
+                    // target = parseInt(denaryValue, 10).toString(16);
+                    target = parseInt(denaryValue, 10).toString(10);
                     console.log("Denary value", denaryValue);
                     found = true;
                   }
