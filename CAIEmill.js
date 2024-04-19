@@ -145,8 +145,9 @@ var codetabledata3 = [
 //
 // INCOMPLETE - NEED TO THINK ABOUT HOW TO DO THIS WITH JUST CMP!
 // STOPPED AT LINE 09
+// Overwritten with a different example
 //
-var codetabledata4 = [
+var codetabledata5 = [
   {id:1,  active:"-", line:"00", label:"start",   operator:"IN", operand:""},
   {id:2,  active:"-", line:"01", label:"",        operator:"STO", operand:"dividend"},
   {id:3,  active:"-", line:"02", label:"",        operator:"IN", operand:""},
@@ -172,6 +173,31 @@ var codetabledata4 = [
   {id:23, active:"-", line:"22", label:"answer",  operator:"DAT", operand:""},
   {id:24, active:"-", line:"23", label:"dividend",operator:"DAT", operand:""},
   {id:25, active:"-", line:"24", label:"divisor", operator:"DAT", operand:""},
+];
+
+var codetabledata4 = [
+  {id:1,  active:"-", line:"00", label:"START",   operator:"LDR", operand:"#0"},
+  {id:2,  active:"-", line:"01", label:"",        operator:"IN", operand:""},
+  {id:3,  active:"-", line:"02", label:"",        operator:"STO", operand:"CHAR"},
+  {id:4,  active:"-", line:"03", label:"COMPARE", operator:"LDX", operand:"V1"},
+  {id:5,  active:"-", line:"04", label:"",        operator:"CMP", operand:"CHAR"},
+  {id:6,  active:"-", line:"05", label:"",        operator:"JPE", operand:"YES"},
+  {id:7,  active:"-", line:"06", label:"",        operator:"INC", operand:"IX"},
+  {id:8,  active:"-", line:"07", label:"",        operator:"CMR", operand:"#5"},
+  {id:9,  active:"-", line:"08", label:"",        operator:"JPE", operand:"NO"},
+  {id:10, active:"-", line:"09", label:"",        operator:"JMP", operand:"COMPARE"},
+  {id:11, active:"-", line:"10", label:"YES",     operator:"LDM", operand:"#86"},
+  {id:12, active:"-", line:"11", label:"",        operator:"OUT", operand:""},
+  {id:13, active:"-", line:"12", label:"",        operator:"END", operand:""},
+  {id:14, active:"-", line:"13", label:"NO",      operator:"LDM", operand:"#67"},
+  {id:15, active:"-", line:"14", label:"",        operator:"OUT", operand:""},
+  {id:16, active:"-", line:"15", label:"",        operator:"END", operand:""},
+  {id:17, active:"-", line:"16", label:"CHAR",    operator:"DAT", operand:""},
+  {id:18, active:"-", line:"17", label:"V1",      operator:"DAT", operand:"65"},
+  {id:19, active:"-", line:"18", label:"V2",      operator:"DAT", operand:"69"},
+  {id:20, active:"-", line:"19", label:"V3",      operator:"",    operand:"73"},
+  {id:21, active:"-", line:"20", label:"V4",      operator:"DAT", operand:"79"},
+  {id:22, active:"-", line:"21", label:"V5",      operator:"DAT", operand:"85"},
 ];
 
 //
