@@ -786,7 +786,8 @@ function drawRegisterValue(register, value, context) {
     h = canvasInfo.regHeight*0.8;
     context.fillRect(x+1, y+1, w-1, h-1);
   } else {
-    w = canvasInfo.regWidth*0.85;
+    //w = canvasInfo.regWidth*0.85;
+    w = canvasInfo.regWidth*0.9;
     h = canvasInfo.regHeight*0.8;
     context.fillRect(x+2, y+2, w-2, h-2);
   }
