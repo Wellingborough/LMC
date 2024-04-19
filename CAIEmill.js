@@ -2384,7 +2384,10 @@ function executeInstruction() {
     // CMP (Direct)
     animateBus(ctx, subStages[currentSubStage]);
 
-    if (currentSubStage == 0) {
+    if (currentSubStage == 1 ) {
+      var value = readMemory(memoryAddressRegister);
+      memoryDataRegister = value;
+    } else if (currentSubStage == 0 ) {
       //let value = parseInt(memoryDataRegister,16);
       let value = parseInt(memoryDataRegister);
       if (accumulator == value) {
@@ -2411,7 +2414,10 @@ function executeInstruction() {
     // CMR (Direct)
     animateBus(ctx, subStages[currentSubStage]);
 
-    if (currentSubStage == 0) {
+    if (currentSubStage == 1 ) {
+      var value = readMemory(memoryAddressRegister);
+      memoryDataRegister = value;
+    } else if (currentSubStage == 0 ) {
       //let value = parseInt(memoryDataRegister,16);
       let value = parseInt(memoryDataRegister);
       if (ix == value) {
