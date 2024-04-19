@@ -1931,9 +1931,9 @@ function decodeInstruction() {
   }
 
   if (instructionCode == "MOV"){
-    // MOV
+    // MOV (ACC to IX)
     currentSubStage = subStages.length;
-    drawRegisterValue("DECODER", "MOV ACC to IX", ctx);
+    drawRegisterValue("DECODER", "MOV ACC", ctx);
   }
 
   if (instructionCode == "INC"){
@@ -2364,6 +2364,16 @@ function executeInstruction() {
     if (currentSubStage == 0 ) {
       // ix = parseInt(instructionDetails, 16);
       ix = parseInt(instructionDetails);
+    }
+  }
+
+  if (instructionCode == "MOV"){
+    // Move ACC to IX
+    // Need to add a bus animation from ACC to IX
+    //animateBus(ctx, subStages[currentSubStage]);
+
+    if (currentSubStage == 0 ) {
+      ix = parseInt(accumulator);
     }
   }
 
