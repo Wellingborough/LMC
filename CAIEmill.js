@@ -2068,7 +2068,13 @@ function decodeInstruction() {
 }
 
 
-
+//
+// Significant rework required when/if we switch memory addresses to hex
+// Currently we have a dog's breakfast of hex instruction codes and
+// decimal/denary addresses.  All of the CIE examples use decimal/denary
+// memory addresses, so perhaps we should switch to decmial/denary
+// instruction codes
+//
 function executeInstruction() {
   var c = document.getElementById("processor-canvas");
   var ctx = c.getContext("2d");
@@ -2301,13 +2307,21 @@ function executeInstruction() {
   // used a parseInt(x,16) so that we see a true value for x, even
   // if it is currently in denary...
   //
+  // Scratch the above - we should follow the convention of using
+  // # for denary
+  // #B for binary
+  // #& for hexadecimal
+  //
+  // For the moment, just work in denary
+  //
   if (instructionCode == "LDM"){
     // Load Accumulator (Immediate)
     // Need to add a bus animation from CIR to ACC
     //animateBus(ctx, subStages[currentSubStage]);
 
     if (currentSubStage == 0 ) {
-      accumulator = parseInt(instructionDetails, 16);
+      //accumulator = parseInt(instructionDetails, 16);
+      accumulator = parseInt(instructionDetails);
     }
   }
 
@@ -2317,7 +2331,8 @@ function executeInstruction() {
     //animateBus(ctx, subStages[currentSubStage]);
 
     if (currentSubStage == 0 ) {
-      ix = parseInt(instructionDetails, 16);
+      // ix = parseInt(instructionDetails, 16);
+      ix = parseInt(instructionDetails);
     }
   }
 
@@ -2340,7 +2355,8 @@ function executeInstruction() {
       var value = readMemory(memoryAddressRegister);
       memoryDataRegister = value;
     } else if (currentSubStage == 0 ) {
-      let value = parseInt(memoryDataRegister,16);
+      //let value = parseInt(memoryDataRegister,16);
+      let value = parseInt(memoryDataRegister);
       if (accumulator == value) {
         accumulator = 1;
       } else {
@@ -2366,7 +2382,8 @@ function executeInstruction() {
     animateBus(ctx, subStages[currentSubStage]);
 
     if (currentSubStage == 0) {
-      let value = parseInt(memoryDataRegister,16);
+      //let value = parseInt(memoryDataRegister,16);
+      let value = parseInt(memoryDataRegister);
       if (accumulator == value) {
         accumulator = 1;
       } else {
@@ -2392,7 +2409,8 @@ function executeInstruction() {
     animateBus(ctx, subStages[currentSubStage]);
 
     if (currentSubStage == 0) {
-      let value = parseInt(memoryDataRegister,16);
+      //let value = parseInt(memoryDataRegister,16);
+      let value = parseInt(memoryDataRegister);
       if (ix == value) {
         accumulator = 1;
       } else {
