@@ -4048,6 +4048,7 @@ function clearCode(){
 let auth0Client = null;
 const fetchAuthConfig = () => fetch("../auth_config.json");
 const configureClient = async () => {
+  console.log("In Auth0 code, configureClient");
   const response = await fetchAuthConfig();
   const config = await response.json();
 
@@ -4058,11 +4059,14 @@ const configureClient = async () => {
 };
 
 window.onload = async () => {
+  console.log("In Auth0 code, onload");
+
   await configureClient();
   updateUI();
 };
 
 const updateUI = async () => {
+  console.log("In Auth0 code, updateUI");
   const isAuthenticated = await auth0Client.isAuthenticated();
 
   document.getElementById("btn-logout").disabled = !isAuthenticated;
