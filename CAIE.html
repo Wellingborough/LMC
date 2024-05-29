@@ -353,6 +353,17 @@ below for more information.
 
 
     <script>
+      
+      window.onload = async () => {
+        console.log("In Auth0 code, onload");
+      
+        await configureClient();
+        updateUI();
+      };
+
+
+
+      
       let settingsModalBtn = document.getElementById("settings-modal-btn");
       let settingsModal = document.getElementById("settings-modal");
       let settingsCloseBtn = document.getElementById("settings-close-btn");
