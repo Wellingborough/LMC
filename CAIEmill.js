@@ -4046,7 +4046,7 @@ function clearCode(){
 // Auth0 code
 //
 let auth0Client = null;
-const fetchAuthConfig = () => fetch("/auth_config.json");
+const fetchAuthConfig = () => fetch("../auth_config.json");
 const configureClient = async () => {
   const response = await fetchAuthConfig();
   const config = await response.json();
