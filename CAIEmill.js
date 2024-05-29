@@ -4058,13 +4058,6 @@ const configureClient = async () => {
   });
 };
 
-window.onload = async () => {
-  console.log("In Auth0 code, onload");
-
-  await configureClient();
-  updateUI();
-};
-
 const updateUI = async () => {
   console.log("In Auth0 code, updateUI");
   const isAuthenticated = await auth0Client.isAuthenticated();
