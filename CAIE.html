@@ -117,6 +117,8 @@
             <label for="showDataFlows">Show variable values in the code table during program execution</label><br>
             <input type="checkbox" name="showMemoryAccess" value="1" checked id="setting-show-memory-access" style="margin:8px;">
             <label for="showMemoryAccess">Show memory read/write locations during program execution</label><br><br>
+            <input type="checkbox" name="MemoryDataInHex" value="1" checked id="setting-memory-data-in-hex" style="margin:8px;">
+            <label for="showMemoryAccess">Display memory addresses and content in hexadecimal</label><br><br>
             <input type="range" name="executionSpeed" id="setting-speed" min="0" max="4" step="1" value="2" onchange="changeSetting('speed')">
             <label for="setting-speed">Execution Speed</label><br><br>
             <p id="speed-display"><i class="fa-regular fa-hand"></i>Run at Medium speed - about 0.5 seconds per cycle</p>
