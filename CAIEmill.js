@@ -3693,6 +3693,16 @@ function saveSettings() {
   settingShowVariables = document.getElementById("setting-show-variable-values").checked;
   settingShowMemoryAccess = document.getElementById("setting-show-memory-access").checked;
   settingMemoryDataInHex = document.getElementById("setting-memory-data-in-hex").checked;
+
+  // If the user has changed the Hex/Denary setting, reset the Memory table
+  if (settingMemoryDataInHex != stashedSettingMemoryDataInHex) {
+    if (settingMemoryDataInHex) {
+      blankmemorytabledata = blankmemorytabledatahex;
+    } else {
+      blankmemorytabledata = blankmemorytabledatadenary;
+    }
+    table2.replaceData(blankmemorytabledata);
+  }
 }
 
 function stashOldSettings() {
