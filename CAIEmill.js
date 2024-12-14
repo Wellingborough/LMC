@@ -260,13 +260,16 @@ const states = {
 }
 
 var stashedSettingSpeed = speeds.MEDIUM;
+
 var stashedSettingShowDataFlows = true;
 var stashedSettingShowVariables = true;
 var stashedSettingShowMemoryAccess = true;
+var stashedSettingMemoryDataInHex = true;
 
 var settingShowDataFlows = stashedSettingShowDataFlows;
 var settingShowVariables = stashedSettingShowVariables;
 var settingShowMemoryAccess = stashedSettingShowMemoryAccess;
+var settingMemoryDataInHex = stashedSettingMemoryDataInHex;
 
 //
 // Default to MEDIUM
@@ -3652,6 +3655,7 @@ function cancelSettings() {
   settingShowDataFlows = stashedSettingShowDataFlows;
   settingShowVariables = stashedSettingShowVariables;
   settingShowMemoryAccess = stashedSettingShowMemoryAccess;
+  settingMemoryDataInHex = stashedSettingMemoryDataInHex;
 }
 
 function saveSettings() {
@@ -3662,6 +3666,7 @@ function saveSettings() {
   settingShowDataFlows = document.getElementById("setting-show-data-flows").checked;
   settingShowVariables = document.getElementById("setting-show-variable-values").checked;
   settingShowMemoryAccess = document.getElementById("setting-show-memory-access").checked;
+  settingMemoryDataInHex = document.getElementById("setting-memory-data-in-hex").checked;
 }
 
 function stashOldSettings() {
@@ -3669,6 +3674,7 @@ function stashOldSettings() {
   stashedSettingShowDataFlows = settingShowDataFlows;
   stashedSettingShowVariables = settingShowVariables;
   stashedSettingShowMemoryAccess = settingShowMemoryAccess;
+  stashedSettingMemoryDataInHex = settingMemoryDataInHex;
 
   let speedValue = 0;
   let newText = "some new text";
@@ -3703,6 +3709,7 @@ function stashOldSettings() {
   document.getElementById("setting-show-data-flows").checked = settingShowDataFlows;
   document.getElementById("setting-show-variable-values").checked = settingShowVariables;
   document.getElementById("setting-show-memory-access").checked = settingShowMemoryAccess;
+  document.getElementById("setting-memory-data-in-hex").checked = settingMemoryDataInHex;
 }
 
 function changeSetting(target) {
