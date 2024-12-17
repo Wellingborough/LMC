@@ -1278,68 +1278,65 @@ function processInput(){
     const regexbinary = /^[0-1]+$/;
     const regexhexadecimal = /^[A-Fa-f0-9]+$/;
     const regexdenary = /^[0-9]+$/;
+    let trial = 0;
+    let trialValid = false;
 
     switch (userInput.charAt(0)) {
       case 'B':
       case 'b':
         userInput = userInput.slice(1);
-        logobj.value += "> WIP:  Binary input value.\n";
-        logobj.value += userInput;
         if (regexbinary.test(userInput)){
-          logobj.value += " (OK)";
+          trial = parseInt(userInput, 2);
+          trialValid = true;
         } else {
+          logobj.value += userInput;
           logobj.value += " (Problem)";
+          logobj.value += "\n";
+          logobj.scrollTop = logobj.scrollHeight;
         }
-        logobj.value += "\n";
-        logobj.scrollTop = logobj.scrollHeight;
         break;
       case '&':
         userInput = userInput.slice(1);
-        logobj.value += "> WIP:  Hexadecimal input value.\n";
-        logobj.value += userInput;
         if (regexhexadecimal.test(userInput)){
-          logobj.value += " (OK)";
+          trial = parseInt(userInput, 16);
+          trialValid = true;
         } else {
+          logobj.value += userInput;
           logobj.value += " (Problem)";
+          logobj.value += "\n";
+          logobj.scrollTop = logobj.scrollHeight;
         }
-        logobj.value += "\n";
-        logobj.scrollTop = logobj.scrollHeight;
         break;
       case '#':
         userInput = userInput.slice(1);
-        logobj.value += "> WIP:  Denary input value.\n";
-        logobj.value += userInput;
         if (regexdenary.test(userInput)){
-          logobj.value += " (OK)";
+          trial = parseInt(userInput, 10);
+          trialValid = true;
         } else {
+          logobj.value += userInput;
           logobj.value += " (Problem)";
+          logobj.value += "\n";
+          logobj.scrollTop = logobj.scrollHeight;
         }
-        logobj.value += "\n";
-        logobj.scrollTop = logobj.scrollHeight;
         break;
       case '\'':
-        userInput = userInput.slice(1);
-        logobj.value += "> WIP:  ASCII input value.\n";
-        logobj.value += userInput;
-        logobj.value += "\n";
-        logobj.scrollTop = logobj.scrollHeight;
+        trial = parseInt(userInput.charCodeAt(1),10)
+        trialValid = true;
         break;
       default:
-        logobj.value += "> WIP:  Default to denary input value.\n";
-        logobj.value += userInput;
         if (regexdenary.test(userInput)){
-          logobj.value += " (OK)";
+          trial = parseInt(userInput, 10);
+          trialValid = true;
         } else {
+          logobj.value += userInput;
           logobj.value += " (Problem)";
+          logobj.value += "\n";
+          logobj.scrollTop = logobj.scrollHeight;
         }
-        logobj.value += "\n";
-        logobj.scrollTop = logobj.scrollHeight;
     }
-        
-    var trial = parseInt(userInput)
-    
-    if ((trial > 999) || (trial < -999)) {
-      logobj.value += "> ERROR:  Invalid input value.  Must be between -999 and +999\n";
+            
+    if (not(trialValid())) {
+      logobj.value += "> ERROR:  Invalid input value.\n";
       logobj.scrollTop = logobj.scrollHeight;
       return;
     }
