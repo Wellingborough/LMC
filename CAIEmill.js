@@ -1275,9 +1275,9 @@ function processInput(){
     // but this is a matter for future expansion
     //
     let logobj=document.getElementById("log-text");
-    const regexbinary = /[^0-1]/;
-    const regexhexadecimal = /[^A-Fa-f0-9]/;
-    const regexdenary = /[^0-9]/;
+    const regexbinary = /^[0-1]+$/;
+    const regexhexadecimal = /^[A-Fa-f0-9]+$/;
+    const regexdenary = /^[0-9]+$/;
 
     switch (userInput.charAt(0)) {
       case 'B':
