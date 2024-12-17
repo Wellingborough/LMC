@@ -1275,12 +1275,21 @@ function processInput(){
     // but this is a matter for future expansion
     //
     let logobj=document.getElementById("log-text");
+    const regexbinary = /[^0-1]/;
+    const regexhexadecimal = /[^A-Fa-f0-9]/;
+    const regexdenary = /[^0-9]/;
+
     switch (userInput.charAt(0)) {
       case 'B':
       case 'b':
         userInput = userInput.slice(1);
         logobj.value += "> WIP:  Binary input value.\n";
         logobj.value += userInput;
+        if (regexbinary.test(userInput)){
+          logobj.value += " (OK)";
+        } else {
+          logobj.value += " (Problem)";
+        }
         logobj.value += "\n";
         logobj.scrollTop = logobj.scrollHeight;
         break;
@@ -1288,6 +1297,11 @@ function processInput(){
         userInput = userInput.slice(1);
         logobj.value += "> WIP:  Hexadecimal input value.\n";
         logobj.value += userInput;
+        if (regexhexadecimal.test(userInput)){
+          logobj.value += " (OK)";
+        } else {
+          logobj.value += " (Problem)";
+        }
         logobj.value += "\n";
         logobj.scrollTop = logobj.scrollHeight;
         break;
@@ -1295,6 +1309,11 @@ function processInput(){
         userInput = userInput.slice(1);
         logobj.value += "> WIP:  Denary input value.\n";
         logobj.value += userInput;
+        if (regexdenary.test(userInput)){
+          logobj.value += " (OK)";
+        } else {
+          logobj.value += " (Problem)";
+        }
         logobj.value += "\n";
         logobj.scrollTop = logobj.scrollHeight;
         break;
@@ -1308,6 +1327,11 @@ function processInput(){
       default:
         logobj.value += "> WIP:  Default to denary input value.\n";
         logobj.value += userInput;
+        if (regexdenary.test(userInput)){
+          logobj.value += " (OK)";
+        } else {
+          logobj.value += " (Problem)";
+        }
         logobj.value += "\n";
         logobj.scrollTop = logobj.scrollHeight;
     }
