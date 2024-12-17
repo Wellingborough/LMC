@@ -1341,9 +1341,9 @@ function processInput(){
       return;
     }
 
-    logobj.value += "> EXECUTE:  Transferring input to accumulator: " + userInput + "\n";
+    logobj.value += "> EXECUTE:  Transferring input to accumulator: " + toString(trial) + "\n";
     logobj.scrollTop = logobj.scrollHeight;
-    accumulator = parseInt(userInput);
+    accumulator = trial;
 
     var c = document.getElementById("processor-canvas");
     var ctx = c.getContext("2d");
