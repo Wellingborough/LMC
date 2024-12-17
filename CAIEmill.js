@@ -1341,7 +1341,7 @@ function processInput(){
       return;
     }
 
-    logobj.value += "> EXECUTE:  Transferring input to accumulator: " + toString(trial) + "\n";
+    logobj.value += "> EXECUTE:  Transferring input to accumulator: " + trial.toString() + "\n";
     logobj.scrollTop = logobj.scrollHeight;
     accumulator = trial;
 
