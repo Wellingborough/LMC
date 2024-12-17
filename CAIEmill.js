@@ -2040,7 +2040,7 @@ function decodeInstruction() {
   
   if (instructionCode == "DEC"){
     // DEC
-    let mode = getOperatingMode(operator);
+    let mode = getRegisterMode(operator);
     currentSubStage = 1;
     drawRegisterValue("DECODER", "DEC "+mode, ctx);
   }
