@@ -2625,6 +2625,8 @@ function executeInstruction() {
     // Should follow a CMP/CMI instruction which will set the Zero flag of the SR to
     // 1 if the ACC/IX matched the given value, 0 otherwise
     //
+    var zeroFlag = statusRegister.charAt(6);
+
     var address = instructionDetails;
     if (zeroFlag == '1'){
       programCounter = parseInt(address);
