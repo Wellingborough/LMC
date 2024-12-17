@@ -2504,9 +2504,9 @@ function executeInstruction() {
       let value = parseInt(memoryDataRegister);
       let originalAccumulator = accumulator;
       if (accumulator == value) {
-        accumulator = 1;
-      } else {
         accumulator = 0;
+      } else {
+        accumulator = 1;
       }
       updateStatusRegister();
       accumulator = originalAccumulator;
@@ -2520,9 +2520,9 @@ function executeInstruction() {
     var value = parseInt(instructionDetails);
     let originalAccumulator = accumulator;
     if (accumulator == value) {
-      accumulator = 1;
-    } else {
       accumulator = 0;
+    } else {
+      accumulator = 1;
     }
     updateStatusRegister();
     accumulator = originalAccumulator;
@@ -2540,9 +2540,9 @@ function executeInstruction() {
       let value = parseInt(memoryDataRegister);
       let originalAccumulator = accumulator;
       if (accumulator == value) {
-        accumulator = 1;
-      } else {
         accumulator = 0;
+      } else {
+        accumulator = 1;
       }
       updateStatusRegister();
       accumulator = originalAccumulator;
@@ -2556,9 +2556,9 @@ function executeInstruction() {
     var value = parseInt(instructionDetails);
     let originalAccumulator = accumulator;
     if (ix == value) {
-      accumulator = 1;
-    } else {
       accumulator = 0;
+    } else {
+      accumulator = 1;
     }
     updateStatusRegister();
     accumulator = originalAccumulator;
@@ -2576,9 +2576,9 @@ function executeInstruction() {
       let value = parseInt(memoryDataRegister);
       let originalAccumulator = accumulator;
       if (ix == value) {
-        accumulator = 1;
-      } else {
         accumulator = 0;
+      } else {
+        accumulator = 1;
       }
       updateStatusRegister();
       accumulator = originalAccumulator;
