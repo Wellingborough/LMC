@@ -2475,6 +2475,15 @@ function executeInstruction() {
   //
   // Need to think about hex/denary in the following
   //  
+  //  Our approach here is ... interesting.
+  //  Following the x86 instruction set, the CMx instructions should
+  //  leave the value in the ACC unmodified, but we do want to set
+  //  the SR flags (particularly Z) so that the JPx instructions
+  //  work.  So, we overwrite the ACC, call updateStatusRegister()
+  //  and then restore the ACC, modelling the use of the ACC for
+  //  subtraction (which is what the CMx does), and also keeping any
+  //  SR manipulation in one place.
+  //
   if (instructionCode == "CMI") {
     // CMI (Immediate)
     animateBus(ctx, subStages[currentSubStage]);
@@ -2493,11 +2502,14 @@ function executeInstruction() {
     } else if (currentSubStage == 0 ) {
       //let value = parseInt(memoryDataRegister,16);
       let value = parseInt(memoryDataRegister);
+      let originalAccumulator = accumulator;
       if (accumulator == value) {
         accumulator = 1;
       } else {
         accumulator = 0;
       }
+      updateStatusRegister();
+      accumulator = originalAccumulator;
     }
   }
 
@@ -2506,11 +2518,14 @@ function executeInstruction() {
     animateBus(ctx, subStages[currentSubStage]);
 
     var value = parseInt(instructionDetails);
+    let originalAccumulator = accumulator;
     if (accumulator == value) {
       accumulator = 1;
     } else {
       accumulator = 0;
     }
+    updateStatusRegister();
+    accumulator = originalAccumulator;
   }
 
   if ((instructionCode == "CMP") && (getAddressMode(operator) == "Direct")) {
@@ -2523,11 +2538,14 @@ function executeInstruction() {
     } else if (currentSubStage == 0 ) {
       //let value = parseInt(memoryDataRegister,16);
       let value = parseInt(memoryDataRegister);
+      let originalAccumulator = accumulator;
       if (accumulator == value) {
         accumulator = 1;
       } else {
         accumulator = 0;
       }
+      updateStatusRegister();
+      accumulator = originalAccumulator;
     }
   }
 
@@ -2536,11 +2554,14 @@ function executeInstruction() {
     animateBus(ctx, subStages[currentSubStage]);
 
     var value = parseInt(instructionDetails);
+    let originalAccumulator = accumulator;
     if (ix == value) {
       accumulator = 1;
     } else {
       accumulator = 0;
     }
+    updateStatusRegister();
+    accumulator = originalAccumulator;
   }
 
   if ((instructionCode == "CMR") && (getAddressMode(operator) == "Direct")) {
@@ -2553,11 +2574,14 @@ function executeInstruction() {
     } else if (currentSubStage == 0 ) {
       //let value = parseInt(memoryDataRegister,16);
       let value = parseInt(memoryDataRegister);
+      let originalAccumulator = accumulator;
       if (ix == value) {
         accumulator = 1;
       } else {
         accumulator = 0;
       }
+      updateStatusRegister();
+      accumulator = originalAccumulator;
     }
   }
 
@@ -2572,22 +2596,24 @@ function executeInstruction() {
   if (instructionCode == "JPN"){
     //
     // JPN
-    // Should follow a CMP/CMI instruction which will set the ACC to
-    // 1 if the ACC matched the given value, 0 otherwise
+    // Should follow a CMP/CMI instruction which will set the Zero flag of the SR to
+    // 1 if the ACC/IX matched the given value, 0 otherwise
     //
+    var zeroFlag = statusRegister.charAt(6);
+    
     var address = instructionDetails;
-    if (accumulator == 0){
+    if (zeroFlag == '0'){
       programCounter = parseInt(address);
       if (settingSpeed != speeds.SUPERFAST) {
         animateBus(ctx, subStages[currentSubStage]);
         let logobj=document.getElementById("log-text");
-        logobj.value += "> EXECUTE:  JPN: Branching as Accumulator is " + accumulator + "\n";
+        logobj.value += "> EXECUTE:  JPN: Branching as SR Zero Flag is " + zeroFlag + "\n";
         logobj.scrollTop = logobj.scrollHeight;
       }
     } else {
       if (settingSpeed != speeds.SUPERFAST) {
         var logobj=document.getElementById("log-text");
-        logobj.value += "> EXECUTE:  JPN: Not branching as Accumulator is " + accumulator + "\n";
+        logobj.value += "> EXECUTE:  JPN: Not branching as SR Zero Flag is " + zeroFlag + "\n";
         logobj.scrollTop = logobj.scrollHeight;
       }
     }
@@ -2596,22 +2622,22 @@ function executeInstruction() {
   if (instructionCode == "JPE"){
     //
     // JPE
-    // Should follow a CMP/CMI instruction which will set the ACC to
-    // 1 if the ACC matched the given value, 0 otherwise
+    // Should follow a CMP/CMI instruction which will set the Zero flag of the SR to
+    // 1 if the ACC/IX matched the given value, 0 otherwise
     //
     var address = instructionDetails;
-    if (accumulator == 1){
+    if (zeroFlag == '1'){
       programCounter = parseInt(address);
       if (settingSpeed != speeds.SUPERFAST) {
         animateBus(ctx, subStages[currentSubStage]);
         let logobj=document.getElementById("log-text");
-        logobj.value += "> EXECUTE:  JPE: Branching as Accumulator is " + accumulator + "\n";
+        logobj.value += "> EXECUTE:  JPE: Branching as SR Zero Flag is " + zeroFlag + "\n";
         logobj.scrollTop = logobj.scrollHeight;
       }
     } else {
       if (settingSpeed != speeds.SUPERFAST) {
         var logobj=document.getElementById("log-text");
-        logobj.value += "> EXECUTE:  JPE: Not branching as Accumulator is " + accumulator + "\n";
+        logobj.value += "> EXECUTE:  JPE: Not branching as SR Zero Flag is " + zeroFlag + "\n";
         logobj.scrollTop = logobj.scrollHeight;
       }
     }
