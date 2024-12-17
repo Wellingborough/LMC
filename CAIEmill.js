@@ -1264,6 +1264,44 @@ function processInput(){
       return;
     }
 
+    //
+    // New for CIE - allow the following input type markers:
+    //   B or b for binary
+    //   & for hexadecimal
+    //   # for denary (for compatability with exam papers and textbooks, not required)
+    //   ' for ASCII
+    //
+    // Input without any marker is treated as denary.  We should handle negative numbers
+    // but this is a matter for future expansion
+    //
+    switch (userInput.charAt(0)) {
+      case 'B':
+      case 'b':
+        let logobj=document.getElementById("log-text");
+        logobj.value += "> WIP:  Binary input value.\n";
+        logobj.scrollTop = logobj.scrollHeight;
+        break;
+      case '&':
+        let logobj=document.getElementById("log-text");
+        logobj.value += "> WIP:  Hexadecimal input value.\n";
+        logobj.scrollTop = logobj.scrollHeight;
+        break;
+      case '#':
+        let logobj=document.getElementById("log-text");
+        logobj.value += "> WIP:  Denary input value.\n";
+        logobj.scrollTop = logobj.scrollHeight;
+        break;
+      case '\'':
+        let logobj=document.getElementById("log-text");
+        logobj.value += "> WIP:  ASCII input value.\n";
+        logobj.scrollTop = logobj.scrollHeight;
+        break;
+      default:
+        let logobj=document.getElementById("log-text");
+        logobj.value += "> WIP:  Default to denary input value.\n";
+        logobj.scrollTop = logobj.scrollHeight;
+    }
+        
     var trial = parseInt(userInput)
     
     if ((trial > 999) || (trial < -999)) {
