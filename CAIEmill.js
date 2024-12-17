@@ -1335,7 +1335,7 @@ function processInput(){
         }
     }
             
-    if (not(trialValid())) {
+    if (!trialValid) {
       logobj.value += "> ERROR:  Invalid input value.\n";
       logobj.scrollTop = logobj.scrollHeight;
       return;
