@@ -1277,23 +1277,38 @@ function processInput(){
     let logobj=document.getElementById("log-text");
     switch (userInput.charAt(0)) {
       case 'B':
+      case 'b':
+        userInput = userInput.slice(1);
         logobj.value += "> WIP:  Binary input value.\n";
+        logobj.value += userInput;
+        logobj.value += "\n";
         logobj.scrollTop = logobj.scrollHeight;
         break;
       case '&':
+        userInput = userInput.slice(1);
         logobj.value += "> WIP:  Hexadecimal input value.\n";
+        logobj.value += userInput;
+        logobj.value += "\n";
         logobj.scrollTop = logobj.scrollHeight;
         break;
       case '#':
+        userInput = userInput.slice(1);
         logobj.value += "> WIP:  Denary input value.\n";
+        logobj.value += userInput;
+        logobj.value += "\n";
         logobj.scrollTop = logobj.scrollHeight;
         break;
- //     case '\'':
- //       logobj.value += "> WIP:  ASCII input value.\n";
- //       logobj.scrollTop = logobj.scrollHeight;
- //       break;
+      case '\'':
+        userInput = userInput.slice(1);
+        logobj.value += "> WIP:  ASCII input value.\n";
+        logobj.value += userInput;
+        logobj.value += "\n";
+        logobj.scrollTop = logobj.scrollHeight;
+        break;
       default:
         logobj.value += "> WIP:  Default to denary input value.\n";
+        logobj.value += userInput;
+        logobj.value += "\n";
         logobj.scrollTop = logobj.scrollHeight;
     }
         
