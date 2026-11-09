@@ -1589,7 +1589,8 @@ function fetchInstruction() {
       animateBus(ctx, 0);
 
       let logobj=document.getElementById("log-text");
-      logobj.value += "> FETCH:  Reading instruction from RAM\n";
+      // Address and data will be filled in by the read
+      logobj.value += "> FETCH:  Reading instruction from RAM: ";
       logobj.scrollTop = logobj.scrollHeight;
     }
     memoryAddressRegister = formattedPC;
@@ -2216,7 +2217,7 @@ function writeMemory(addressString, data){
 
   if (settingSpeed != speeds.SUPERFAST) {
     let logobj=document.getElementById("log-text");
-    logobj.value += "> EXECUTE:  Writing memory at " + addressString + ": Contents: " + data + "\n";
+    logobj.value += "> EXECUTE:  Writing memory at Address: " + addressString + ", Contents: " + data + "\n";
     logobj.scrollTop = logobj.scrollHeight;
   }
 
@@ -2330,9 +2331,9 @@ function readMemory(addressString){
   if (settingSpeed != speeds.SUPERFAST) {
     let logobj=document.getElementById("log-text");
     if (execStage == executionStages.FETCH) {
-      logobj.value += ">    Reading memory at " + addressString + ": Contents: " + memorycontentdata + "\n";
+      logobj.value += "Address: " + addressString + ", Contents: " + memorycontentdata + "\n";
     } else {
-      logobj.value += "> EXECUTE:  Reading memory at " + addressString + ": Contents: " + memorycontentdata + "\n";
+      logobj.value += "> EXECUTE:  Reading memory at Address: " + addressString + ": Contents: " + memorycontentdata + "\n";
     }
     logobj.scrollTop = logobj.scrollHeight;
   }
